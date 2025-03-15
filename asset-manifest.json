@@ -1,12 +1,12 @@
 {
   "files": {
     "main.css": "/PAA/static/css/main.d4dceff3.css",
-    "main.js": "/PAA/static/js/main.3094630e.js",
+    "main.js": "/PAA/static/js/main.d130c69c.js",
     "static/js/685.5df0e363.chunk.js": "/PAA/static/js/685.5df0e363.chunk.js",
     "index.html": "/PAA/index.html"
   },
   "entrypoints": [
     "static/css/main.d4dceff3.css",
-    "static/js/main.3094630e.js"
+    "static/js/main.d130c69c.js"
   ]
 }
