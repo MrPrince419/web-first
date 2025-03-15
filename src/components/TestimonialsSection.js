@@ -35,10 +35,11 @@ const TestimonialsSection = () => {
   ];
   
   const nextTestimonial = useCallback(() => {
+    setDirection('right');
     setCurrentIndex((prevIndex) => 
       prevIndex === testimonials.length - 1 ? 0 : prevIndex + 1
     );
-  }, []);
+  }, [testimonials.length]); // Added missing dependency
 
   const prevTestimonial = () => {
     setDirection('left');
@@ -79,9 +80,12 @@ const TestimonialsSection = () => {
   };
 
   useEffect(() => {
-    const timer = setInterval(nextTestimonial, 5000);
-    return () => clearInterval(timer);
-  }, [nextTestimonial]); // Add nextTestimonial to dependency array
+    const interval = setInterval(() => {
+      nextTestimonial();
+    }, 5000);
+
+    return () => clearInterval(interval);
+  }, [nextTestimonial]); // Added missing dependency
 
   return (
     <section id="testimonials" className="py-20">
