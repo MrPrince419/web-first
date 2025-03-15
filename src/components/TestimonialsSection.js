@@ -39,29 +39,17 @@ const TestimonialsSection = () => {
     setCurrentIndex((prevIndex) => 
       prevIndex === testimonials.length - 1 ? 0 : prevIndex + 1
     );
-  }, [testimonials.length]); // Added missing dependency
+  }, [testimonials.length]);
+
+  useEffect(() => {
+    const timeout = setTimeout(nextTestimonial, 5000);
+    return () => clearTimeout(timeout);
+  }, [nextTestimonial, currentIndex]);
 
   const prevTestimonial = () => {
     setDirection('left');
     setCurrentIndex((prevIndex) => (prevIndex - 1 + testimonials.length) % testimonials.length);
   };
-
-  // Auto-advance testimonials
-  useEffect(() => {
-    const startTimeout = () => {
-      timeoutRef.current = setTimeout(() => {
-        nextTestimonial();
-      }, 8000); // Change testimonial every 8 seconds
-    };
-
-    startTimeout();
-
-    return () => {
-      if (timeoutRef.current) {
-        clearTimeout(timeoutRef.current);
-      }
-    };
-  }, [currentIndex]);
 
   // Reset the timer when manually changing testimonials
   const handleManualChange = (callback) => {
@@ -78,14 +66,6 @@ const TestimonialsSection = () => {
       </svg>
     ));
   };
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      nextTestimonial();
-    }, 5000);
-
-    return () => clearInterval(interval);
-  }, [nextTestimonial]); // Added missing dependency
 
   return (
     <section id="testimonials" className="py-20">

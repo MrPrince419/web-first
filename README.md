@@ -23,7 +23,7 @@ A modern React-based website for Prince AI Automation, showcasing AI and automat
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/MrPrince419/PAA.git
+git clone https://github.com/MrPrince419/Prince-Ai-Automation.git
 ```
 
 2. Install dependencies:

@@ -4,11 +4,8 @@ import { getTopicInfo } from '../data/knowledgeBase';
 
 class ChatAssistant {
   constructor() {
-    this.conversationContext = {
-      lastTopic: null,
-      followUpCount: 0,
-      userIntent: null
-    };
+    this.conversationContext = [];
+    this.nlpService = NLPService;  // Initialize NLPService
   }
 
   async processMessage(message, currentContext = {}) {
@@ -99,18 +96,21 @@ class ChatAssistant {
   }
 
   async searchContent(query) {
-    // Implement fuzzy search through website content
+    if (!websiteContent || !Array.isArray(websiteContent)) {
+      return null;
+    }
     return websiteContent.find(content => 
-      content.keywords.some(keyword => 
-        NLPService.calculateSimilarity(query, keyword) > 0.8
+      content.keywords?.some(keyword => 
+        this.calculateSimilarity(query, keyword) > 0.8
       )
     );
   }
 
   calculateSimilarity(str1, str2) {
-    // Implement Levenshtein distance or similar algorithm
-    // for fuzzy matching
-    return 0.5; // Placeholder
+    if (!str1 || !str2) return 0;
+    const s1 = str1.toLowerCase();
+    const s2 = str2.toLowerCase();
+    return s1.includes(s2) || s2.includes(s1) ? 1 : 0;
   }
 
   formatResponse(content) {
@@ -185,6 +185,4 @@ class ChatAssistant {
   }
 }
 
-const chatAssistant = new ChatAssistant();
-
-export default chatAssistant;
+export default ChatAssistant;

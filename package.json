@@ -2,11 +2,6 @@
   "name": "prince-ai-automation",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://mrprince419.github.io/PAA",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/MrPrince419/PAA.git"
-  },
   "dependencies": {
     "@formspree/react": "^2.4.1",
     "@react-three/drei": "^9.56.24",
@@ -60,5 +55,6 @@
     "gh-pages": "6.3.0",
     "postcss": "^8.4.21",
     "tailwindcss": "^3.2.7"
-  }
+  },
+  "homepage": "https://mrprince419.github.io/Prince-Ai-Automation/"
 }
