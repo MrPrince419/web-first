@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://princeaiautomation.com/sitemap.xml
+
+Disallow: /private/
