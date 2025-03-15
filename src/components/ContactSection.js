@@ -1,11 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useToast } from '../contexts/ToastContext';
 import LoadingAnimation from './LoadingAnimation';
+import { sanitizeInput, checkRateLimit, saveFormProgress, getFormProgress } from '../utils/formUtils';
 
 const ContactSection = () => {
   const { showSuccess, showError } = useToast();
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState(() => getFormProgress() || {
     name: '',
     email: '',
     phone: '',
@@ -15,48 +16,80 @@ const ContactSection = () => {
   });
   
   const [loading, setLoading] = useState(false);
+  const [errors, setErrors] = useState({});
+
+  useEffect(() => {
+    saveFormProgress(formData);
+  }, [formData]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prevData => ({
-      ...prevData,
-      [name]: value
+    setFormData(prev => ({
+      ...prev,
+      [name]: sanitizeInput(value)
     }));
+  };
+
+  const validateForm = () => {
+    const newErrors = {};
+    
+    if (!formData.name.trim()) newErrors.name = 'Name is required';
+    if (!formData.email.trim()) {
+      newErrors.email = 'Email is required';
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+      newErrors.email = 'Invalid email format';
+    }
+    if (!formData.message.trim()) newErrors.message = 'Message is required';
+    
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    
+    if (!checkRateLimit()) {
+      showError('Too many submissions. Please try again in an hour.');
+      return;
+    }
+
+    if (!validateForm()) return;
     setLoading(true);
     
     try {
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 10000);
+
       const response = await fetch("https://formspree.io/f/xpwpwwpn", {
         method: "POST",
+        signal: controller.signal,
         headers: {
+          "Accept": "application/json",
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify({
+          ...formData,
+          _subject: `New contact from ${formData.name}: ${formData.subject}`,
+        }),
       });
-      
-      const responseData = await response.json();
-      console.log('Formspree response:', responseData); // Debug log
+
+      clearTimeout(timeoutId);
 
       if (response.ok) {
-        showSuccess('Thank you! Your message has been received. I will get back to you within 24 hours.');
-        
-        // Reset form with a proper initial state
+        localStorage.removeItem('formProgress');
+        showSuccess('Message sent successfully! I will respond within 24 hours.');
         setFormData({
-          name: '',
-          email: '',
-          phone: '',
-          subject: '',
-          message: '',
-          budget: 'Not specified'
+          name: '', email: '', phone: '', 
+          subject: '', message: '', budget: 'Not specified'
         });
       } else {
-        throw new Error('Form submission failed');
+        throw new Error('Submission failed');
       }
     } catch (error) {
-      showError('Oops! Something went wrong. Please try again or contact me directly via email.');
+      const errorMessage = error.name === 'AbortError' 
+        ? 'Request timed out. Please try again.'
+        : 'Failed to send message. Please try again or email directly.';
+      showError(errorMessage);
     } finally {
       setLoading(false);
     }
@@ -91,10 +124,13 @@ const ContactSection = () => {
                     name="name"
                     value={formData.name}
                     onChange={handleChange}
-                    className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-gold"
+                    className={`w-full px-4 py-3 rounded-lg border ${
+                      errors.name ? 'border-red-500' : 'border-gray-300'
+                    } focus:outline-none focus:ring-2 focus:ring-gold`}
                     placeholder="John Doe"
                     required
                   />
+                  {errors.name && <p className="text-red-500 text-sm mt-1">{errors.name}</p>}
                 </div>
                 
                 <div>
@@ -105,10 +141,13 @@ const ContactSection = () => {
                     name="email"
                     value={formData.email}
                     onChange={handleChange}
-                    className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-gold"
+                    className={`w-full px-4 py-3 rounded-lg border ${
+                      errors.email ? 'border-red-500' : 'border-gray-300'
+                    } focus:outline-none focus:ring-2 focus:ring-gold`}
                     placeholder="john@example.com"
                     required
                   />
+                  {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email}</p>}
                 </div>
               </div>
               
@@ -147,10 +186,13 @@ const ContactSection = () => {
                   value={formData.message}
                   onChange={handleChange}
                   rows="5"
-                  className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-gold"
+                  className={`w-full px-4 py-3 rounded-lg border ${
+                    errors.message ? 'border-red-500' : 'border-gray-300'
+                  } focus:outline-none focus:ring-2 focus:ring-gold`}
                   placeholder="Tell me more about your project!"
                   required
                 ></textarea>
+                {errors.message && <p className="text-red-500 text-sm mt-1">{errors.message}</p>}
               </div>
               
               <div className="mb-4 sm:mb-6">

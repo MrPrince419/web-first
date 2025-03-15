@@ -28,7 +28,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "fix-vulnerabilities": "node scripts/fix-vulnerabilities.js",
+    "clean": "rimraf build",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build"
   },
@@ -54,6 +54,7 @@
     "autoprefixer": "^10.4.14",
     "gh-pages": "6.3.0",
     "postcss": "^8.4.21",
+    "rimraf": "6.0.1",
     "tailwindcss": "^3.2.7"
   },
   "homepage": "https://mrprince419.github.io/Prince-Ai-Automation/"

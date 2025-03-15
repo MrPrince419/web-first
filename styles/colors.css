@@ -1,0 +1,30 @@
+:root {
+  /* Light theme */
+  --color-primary: #2563EB;
+  --color-primary-light: #3B82F6;
+  --color-secondary: #10B981;
+  --color-background: #FFFFFF;
+  --color-background-secondary: #F8FAFC;
+  --color-text: #1E293B;
+  --color-text-secondary: #64748B;
+  --color-border: #E2E8F0;
+  --color-hover: #DBEAFE;
+  
+  /* Accent colors */
+  --color-success: #10B981;
+  --color-warning: #F59E0B;
+  --color-error: #EF4444;
+  --color-info: #3B82F6;
+}
+
+[data-theme='dark'] {
+  --color-primary: #3B82F6;
+  --color-primary-light: #60A5FA;
+  --color-secondary: #34D399;
+  --color-background: #0F172A;
+  --color-background-secondary: #1E293B;
+  --color-text: #E2E8F0;
+  --color-text-secondary: #94A3B8;
+  --color-border: #334155;
+  --color-hover: #1E293B;
+}

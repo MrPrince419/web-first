@@ -6,7 +6,7 @@ export const blogPosts = [
   {
     id: "1",
     title: "7 Ways AI Automation Can Boost Your Small Business 🚀",
-    date: "March 10, 2025",
+    date: "August 20, 2024",
     excerpt: "Discover seven powerful ways AI automation can help your small business save time, reduce costs, and improve customer satisfaction.",
     author: "Prince Uwagboe",
     image: blogImages.automation || defaultImage,
@@ -104,7 +104,7 @@ export const blogPosts = [
   {
     id: "2",
     title: "Top 5 AI Tools for Business Automation in 2023 ⚙️",
-    date: "January 15, 2025",
+    date: "September 8, 2024",
     excerpt: "Explore the most effective AI automation tools helping businesses streamline operations and boost productivity this year.",
     author: "Prince Uwagboe",
     image: blogImages.tools || defaultImage,
@@ -201,7 +201,7 @@ export const blogPosts = [
   {
     id: "3",
     title: "The Future of Work: AI Automation and Human Collaboration 🤝",
-    date: "November 22, 2024",
+    date: "October 15, 2024",
     excerpt: "How AI automation is reshaping the workplace and creating new opportunities for human-machine collaboration.",
     author: "Prince Uwagboe",
     image: blogImages.future || defaultImage,
@@ -335,7 +335,7 @@ export const blogPosts = [
   {
     id: "4",
     title: "How AI Automation Can Save Your Business Thousands 💰",
-    date: "October 5, 2024",
+    date: "November 22, 2024",
     excerpt: "A detailed look at the ROI of automation implementation and how it translates to significant cost savings for businesses.",
     author: "Prince Uwagboe",
     image: blogImages.benefits || defaultImage,
@@ -467,7 +467,7 @@ export const blogPosts = [
   {
     id: "5",
     title: "AI Automation: The Small Business Equalizer 🏆",
-    date: "September 18, 2024",
+    date: "December 10, 2024",
     excerpt: "How automation technology is helping small businesses compete with larger competitors through increased efficiency and enhanced capabilities.",
     author: "Prince Uwagboe",
     image: blogImages.equalizer || defaultImage,
@@ -552,7 +552,7 @@ export const blogPosts = [
   {
     id: "6",
     title: "From Manual to Magical: Automating Your Customer Journey 🧙‍♂️",
-    date: "August 30, 2024",
+    date: "January 15, 2025",
     excerpt: "Learn how to transform your customer experience through strategic automation of the entire customer journey.",
     author: "Prince Uwagboe",
     image: blogImages.journey || defaultImage,
@@ -647,3 +647,11 @@ export const blogPosts = [
     `
   }
 ];
+
+export const formatBlogDate = (date) => {
+  return new Date(date).toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric'
+  });
+};

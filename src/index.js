@@ -15,6 +15,7 @@ import Privacy from './pages/Privacy';
 import Terms from './pages/Terms';
 import NotFound from './pages/NotFound';
 import reportWebVitals from './reportWebVitals';
+import LoadingAnimation from './components/LoadingAnimation';
 
 // Apply compatibility fixes before any component renders
 import { applyMeshBVHFix } from './utils/FixMeshBVH';
@@ -27,7 +28,7 @@ try {
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <App />,
+    element: <ErrorBoundary><App /></ErrorBoundary>,
     errorElement: <ErrorBoundary />,
     children: [
       {
@@ -82,18 +83,14 @@ const router = createBrowserRouter([
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
-// Add error handling for React 18 concurrent features
-const handleError = (error) => {
-  console.error('Rendering error:', error);
-  // You could add error reporting service here
-};
-
 root.render(
   <React.StrictMode>
-    <ErrorBoundary onError={handleError}>
-      <RouterProvider router={router} />
-    </ErrorBoundary>
+    <RouterProvider 
+      router={router} 
+      fallbackElement={<LoadingAnimation size="lg" color="gold" />} 
+    />
   </React.StrictMode>
 );
 
-reportWebVitals();
+// Report web vitals
+reportWebVitals(console.log);
