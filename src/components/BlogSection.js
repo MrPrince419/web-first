@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { FaCalendarAlt, FaChevronRight } from 'react-icons/fa';
-import { blogImages, defaultImage } from '../utils/unsplashImages';
+import { blogImages, defaultImage, formatBlogDate } from '../data/blogPosts';
 
 const BlogSection = () => {
   const blogPosts = [
