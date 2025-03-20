@@ -4,6 +4,8 @@ import {
   FaSyncAlt, FaDatabase, FaChartLine, FaShoppingCart
 } from 'react-icons/fa';
 
+import { websiteContent } from './websiteContent';
+
 // Icons for responses
 export const chatIcons = {
   robot: FaRobot,
@@ -659,4 +661,41 @@ export const getChatResponse = (input, context) => {
 
 export const getDecisionTree = (treeId) => {
   return decisionTrees[treeId] || null;
+};
+
+// Chat configuration
+export const chatData = {
+  initialMessage: "Hi there! 👋 I'm Prince's AI assistant. How can I help you today?",
+  
+  fallbacks: [
+    "I'm not sure I understand. Could you rephrase that?",
+    "I don't have information on that specific topic. Is there something else about our AI automation services I can help with?",
+    "That's a bit outside my knowledge area. Would you like to know about our services or pricing instead?"
+  ],
+  
+  // Leverage website content for consistent messaging
+  faqs: [
+    {
+      question: "What services do you offer?",
+      answer: `We offer ${websiteContent.services.map(s => s.title).join(", ")}. ${websiteContent.servicesIntro}`
+    },
+    {
+      question: "How much do your services cost?",
+      answer: websiteContent.pricing
+    },
+    {
+      question: "Do you offer a free consultation?",
+      answer: "Yes! We offer a free initial consultation to discuss your business needs and how our AI automation solutions can help. The $150 CAD consultation fee only applies to comprehensive business audits and is credited toward your first invoice if you proceed with our services."
+    },
+    // ...existing code...
+  ],
+  
+  // Topic handlers with website content integration
+  topicHandlers: {
+    pricing: () => websiteContent.pricing,
+    services: () => websiteContent.servicesDetailed,
+    contact: () => `You can reach us through our contact form at ${websiteContent.contactInfo.website}/contact or email us directly at ${websiteContent.contactInfo.email}.`,
+    about: () => websiteContent.about,
+    // ...existing code...
+  }
 };

@@ -6,6 +6,7 @@ import {
   FaFileAlt, FaRobot, FaEnvelope, FaBullhorn, FaDatabase, 
   FaSyncAlt, FaChevronLeft, FaRocket
 } from 'react-icons/fa';
+import ImageWithLazy from './ImageWithLazy';
 
 const PortfolioSection = () => {
   const [activeCategory, setActiveCategory] = useState('all');
@@ -257,15 +258,12 @@ const PortfolioSection = () => {
             <div className="bg-white rounded-xl overflow-hidden shadow-lg">
               <div className="lg:flex">
                 <div className="lg:w-1/2 relative">
-                  <img 
+                  <ImageWithLazy 
                     src={featuredProject.image} 
                     alt={featuredProject.title} 
                     className="w-full h-full object-cover object-center"
                     style={{ minHeight: "300px" }}
-                    onError={(e) => {
-                      e.target.onerror = null;
-                      e.target.src = 'https://placehold.co/800x600/eee/999?text=Featured+Project';
-                    }}
+                    fallbackSrc='https://placehold.co/800x600/eee/999?text=Featured+Project'
                   />
                   <div className="absolute top-4 left-4">
                     <span className="bg-gold text-navy px-3 py-1 rounded-full text-sm font-bold flex items-center">
@@ -366,14 +364,13 @@ const FlippableProjectCard = ({ project, categories }) => {
         <div className={`pricing-card ${isFlipped ? 'is-flipped' : ''}`}>
           {/* Front side */}
           <div className="pricing-card-face rounded-xl overflow-hidden shadow-lg">
-            <div 
-              className="absolute inset-0 w-full h-full"
-              style={{
-                backgroundImage: `url(${project.image})`,
-                backgroundSize: 'cover',
-                backgroundPosition: 'center'
-              }}
-            >
+            <div className="absolute inset-0 w-full h-full">
+              <ImageWithLazy
+                src={project.image}
+                alt={project.title}
+                className="w-full h-full"
+                fallbackSrc="https://placehold.co/800x600/eee/999?text=Project"
+              />
               <div className="absolute inset-0 bg-gradient-to-b from-navy/60 to-navy/95 p-6 flex flex-col">
                 <div className="text-gold text-2xl">
                   <Icon />

@@ -1,51 +1,79 @@
 import React, { useState, useEffect } from 'react';
+import { motion } from 'framer-motion';
 
-const ImageWithLazy = ({ src, alt, className }) => {
-  const [imageSrc, setImageSrc] = useState(null);
-  const [imageRef, setImageRef] = useState();
+/**
+ * ImageWithLazy - A component that provides lazy loading for images
+ * with a nice fade-in effect and proper fallback
+ */
+const ImageWithLazy = ({ 
+  src, 
+  alt, 
+  className = '', 
+  fallbackSrc = "https://placehold.co/600x400/eee/999?text=Image",
+  width, 
+  height,
+  objectFit = "cover",
+  ...props 
+}) => {
+  const [imgSrc, setImgSrc] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
 
   useEffect(() => {
-    let observer;
-    let didCancel = false;
-
-    if (imageRef && !imageSrc) {
-      if (IntersectionObserver) {
-        observer = new IntersectionObserver(
-          entries => {
-            entries.forEach(entry => {
-              if (
-                !didCancel &&
-                (entry.intersectionRatio > 0 || entry.isIntersecting)
-              ) {
-                setImageSrc(src);
-              }
-            });
-          },
-          {
-            threshold: 0.01,
-            rootMargin: '75%',
-          }
-        );
-        observer.observe(imageRef);
-      } else {
-        setImageSrc(src);
-      }
-    }
-    return () => {
-      didCancel = true;
-      if (observer && observer.unobserve) {
-        observer.unobserve(imageRef);
-      }
+    // Reset states when src changes
+    setLoading(true);
+    setError(false);
+    
+    const img = new Image();
+    img.src = src;
+    
+    img.onload = () => {
+      setImgSrc(src);
+      setLoading(false);
     };
-  }, [src, imageSrc, imageRef]);
+    
+    img.onerror = () => {
+      setImgSrc(fallbackSrc);
+      setError(true);
+      setLoading(false);
+    };
+    
+    return () => {
+      // Clean up by removing event listeners
+      img.onload = null;
+      img.onerror = null;
+    };
+  }, [src, fallbackSrc]);
+
+  const imgStyle = {
+    objectFit,
+    width: width || '100%',
+    height: height || '100%',
+    ...(props.style || {})
+  };
 
   return (
-    <img
-      ref={setImageRef}
-      src={imageSrc || 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7'}
-      alt={alt}
-      className={className}
-    />
+    <div className={`relative ${className}`} style={{ overflow: 'hidden' }}>
+      {loading && (
+        <div className="absolute inset-0 flex items-center justify-center bg-gray-100">
+          <div className="animate-pulse rounded-full h-12 w-12 bg-gray-200"></div>
+        </div>
+      )}
+      
+      {!loading && (
+        <motion.img
+          src={imgSrc}
+          alt={alt}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.5 }}
+          className={error ? 'opacity-80' : ''}
+          style={imgStyle}
+          loading="lazy"
+          {...props}
+        />
+      )}
+    </div>
   );
 };
 

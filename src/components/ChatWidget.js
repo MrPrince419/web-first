@@ -1,462 +1,172 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { motion, AnimatePresence, useMotionValue, useTransform } from 'framer-motion';
-import { FaCommentDots, FaTimes, FaRobot, FaPaperPlane } from 'react-icons/fa';
-import { useNavigate } from 'react-router-dom';
-import { 
-  quickReplies, 
-  getRandomFallback, 
-  findResponseByKeywords,
-  getDecisionTree,
-  getChatResponse,
-  getFollowUpResponse
-} from '../data/chatData';
+import React, { useState, useEffect, useRef } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { FaComments, FaTimes, FaPaperPlane } from 'react-icons/fa';
+import LoadingAnimation from './LoadingAnimation';
+import ChatAssistant from '../services/ChatAssistant';
+import NLPService from '../services/NLPService';
+
+// Simple initial messages
+const initialMessages = [
+  { 
+    text: "Hi there! 👋 I'm Prince's AI assistant. How can I help you today?", 
+    sender: 'bot', 
+    timestamp: new Date() 
+  }
+];
 
 const ChatWidget = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [isExpanded, setIsExpanded] = useState(true);
-  const [userMessage, setUserMessage] = useState('');
-  const [chatMessages, setChatMessages] = useState([]);
-  const [isTyping, setIsTyping] = useState(false);
-  const [conversationContext, setConversationContext] = useState({
-    currentTopic: 'greeting',
-    lastTopic: null,
-    currentCategory: null,
-    history: []
-  });
+  const [messages, setMessages] = useState(initialMessages);
+  const [userInput, setUserInput] = useState('');
+  const [loading, setLoading] = useState(false);
   const messagesEndRef = useRef(null);
-  const navigate = useNavigate();
-  const x = useMotionValue(0);
-  const opacity = useTransform(x, [0, 100], [1, 0.3]);
   
-  useEffect(() => {
-    if (isOpen && chatMessages.length === 0) {
-      handleBotResponse("Hi! I'm your AI assistant for Prince AI Automation. How can I help you today? 🤖", 
-        ['What services do you offer?', 'Tell me about your portfolio', 'How much does it cost?']);
-    }
-    
-    scrollToBottom();
-  }, [chatMessages, isOpen]);
-  
+  // Initialize services on component load, not in state
+  const nlpService = new NLPService();
+  const chatAssistant = new ChatAssistant(nlpService);
+
+  // Scroll to bottom of messages
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
-  
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages]);
+
   const toggleChat = () => {
     setIsOpen(!isOpen);
   };
 
-  const handleDrag = (event, info) => {
-    if (info.offset.x > 50) {
-      setIsExpanded(false);
-    } else {
-      setIsExpanded(true);
-    }
+  const handleInputChange = (e) => {
+    setUserInput(e.target.value);
   };
-  
-  const handleSubmit = (e) => {
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!userInput.trim()) return;
     
-    if (!userMessage.trim()) return;
+    const newUserMessage = { 
+      text: userInput, 
+      sender: 'user', 
+      timestamp: new Date() 
+    };
     
-    handleSendMessage(userMessage);
-    setUserMessage('');
-  };
-  
-  const handleSendMessage = async (text) => {
+    setMessages(prevMessages => [...prevMessages, newUserMessage]);
+    setUserInput('');
+    setLoading(true);
+    
     try {
-      setIsTyping(true);
-      const userMessage = {
-        id: Date.now(),
-        text: text,
-        sender: 'user'
-      };
-      setChatMessages(prev => [...prev, userMessage]);
-      setUserMessage('');
-
-      // Update conversation history
-      const updatedContext = {
-        ...conversationContext,
-        history: [...conversationContext.history, text]
+      // Process with ChatAssistant service
+      const response = await chatAssistant.processUserMessage(userInput);
+      
+      const botMessage = {
+        text: response,
+        sender: 'bot',
+        timestamp: new Date()
       };
       
-      // Check for navigation intents
-      if ((text.toLowerCase().includes('contact') && text.toLowerCase().includes('page')) || 
-          (conversationContext.currentTopic === 'consultation' && 
-           (text.toLowerCase().includes('yes') || text.toLowerCase().includes('take me')))) {
-        setTimeout(() => {
-          navigate('/contact');
-          setIsOpen(false);
-        }, 1000);
-        
-        const botMessage = {
-          id: Date.now() + 1,
-          text: "Taking you to our contact page...",
-          sender: 'bot'
-        };
-        
-        setChatMessages(prev => [...prev, botMessage]);
-        setIsTyping(false);
-        return;
-      }
-      
-      if ((text.toLowerCase().includes('blog') && text.toLowerCase().includes('page')) || 
-          text.toLowerCase().includes('read article')) {
-        setTimeout(() => {
-          navigate('/blog');
-          setIsOpen(false);
-        }, 1000);
-        
-        const botMessage = {
-          id: Date.now() + 1,
-          text: "Taking you to our blog page...",
-          sender: 'bot'
-        };
-        
-        setChatMessages(prev => [...prev, botMessage]);
-        setIsTyping(false);
-        return;
-      }
-      
-      if ((text.toLowerCase().includes('portfolio') && text.toLowerCase().includes('page')) || 
-          text.toLowerCase().includes('see projects')) {
-        setTimeout(() => {
-          navigate('/portfolio');
-          setIsOpen(false);
-        }, 1000);
-        
-        const botMessage = {
-          id: Date.now() + 1,
-          text: "Taking you to our portfolio page...",
-          sender: 'bot'
-        };
-        
-        setChatMessages(prev => [...prev, botMessage]);
-        setIsTyping(false);
-        return;
-      }
-      
-      // Handle conversation based on context
-      let response;
-      const lowercaseText = text.toLowerCase();
-
-      // First check if this is a follow-up to the current topic
-      if (conversationContext.currentTopic && conversationContext.currentTopic !== 'greeting') {
-        response = getFollowUpResponse(lowercaseText, conversationContext);
-        
-        if (response) {
-          // Update context based on the detected follow-up
-          if (response.newTopic) {
-            updatedContext.lastTopic = conversationContext.currentTopic;
-            updatedContext.currentTopic = response.newTopic;
-          }
-          
-          if (response.category) {
-            updatedContext.currentCategory = response.category;
-          }
-        }
-      }
-      
-      // If no specific follow-up response was found, look for a general response
-      if (!response) {
-        // Try to match to a specific response based on keywords
-        const matchedResponse = findResponseByKeywords(lowercaseText);
-        
-        if (matchedResponse) {
-          response = {
-            text: matchedResponse.response,
-            suggestions: matchedResponse.suggestions,
-            icon: matchedResponse.icon
-          };
-          
-          // Update conversation context based on the matched response
-          if (matchedResponse.contextTopic) {
-            updatedContext.lastTopic = conversationContext.currentTopic;
-            updatedContext.currentTopic = matchedResponse.contextTopic;
-          }
-          
-          if (matchedResponse.category) {
-            updatedContext.currentCategory = matchedResponse.category;
-          }
-          
-          // If there's a decision tree associated with this response, use it
-          if (matchedResponse.decisionTree) {
-            const decisionTree = getDecisionTree(matchedResponse.decisionTree);
-            if (decisionTree) {
-              response = {
-                text: decisionTree.question,
-                options: decisionTree.options
-              };
-            }
-          }
-        } else {
-          // Try to get a response based on the current context
-          response = getChatResponse(lowercaseText, conversationContext);
-          
-          // If no context-specific response, use fallback
-          if (!response) {
-            const fallback = getRandomFallback();
-            response = {
-              text: fallback.response,
-              suggestions: fallback.suggestions
-            };
-          }
-        }
-      }
-      
-      // Update conversation context
-      setConversationContext(updatedContext);
-
-      // Simulate typing delay
+      // Small delay to make the interaction feel more natural
       setTimeout(() => {
-        const botMessage = {
-          id: Date.now() + 1,
-          text: response.text,
-          suggestions: response.suggestions,
-          options: response.options,
-          icon: response.icon,
-          sender: 'bot'
-        };
-        
-        setChatMessages(prev => [...prev, botMessage]);
-        setIsTyping(false);
-        
-        // If this is a consultation response that should lead to contact page
-        if (response.navigateTo === 'contact') {
-          setTimeout(() => {
-            const followUpMsg = {
-              id: Date.now() + 2,
-              text: "Taking you to our contact page...",
-              sender: 'bot'
-            };
-            setChatMessages(prev => [...prev, followUpMsg]);
-            
-            setTimeout(() => {
-              navigate('/contact');
-              setIsOpen(false);
-            }, 1000);
-          }, 2000);
-        }
-      }, 1200);
-
+        setMessages(prevMessages => [...prevMessages, botMessage]);
+        setLoading(false);
+      }, 700);
     } catch (error) {
-      console.error('Error:', error);
+      console.error("Chat processing error:", error);
+      
+      // Show error message
       const errorMessage = {
-        id: Date.now() + 1,
-        text: "I'm sorry, I couldn't process your request. Please try again.",
-        type: 'error',
-        sender: 'bot'
+        text: "I'm sorry, I couldn't process that request. Please try again.",
+        sender: 'bot',
+        timestamp: new Date()
       };
-      setChatMessages(prev => [...prev, errorMessage]);
-      setIsTyping(false);
+      
+      setMessages(prevMessages => [...prevMessages, errorMessage]);
+      setLoading(false);
     }
   };
 
-  const handleQuickReply = (reply) => {
-    const text = reply.value || reply;
-    handleSendMessage(text);
-  };
-  
-  const handleOptionSelect = (option) => {
-    // First, add the selected option as a user message
-    const userMessage = {
-      id: Date.now(),
-      text: option.text,
-      sender: 'user'
-    };
-    setChatMessages(prev => [...prev, userMessage]);
-    
-    // Then process the option's response
-    setTimeout(() => {
-      const botMessage = {
-        id: Date.now() + 1,
-        text: option.response,
-        suggestions: option.suggestions,
-        icon: option.icon,
-        sender: 'bot'
-      };
-      
-      setChatMessages(prev => [...prev, botMessage]);
-      
-      // Update conversation context
-      if (option.contextTopic) {
-        setConversationContext(prev => ({
-          ...prev,
-          lastTopic: prev.currentTopic,
-          currentTopic: option.contextTopic,
-          currentCategory: option.category || prev.currentCategory
-        }));
-      }
-    }, 800);
-  };
-  
-  const renderMessage = (message) => {
-    // Render icon if available
-    const MessageIcon = message.icon;
-    
-    return (
-      <div>
-        {MessageIcon && (
-          <div className="flex items-center mb-2">
-            <MessageIcon className="text-gold mr-2" />
-          </div>
-        )}
-        <div className="whitespace-pre-wrap">{message.text}</div>
-        
-        {/* Decision tree options */}
-        {message.options && message.options.length > 0 && (
-          <div className="flex flex-wrap gap-2 mt-3">
-            {message.options.map((option, index) => (
-              <button
-                key={index}
-                onClick={() => handleOptionSelect(option)}
-                className="bg-navy/10 hover:bg-navy/20 text-navy px-3 py-2 rounded-md text-sm transition-colors"
-              >
-                {option.text}
-              </button>
-            ))}
-          </div>
-        )}
-        
-        {/* Regular suggestions */}
-        {message.suggestions && message.suggestions.length > 0 && (
-          <div className="flex flex-wrap gap-2 mt-3">
-            {message.suggestions.map((suggestion, index) => (
-              <button
-                key={index}
-                onClick={() => handleQuickReply(suggestion)}
-                className="bg-gray-100 hover:bg-gray-200 text-navy px-3 py-1 rounded-full text-sm transition-colors"
-              >
-                {suggestion}
-              </button>
-            ))}
-          </div>
-        )}
-      </div>
-    );
-  };
-  
-  const handleBotResponse = (message, suggestions = []) => {
-    const botMsg = {
-      id: Date.now(),
-      text: message,
-      suggestions: suggestions,
-      sender: 'bot'
-    };
-    
-    setChatMessages(prev => [...prev, botMsg]);
-  };
-  
   return (
-    <>
-      <motion.div
-        drag="x"
-        dragConstraints={{ left: 0, right: 100 }}
-        onDragEnd={handleDrag}
-        animate={{ x: isExpanded ? 0 : 80 }}
-        style={{ x, opacity }}
-        transition={{ type: "spring", stiffness: 300, damping: 20 }}
-        className="fixed bottom-4 right-4 z-40"
+    <div className="chat-widget-container fixed bottom-4 right-4 z-50">
+      {/* Chat Toggle Button */}
+      <button
+        onClick={toggleChat}
+        className="bg-gold hover:bg-orange text-navy w-14 h-14 rounded-full flex items-center justify-center shadow-lg transition-colors"
+        aria-label={isOpen ? "Close chat" : "Open chat"}
       >
-        <button
-          onClick={toggleChat}
-          className="flex items-center justify-center w-12 h-12 bg-gold text-navy shadow-lg rounded-full"
-          aria-label={isOpen ? "Close chat" : "Open chat"}
-        >
-          {isOpen ? <FaTimes className="text-sm" /> : <FaCommentDots className="text-sm" />}
-        </button>
-      </motion.div>
-      
+        {isOpen ? <FaTimes size={20} /> : <FaComments size={20} />}
+      </button>
+
+      {/* Chat Window */}
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            initial={{ opacity: 0, y: 20, scale: 0.9 }}
+            className="chat-window bg-white rounded-lg shadow-xl overflow-hidden absolute bottom-20 right-0 w-80 sm:w-96 max-h-[600px] flex flex-col"
+            initial={{ opacity: 0, y: 20, scale: 0.95 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 20, scale: 0.9 }}
-            className="fixed bottom-20 right-4 z-40 w-72 sm:w-80 rounded-lg shadow-xl overflow-hidden bg-white"
+            exit={{ opacity: 0, y: 20, scale: 0.95 }}
+            transition={{ duration: 0.3 }}
           >
             {/* Chat Header */}
-            <div className="p-3 bg-gold text-navy flex justify-between items-center">
-              <div className="flex items-center">
-                <FaRobot className="text-lg mr-2" />
-                <h3 className="font-medium">AI Assistant</h3>
-              </div>
-              <button 
-                onClick={toggleChat} 
-                className="text-navy hover:text-gray-700 p-1 rounded-full"
+            <div className="bg-navy text-white p-4 flex items-center justify-between">
+              <h3 className="font-medium">Chat with Prince AI</h3>
+              <button
+                onClick={toggleChat}
+                className="text-white hover:text-gray-200"
                 aria-label="Close chat"
               >
-                <FaTimes />
+                <FaTimes size={16} />
               </button>
             </div>
-            
+
             {/* Chat Messages */}
-            <div className="h-72 overflow-y-auto p-4">
-              {chatMessages.map((message) => (
+            <div className="flex-1 overflow-y-auto p-4">
+              {messages.map((message, index) => (
                 <div
-                  key={message.id}
-                  className={`mb-4 flex ${
-                    message.sender === 'user' ? 'justify-end' : 'justify-start'
+                  key={index}
+                  className={`mb-4 ${
+                    message.sender === 'bot' ? 'text-left' : 'text-right'
                   }`}
                 >
                   <div
-                    className={`max-w-[80%] rounded-lg p-3 ${
-                      message.sender === 'user'
-                        ? `bg-gold text-navy`
-                        : `bg-gray-100 text-navy`
+                    className={`inline-block rounded-lg px-4 py-2 max-w-[80%] ${
+                      message.sender === 'bot'
+                        ? 'bg-gray-100 text-gray-800'
+                        : 'bg-gold text-navy'
                     }`}
                   >
-                    {renderMessage(message)}
+                    {message.text}
                   </div>
                 </div>
               ))}
               
-              {isTyping && (
-                <div className="flex justify-start mb-4">
-                  <div className="max-w-[80%] rounded-lg p-3 bg-gray-100 text-navy">
-                    <div className="flex space-x-1">
-                      <div className="w-2 h-2 bg-gray-500 rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></div>
-                      <div className="w-2 h-2 bg-gray-500 rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></div>
-                      <div className="w-2 h-2 bg-gray-500 rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></div>
-                    </div>
+              {/* Loading indicator */}
+              {loading && (
+                <div className="text-left mb-4">
+                  <div className="inline-block rounded-lg px-4 py-2 bg-gray-100">
+                    <LoadingAnimation size="small" />
                   </div>
                 </div>
               )}
               
               <div ref={messagesEndRef} />
             </div>
-            
-            {/* Quick Replies */}
-            {chatMessages.length <= 2 && (
-              <div className="px-4 pb-2">
-                <p className="text-sm text-gray-500 mb-2">Quick replies:</p>
-                <div className="flex flex-wrap gap-2">
-                  {quickReplies.map((reply, index) => (
-                    <button
-                      key={index}
-                      onClick={() => handleQuickReply(reply)}
-                      className="flex items-center text-xs py-1 px-3 rounded-full bg-gray-100 text-gray-700 hover:bg-gray-200"
-                    >
-                      {reply.icon && <reply.icon className="mr-1 text-gold text-xs" />} {reply.text}
-                    </button>
-                  ))}
-                </div>
-              </div>
-            )}
-            
+
             {/* Chat Input */}
-            <form onSubmit={handleSubmit} className="p-4 border-t border-gray-200">
+            <form onSubmit={handleSubmit} className="border-t border-gray-200 p-4">
               <div className="flex">
                 <input
                   type="text"
-                  value={userMessage}
-                  onChange={(e) => setUserMessage(e.target.value)}
+                  value={userInput}
+                  onChange={handleInputChange}
                   placeholder="Type your message..."
-                  className="flex-1 py-2 px-3 rounded-l-lg focus:outline-none bg-gray-100 text-gray-900 focus:ring-1 focus:ring-gold"
+                  className="flex-1 border border-gray-300 rounded-l-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-gold"
+                  disabled={loading}
                 />
                 <button
                   type="submit"
-                  className="py-2 px-4 rounded-r-lg flex items-center justify-center bg-navy text-white"
-                  aria-label="Send message"
+                  className="bg-gold hover:bg-orange text-navy px-4 py-2 rounded-r-lg transition-colors"
+                  disabled={loading || !userInput.trim()}
                 >
                   <FaPaperPlane />
                 </button>
@@ -465,7 +175,7 @@ const ChatWidget = () => {
           </motion.div>
         )}
       </AnimatePresence>
-    </>
+    </div>
   );
 };
 

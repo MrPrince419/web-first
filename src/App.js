@@ -57,7 +57,11 @@ const router = createBrowserRouter([
     element: (
       <ErrorBoundary>
         <ToastProvider>
-          <Suspense fallback={<div className="min-h-screen flex items-center justify-center"><LoadingAnimation /></div>}>
+          <Suspense fallback={
+            <div className="min-h-screen flex items-center justify-center">
+              <LoadingAnimation size="large" text="Loading Prince AI Automation..." />
+            </div>
+          }>
             <ScrollToTop />
             <ScrollProgressBar />
             <Layout />
