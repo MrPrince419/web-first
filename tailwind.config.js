@@ -2,7 +2,6 @@
 module.exports = {
   content: [
     "./src/**/*.{js,jsx,ts,tsx}",
-    "./public/index.html",
   ],
   darkMode: 'class',
   theme: {
@@ -12,18 +11,9 @@ module.exports = {
         forum: ['Forum', 'serif'],
       },
       colors: {
-        navy: {
-          DEFAULT: '#0a192f',
-          light: '#112240',
-          lightest: '#233554',
-        },
+        navy: '#0a192f',
         gold: '#fca311',
-        orange: '#e85d04',
-        dark: {
-          DEFAULT: '#1a1a1a',
-          light: '#2d2d2d',
-          lighter: '#3d3d3d'
-        }
+        orange: '#ff8c00'
       },
       boxShadow: {
         'glow': '0 0 15px rgba(252, 163, 17, 0.5)',
@@ -45,5 +35,6 @@ module.exports = {
   plugins: [
     require('@tailwindcss/typography'),
     require('@tailwindcss/forms'),
+    // Line clamp functionality is now included in Tailwind by default
   ],
 };

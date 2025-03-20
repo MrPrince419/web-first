@@ -3,7 +3,6 @@ import { motion } from 'framer-motion';
 import ServicesSection from '../components/ServicesSection';
 import FAQSection from '../components/FAQSection';
 import SEO from '../components/SEO';
-import { serviceImages, defaultImage } from '../utils/unsplashImages';
 
 const Services = () => {
   return (
@@ -14,43 +13,45 @@ const Services = () => {
         url="/services"
       />
       
-      {/* Services Hero */}
-      <section className="py-20 bg-gray-50">
-        <div className="container mx-auto px-4">
-          <div className="flex flex-col md:flex-row items-center">
+      {/* Services Hero with Background Image */}
+      <section 
+        className="py-20 relative flex items-center min-h-[60vh]"
+        style={{
+          backgroundImage: "url('https://images.unsplash.com/photo-1534972195531-d756b9bfa9f2?w=1600&auto=format&fit=crop')",
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+        }}
+      >
+        {/* Dark gradient overlay */}
+        <div className="absolute inset-0 bg-gradient-to-br from-navy/95 via-navy/85 to-navy/75 z-0"></div>
+        
+        <div className="container mx-auto px-4 relative z-10">
+          <motion.div
+            className="text-center mx-auto max-w-3xl"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+          >
+            <h1 className="text-4xl md:text-5xl font-forum font-bold mb-6 text-white">
+              AI-Powered <span className="text-gold">Automation Services</span>
+            </h1>
+            <p className="text-lg mb-8 text-white/90">
+              Streamline your operations, reduce costs, and focus on growth with our custom automation solutions tailored to your unique business needs.
+            </p>
             <motion.div
-              className="md:w-1/2 mb-10 md:mb-0"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8 }}
+              transition={{ duration: 0.8, delay: 0.3 }}
+              className="flex justify-center"
             >
-              <h1 className="text-4xl md:text-5xl font-forum font-bold mb-6">
-                AI-Powered <span className="text-gold">Automation Services</span>
-              </h1>
-              <p className="text-lg mb-8">
-                Streamline your operations, reduce costs, and focus on growth with our custom automation solutions tailored to your unique business needs.
-              </p>
+              <a 
+                href="#services" 
+                className="bg-gold text-navy font-bold py-3 px-8 rounded-lg hover:bg-orange transition-colors inline-block"
+              >
+                Explore Our Services Below
+              </a>
             </motion.div>
-            
-            <motion.div
-              className="md:w-1/2"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-            >
-              <div className="rounded-lg overflow-hidden shadow-lg">
-                <img 
-                  src={serviceImages.automation || defaultImage} 
-                  alt="AI Automation Services" 
-                  className="w-full"
-                  onError={(e) => {
-                    e.target.onerror = null;
-                    e.target.src = defaultImage;
-                  }}
-                />
-              </div>
-            </motion.div>
-          </div>
+          </motion.div>
         </div>
       </section>
       

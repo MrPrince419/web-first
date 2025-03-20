@@ -1,34 +1,27 @@
 import React, { useState, useEffect } from 'react';
+import { motion, useScroll } from 'framer-motion';
 
 const ScrollProgressBar = () => {
-  const [scrollProgress, setScrollProgress] = useState(0);
+  const { scrollYProgress } = useScroll();
+  const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
-    const calculateScrollProgress = () => {
-      const scrollDistance = document.documentElement.scrollTop;
-      const totalHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-      
-      if (totalHeight > 0) {
-        const percentage = (scrollDistance / totalHeight) * 100;
-        setScrollProgress(percentage);
-      }
+    const handleScroll = () => {
+      // Show the progress bar after scrolling a bit
+      setIsVisible(window.scrollY > 100);
     };
 
-    window.addEventListener('scroll', calculateScrollProgress);
-    return () => window.removeEventListener('scroll', calculateScrollProgress);
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  if (!isVisible) return null;
+
   return (
-    <div className="fixed top-0 left-0 w-full h-1 z-[100]">
-      <div 
-        className="bg-orange"
-        style={{
-          height: '100%',
-          width: `${scrollProgress}%`,
-          transition: 'width 0.2s ease-out'
-        }}
-      />
-    </div>
+    <motion.div
+      className="fixed top-0 left-0 right-0 h-1 bg-gold z-50"
+      style={{ scaleX: scrollYProgress, transformOrigin: '0%' }}
+    />
   );
 };
 

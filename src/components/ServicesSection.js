@@ -1,124 +1,134 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { FaCheck, FaQuestionCircle } from 'react-icons/fa';
-import { serviceImages, defaultImage } from '../utils/unsplashImages';
+import { Link } from 'react-router-dom';
+import { 
+  FaCheck, FaEnvelope, FaComments, 
+  FaSyncAlt, FaHeadset, FaDatabase, FaChartBar, FaRocket, FaArrowRight, FaChevronLeft 
+} from 'react-icons/fa';
 
-const PricingCard = ({ plan, isPopular, features, price, faq, onClick }) => {
-  const [showFaq, setShowFaq] = useState(false);
-
+const PricingCard = ({ plan, isPopular, features, price, faq, planId }) => {
+  const [isFlipped, setIsFlipped] = useState(false);
+  
   return (
-    <motion.div 
-      className={`bg-white rounded-xl shadow-lg overflow-hidden ${
-        isPopular ? 'border-2 border-gold' : 'border border-gray-200'
-      }`}
-      initial={{ opacity: 0, y: 50 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.5 }}
-      whileHover={{ y: -10 }}
-    >
-      {isPopular && (
-        <div className="bg-gold text-navy font-bold py-1 px-4 text-center">
-          Most Popular 🔥
-        </div>
-      )}
-      
-      <div className="p-6">
-        <h3 className="text-2xl font-forum font-bold mb-2">{plan}</h3>
-        <div className="flex items-end mb-6">
-          <span className="text-4xl font-bold">${price}</span>
-          <span className="text-gray-500 ml-1">CAD/month</span>
-        </div>
-        
-        <ul className="mb-6 space-y-3">
-          {features.map((feature, index) => (
-            <li key={index} className="flex items-start">
-              <FaCheck className="text-gold mt-1 mr-2 flex-shrink-0" />
-              <span>{feature}</span>
-            </li>
-          ))}
-        </ul>
-        
-        <button 
-          onClick={onClick}
-          className={`w-full py-3 rounded-lg font-medium transition-colors ${
-            isPopular 
-              ? 'bg-gold text-navy hover:bg-orange' 
-              : 'bg-gray-100 text-navy hover:bg-gray-200'
-          }`}
-        >
-          Get Started
-        </button>
-        
-        {faq && (
-          <div className="mt-4">
-            <button 
-              onClick={() => setShowFaq(!showFaq)}
-              className="flex items-center text-sm text-gray-500 hover:text-gold"
-            >
-              <FaQuestionCircle className="mr-1" />
-              <span>Frequently Asked Question</span>
-            </button>
+    <div className="pricing-card-container">
+      <div className={`pricing-card ${isFlipped ? 'is-flipped' : ''}`}>
+        {/* Front side */}
+        <div className={`pricing-card-face pricing-card-front ${isPopular ? 'popular' : ''}`}>
+          {isPopular && (
+            <div className="popular-badge">Most Popular 🔥</div>
+          )}
+          
+          <h3 className="plan-title">{plan}</h3>
+          <div className="price">
+            <span className="amount">${price}</span>
+            <span className="period">CAD/month</span>
+          </div>
+          
+          <ul className="features">
+            {features.map((feature, index) => (
+              <li key={index}>
+                <FaCheck className="check-icon" />
+                <span>{feature}</span>
+              </li>
+            ))}
+          </ul>
+          
+          <div className="card-actions">
+            <Link to="/contact" className="cta-link">
+              <button className={`cta-button ${isPopular ? 'cta-button-popular' : ''}`}>
+                Get Started
+              </button>
+            </Link>
             
-            {showFaq && (
-              <motion.div 
-                className="mt-2 p-3 bg-gray-50 rounded-lg"
-                initial={{ opacity: 0, height: 0 }}
-                animate={{ opacity: 1, height: 'auto' }}
-                transition={{ duration: 0.3 }}
+            {faq && (
+              <button 
+                onClick={() => setIsFlipped(true)}
+                className="learn-more-button"
               >
-                <h4 className="font-bold mb-1">{faq.question}</h4>
-                <p className="text-sm text-gray-600">{faq.answer}</p>
-              </motion.div>
+                <span>Learn More</span>
+                <FaArrowRight className="arrow-icon" />
+              </button>
             )}
           </div>
-        )}
+        </div>
+        
+        {/* Back side */}
+        <div className={`pricing-card-face pricing-card-back ${isPopular ? 'popular' : ''}`}>
+          <div className="back-content">
+            <div className="back-header">
+              <h3 className="back-title">{plan} Plan</h3>
+              {isPopular && (
+                <span className="popular-tag">Popular</span>
+              )}
+            </div>
+            
+            <div className="faq-content">
+              <h4 className="faq-question">{faq.question}</h4>
+              <p className="faq-answer">{faq.answer}</p>
+            </div>
+            
+            <button 
+              onClick={() => setIsFlipped(false)}
+              className="back-button"
+            >
+              <FaChevronLeft className="back-icon" />
+              <span>Back to Plan</span>
+            </button>
+          </div>
+        </div>
       </div>
-    </motion.div>
+    </div>
   );
 };
 
 const ServicesSection = () => {
-  const scrollToContact = () => {
-    window.location.href = '/contact';
-  };
-
   const pricingPlans = [
     {
-      plan: "Starter Automation",
+      plan: "Starter",
       price: 500,
+      isPopular: false,
+      planId: "starter",
       features: [
-        "1 workflow automation setup",
-        "Monthly monitoring",
-        "Email support 📧"
+        "Email automation setup",
+        "Basic social media scheduling",
+        "Monthly strategy call",
+        "Email support",
+        "1 workflow automation"
       ],
       faq: {
-        question: "What happens if I need more workflows?",
-        answer: "You can upgrade to a higher plan at any time."
+        question: "What's included in the Starter Plan?",
+        answer: "The Starter Plan is perfect for small businesses beginning their automation journey. It includes email automation setup, basic social media scheduling, a monthly strategy call, email support, and one custom workflow automation."
       }
     },
     {
-      plan: "Growth Automation",
+      plan: "Growth",
       price: 900,
       isPopular: true,
+      planId: "growth",
       features: [
-        "Up to 3 workflow automations",
-        "Weekly performance reports 📊",
-        "Priority chat support 💬",
-        "One-hour training session"
+        "Everything in Starter",
+        "Advanced CRM integration",
+        "Customer support automation",
+        "Bi-weekly strategy calls",
+        "3 workflow automations",
+        "Priority email support"
       ],
       faq: {
-        question: "Is training included?",
-        answer: "Yes, a one-hour training session is provided to help you get started."
+        question: "How does the Growth Plan help my business scale?",
+        answer: "The Growth Plan provides more comprehensive automation capabilities with 3 custom workflows, advanced CRM integration, customer support automation, and bi-weekly strategy calls to ensure your automation systems evolve with your business needs."
       }
     },
     {
-      plan: "Enterprise Automation",
+      plan: "Enterprise",
       price: 1500,
+      isPopular: false,
+      planId: "enterprise",
       features: [
+        "Everything in Growth",
+        "Full marketing automation",
+        "Custom AI implementation",
+        "Weekly strategy calls",
         "Unlimited workflow automations",
-        "Bi-weekly strategy calls 🗓️",
-        "Dedicated account manager 👨‍💼",
         "Custom integrations",
         "Priority support"
       ],
@@ -132,33 +142,39 @@ const ServicesSection = () => {
   const services = [
     {
       title: "Email Automation",
-      description: "Set up automated email sequences for customer onboarding, follow-ups, and marketing campaigns.",
-      image: serviceImages.email || defaultImage
+      description: "Automate Emails, Save Hours",
+      subtext: "Set up sequences for onboarding, follow-ups, and campaigns.",
+      icon: FaEnvelope
     },
     {
       title: "Social Media Management",
-      description: "Automate content publishing, engagement tracking, and analytics reporting across platforms.",
-      image: serviceImages.social || defaultImage
+      description: "Grow Your Social Presence",
+      subtext: "Automate posting, tracking, and analytics across platforms.",
+      icon: FaComments
     },
     {
       title: "CRM Integration",
-      description: "Connect and synchronize your customer data across multiple platforms for seamless workflow.",
-      image: serviceImages.crm || defaultImage
+      description: "Sync Your CRM Seamlessly",
+      subtext: "Connect customer data for a smoother workflow.",
+      icon: FaSyncAlt
     },
     {
       title: "Customer Support",
-      description: "Implement AI chatbots and ticket routing systems to improve response times.",
-      image: serviceImages.chatbot || defaultImage
+      description: "Faster Support with AI",
+      subtext: "Use chatbots and ticketing to cut response times.",
+      icon: FaHeadset
     },
     {
       title: "Data Entry & Processing",
-      description: "Eliminate manual data entry with intelligent document processing and data extraction.",
-      image: serviceImages.data || defaultImage
+      description: "Eliminate Manual Data Work",
+      subtext: "Automate entry, processing, and extraction.",
+      icon: FaDatabase
     },
     {
       title: "Reporting & Analytics",
-      description: "Generate automated reports and dashboards to track business performance metrics.",
-      image: serviceImages.reporting || defaultImage
+      description: "Track Performance Easily",
+      subtext: "Get automated reports and dashboards.",
+      icon: FaChartBar
     }
   ];
 
@@ -172,14 +188,17 @@ const ServicesSection = () => {
           viewport={{ once: true }}
           transition={{ duration: 0.8 }}
         >
-          <h2 className="text-4xl font-forum font-bold mb-4">Our Services</h2>
+          <div className="flex items-center justify-center mb-4">
+            <FaRocket className="text-gold text-2xl mr-2" />
+            <h2 className="text-4xl font-forum font-bold">Our Services</h2>
+          </div>
           <div className="w-24 h-1 bg-gold mx-auto mb-6"></div>
           <p className="max-w-2xl mx-auto text-lg">
             Custom automation solutions tailored to your specific business needs
           </p>
         </motion.div>
 
-        {/* Services Grid with Unsplash images */}
+        {/* Services Grid with Icons */}
         <motion.div 
           className="mb-20"
           initial={{ opacity: 0, y: 40 }}
@@ -191,36 +210,28 @@ const ServicesSection = () => {
             {services.map((service, index) => (
               <motion.div 
                 key={index}
-                className="bg-white rounded-lg shadow-md overflow-hidden"
-                whileHover={{ y: -5 }}
+                className="bg-white rounded-lg shadow-md overflow-hidden border-t-4 border-transparent hover:border-gold"
+                whileHover={{ y: -5, boxShadow: "0px 10px 30px rgba(0,0,0,0.1)" }}
                 transition={{ type: "spring", stiffness: 300 }}
               >
-                <div className="h-48 overflow-hidden">
-                  <img
-                    src={service.image}
-                    alt={service.title}
-                    className="w-full h-full object-cover transition-transform duration-500 hover:scale-110"
-                    onError={(e) => {
-                      e.target.onerror = null;
-                      e.target.src = defaultImage;
-                    }}
-                  />
-                </div>
                 <div className="p-6">
+                  <div className="text-gold text-4xl mb-4">
+                    <service.icon />
+                  </div>
                   <h4 className="text-xl font-bold mb-2">{service.title}</h4>
-                  <p>{service.description}</p>
+                  <p className="font-medium text-gray-700 mb-2">{service.description}</p>
+                  <p className="text-gray-600 text-base">{service.subtext}</p>
                 </div>
               </motion.div>
             ))}
           </div>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-start">
           {pricingPlans.map((plan, index) => (
             <PricingCard
               key={index}
               {...plan}
-              onClick={scrollToContact}
             />
           ))}
         </div>
@@ -233,9 +244,7 @@ const ServicesSection = () => {
           transition={{ duration: 0.8, delay: 0.5 }}
         >
           <h3 className="text-xl font-forum font-bold mb-4">Important Note</h3>
-          <p className="text-lg">
-            An upfront consultation fee of $150 CAD is required to secure your spot. This fee covers the initial audit and planning phase and is non-refundable after the consultation.
-          </p>
+          <p>An upfront consultation fee of $150 CAD is required to secure your spot. This fee covers the initial audit and planning phase and is non-refundable after the consultation.</p>
         </motion.div>
       </div>
     </section>
