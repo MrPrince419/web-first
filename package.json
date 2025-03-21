@@ -1,6 +1,6 @@
 {
-  "name": "prince-ai-automation",
-  "version": "0.1.0",
+  "name": "paa-website",
+  "version": "1.0.0",
   "private": true,
   "dependencies": {
     "@formspree/react": "^2.4.1",
@@ -32,7 +32,11 @@
     "eject": "react-scripts eject",
     "clean": "rimraf build",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d build"
+    "deploy": "gh-pages -d build",
+    "lint": "eslint src --ext .js,.jsx,.ts,.tsx",
+    "format": "prettier --write \"src/**/*.{js,jsx,ts,tsx,css,md}\"",
+    "type-check": "tsc --noEmit",
+    "precommit": "npm run lint && npm run type-check"
   },
   "eslintConfig": {
     "extends": [

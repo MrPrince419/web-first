@@ -1,6 +1,7 @@
-# Prince AI Automation Website
+# PAA Website
 
-A modern React-based website for Prince AI Automation, showcasing AI and automation services.
+## Overview
+Official website for Prince Akachi & Associates, built with React + Vite.
 
 ## Features
 
@@ -12,34 +13,50 @@ A modern React-based website for Prince AI Automation, showcasing AI and automat
 - Animated UI components
 
 ## Tech Stack
-
-- React.js
-- Tailwind CSS
-- Framer Motion
-- React Router
-- Formspree
+- React 18
+- Vite
+- TailwindCSS
+- React Router DOM
+- [Other dependencies]
 
 ## Getting Started
 
-1. Clone the repository:
-```bash
-git clone https://github.com/MrPrince419/Prince-Ai-Automation.git
-```
+### Prerequisites
+- Node.js >= 16.0.0
+- npm >= 8.0.0
 
-2. Install dependencies:
+### Installation
 ```bash
+git clone [repository-url]
+cd PAAWebsite
 npm install
 ```
 
-3. Run development server:
+### Development
 ```bash
-npm start
+npm run dev
 ```
 
-4. Build for production:
+### Build
 ```bash
 npm run build
 ```
+
+## Project Structure
+```
+src/
+├── assets/      # Static assets
+├── components/  # Reusable components
+├── pages/       # Page components
+├── styles/      # Global styles
+└── utils/       # Utility functions
+```
+
+## Deployment
+This project is deployed on Netlify. See netlify.toml for configuration.
+
+## Version
+Current version: 1.0.0
 
 ## License
 
