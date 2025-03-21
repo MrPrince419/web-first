@@ -1,5 +1,4 @@
 import React, { useEffect, Suspense, lazy } from 'react';
-// Remove AOS imports since they're not being used
 import { Outlet, RouterProvider, createBrowserRouter } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
@@ -24,37 +23,18 @@ const ContactPage = lazy(() => import('./pages/Contact'));
 const PrivacyPolicy = lazy(() => import('./pages/PrivacyPolicy'));
 const TermsOfService = lazy(() => import('./pages/TermsOfService'));
 
-function Layout() {
-  return (
-    <div className="relative min-h-screen w-full overflow-hidden">
-      <Navbar />
-      <main className="relative overflow-hidden">
-        <Outlet />
-      </main>
-      <Footer />
-      <ChatWidget />
-      <AnalyticsWrapper />
-    </div>
-  );
-}
-
 const router = createBrowserRouter([
   {
     path: "/",
     element: (
-      <ErrorBoundary>
-        <ToastProvider>
-          <Suspense fallback={
-            <div className="min-h-screen flex items-center justify-center">
-              <LoadingAnimation size="large" text="Loading Prince AI Automation..." />
-            </div>
-          }>
-            <ScrollToTop />
-            <ScrollProgressBar />
-            <Layout />
-          </Suspense>
-        </ToastProvider>
-      </ErrorBoundary>
+      <ToastProvider>
+        <Suspense fallback={<LoadingAnimation />}>
+          <Navbar />
+          <ScrollProgressBar />
+          <Outlet />
+          <Footer />
+        </Suspense>
+      </ToastProvider>
     ),
     errorElement: <ErrorPage />,
     children: [
@@ -97,7 +77,7 @@ const router = createBrowserRouter([
     ]
   }
 ], {
-  basename: "/Prince-Ai-Automation",
+  basename: "/Prince-Ai-Automation", // Must match homepage path
   future: {
     v7_startTransition: true,
     v7_relativeSplatPath: true
