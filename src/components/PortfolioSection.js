@@ -379,10 +379,10 @@ const FlippableProjectCard = ({ project, categories }) => {
               </p>
               <button 
                 onClick={() => setIsFlipped(true)}
-                className="mt-4 text-gold hover:text-orange flex items-center justify-center gap-2 transition-colors"
+                className="mt-4 text-sm bg-gold hover:bg-orange text-navy py-2 px-4 rounded-lg transition-all duration-300 flex items-center justify-center gap-2"
                 aria-label={`Learn more about ${project.title}`}
               >
-                Learn More <FaArrowRight aria-hidden="true" />
+                Learn More <FaArrowRight className="text-navy" aria-hidden="true" />
               </button>
             </div>
           </div>

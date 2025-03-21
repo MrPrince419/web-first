@@ -936,6 +936,26 @@ button.bg-gold:hover {
   margin: 0.5rem 0;
 }
 
+.project-card-front .card-button {
+  background-color: var(--gold);
+  color: var(--navy);
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  transition: all 0.3s ease;
+  width: 100%;
+  margin-top: auto;
+}
+
+.project-card-front .card-button:hover {
+  background-color: var(--orange);
+  transform: translateY(-2px);
+}
+
 .project-card-back {
   background: white;
   transform: rotateY(180deg);
