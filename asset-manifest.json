@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/Prince-Ai-Automation/static/css/main.27f700cb.css",
-    "main.js": "/Prince-Ai-Automation/static/js/main.f9181a1c.js",
+    "main.js": "/Prince-Ai-Automation/static/js/main.3b9210a5.js",
     "static/js/403.eeadc8ab.chunk.js": "/Prince-Ai-Automation/static/js/403.eeadc8ab.chunk.js",
     "static/js/594.ba653c0c.chunk.js": "/Prince-Ai-Automation/static/js/594.ba653c0c.chunk.js",
     "static/js/891.8a73bc8f.chunk.js": "/Prince-Ai-Automation/static/js/891.8a73bc8f.chunk.js",
@@ -16,6 +16,6 @@
   },
   "entrypoints": [
     "static/css/main.27f700cb.css",
-    "static/js/main.f9181a1c.js"
+    "static/js/main.3b9210a5.js"
   ]
 }
