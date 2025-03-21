@@ -27,7 +27,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build && npx workbox generateSW workbox-config.js",
+    "build": "react-scripts build && npx workbox generateSW workbox-config.js && copy build\\index.html build\\404.html",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "clean": "rimraf build",

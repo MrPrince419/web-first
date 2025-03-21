@@ -1,7 +1,9 @@
 import { BrowserRouter } from 'react-router-dom';
 
-// ...existing code...
-<BrowserRouter basename="/Prince-Ai-Automation">
-  // ...existing router content...
-</BrowserRouter>
-// ...existing code...
+function App() {
+  return (
+    <BrowserRouter basename="/Prince-Ai-Automation">
+      // ...existing router content...
+    </BrowserRouter>
+  );
+}
