@@ -2,26 +2,253 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22256%22 height=%22256%22 viewBox=%220 0 100 100%22><text x=%2250%%22 y=%2250%%22 dominant-baseline=%22central%22 text-anchor=%22middle%22 font-size=%22110%22>🚀</text></svg>" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
     <meta name="theme-color" content="#0a192f" />
-    <meta name="description" content="Prince AI Automation - Transform your business operations with custom AI automation solutions. Save time, reduce costs, and scale efficiently." />
-    <meta name="keywords" content="AI automation, business automation, workflow automation, AI solutions, custom automation" />
+    <meta name="description" content="Prince AI Automation - Transform your business operations with custom AI automation solutions. Save time, reduce costs, and scale efficiently with our tailored AI services." />
+    <meta name="keywords" content="AI automation, business automation, workflow automation, AI solutions, custom automation, small business automation, email automation, social media automation" />
     <meta name="author" content="Prince Uwagboe" />
-    <meta property="og:title" content="Prince AI Automation" />
-    <meta property="og:description" content="Revolutionize your business with AI-powered automation solutions" />
+    
+    <!-- Security headers -->
+    <meta http-equiv="X-Content-Type-Options" content="nosniff" />
+    <meta http-equiv="X-Frame-Options" content="SAMEORIGIN" />
+    <meta http-equiv="Permissions-Policy" content="camera=(), microphone=(), geolocation=(), interest-cohort=()" />
+    
+    <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://princeaiautomation.com" />
-    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" crossorigin="use-credentials" />
-    <link rel="icon" type="image/png" sizes="32x32" href="%PUBLIC_URL%/favicon-32x32.png" />
-    <link rel="icon" type="image/png" sizes="16x16" href="%PUBLIC_URL%/favicon-16x16.png" />
+    <meta property="og:url" content="https://princeaiautomation.com/" />
+    <meta property="og:title" content="Prince AI Automation | Custom AI Solutions for Business" />
+    <meta property="og:description" content="Transform your business operations with custom AI automation solutions. Save time, reduce costs, and scale efficiently." />
+    <meta property="og:image" content="%PUBLIC_URL%/og-image.jpg" />
+    <meta property="og:image:alt" content="Prince AI Automation logo and branding" />
+    <meta property="og:site_name" content="Prince AI Automation" />
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content="https://princeaiautomation.com/" />
+    <meta property="twitter:title" content="Prince AI Automation | Custom AI Solutions for Business" />
+    <meta property="twitter:description" content="Transform your business operations with custom AI automation solutions. Save time, reduce costs, and scale efficiently." />
+    <meta property="twitter:image" content="%PUBLIC_URL%/og-image.jpg" />
+    
+    <!-- Favicon and app icons -->
     <link rel="apple-touch-icon" sizes="180x180" href="%PUBLIC_URL%/apple-touch-icon.png" />
-    <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
+    <link rel="mask-icon" href="%PUBLIC_URL%/safari-pinned-tab.svg" color="#0a192f" />
+    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+    <meta name="msapplication-TileColor" content="#0a192f" />
+    
     <title>Prince AI Automation | Revolutionize Your Business with AI</title>
-    <link href="https://fonts.googleapis.com/css2?family=Forum&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Preconnect to domains we know we'll use -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Forum&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+    
+    <!-- Enhanced Analytics Implementation with minimal GDPR impact -->
+    <script>
+      // First-party analytics fallback with privacy focus
+      window.analyticsData = [];
+      window.trackPageView = function(path) {
+        console.log('Fallback tracking: Page view', path);
+        window.analyticsData.push({
+          type: 'pageview',
+          path: path,
+          timestamp: new Date().toISOString()
+        });
+        // Data will be stored locally only unless explicitly sent to backend
+        localStorage.setItem('analyticsConsent', 'pending');
+      };
+      
+      window.trackEvent = function(category, action, label, value) {
+        console.log('Fallback tracking: Event', category, action, label);
+        window.analyticsData.push({
+          type: 'event',
+          category: category,
+          action: action,
+          label: label,
+          value: value,
+          timestamp: new Date().toISOString()
+        });
+      };
+
+      // Initialize standard GA conditionally on consent
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      
+      // Check for previous consent
+      const hasAnalyticsConsent = localStorage.getItem('analyticsConsent') === 'granted';
+    </script>
+    
+    <!-- Conditionally load GA only if consent exists -->
+    <script>
+      (function() {
+        var gaLoaded = false;
+        
+        function loadGA() {
+          // Check if user previously provided consent
+          if (localStorage.getItem('analyticsConsent') === 'granted') {
+            var script = document.createElement('script');
+            script.async = true;
+            script.src = 'https://www.googletagmanager.com/gtag/js?id=G-LBFHMF14F5';
+            
+            script.onload = function() {
+              gaLoaded = true;
+              console.log('Google Analytics loaded successfully');
+              gtag('config', 'G-LBFHMF14F5', {
+                'anonymize_ip': true,
+                'cookie_flags': 'SameSite=None;Secure',
+                'transport_type': 'beacon'
+              });
+            };
+            
+            script.onerror = function() {
+              console.log('Primary analytics script failed to load - using fallback');
+              // Use fallback if GA fails to load
+              localStorage.setItem('analyticsConsent', 'fallback');
+            };
+            
+            document.head.appendChild(script);
+          } else {
+            // No consent yet - we'll prompt later within the app
+            console.log('Awaiting analytics consent');
+          }
+        }
+        
+        // Delay loading GA to improve page load speed
+        setTimeout(loadGA, 2000);
+        
+        // Set up a consent handler that can be called from within the React app
+        window.handleAnalyticsConsent = function(granted) {
+          localStorage.setItem('analyticsConsent', granted ? 'granted' : 'denied');
+          if (granted && !gaLoaded) {
+            loadGA();
+          }
+        };
+      })();
+    </script>
+    
+    <!-- Critical CSS for initial loading -->
+    <style>
+      /* Minimal critical CSS for initial render */
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: 'Poppins', -apple-system, sans-serif;
+        background-color: #fff;
+        color: #0a192f;
+      }
+      
+      /* Initial loading spinner */
+      .initial-loader {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: #0a192f;
+        z-index: 9999;
+      }
+      
+      .loading-spinner {
+        width: 50px;
+        height: 50px;
+        border: 5px solid #f3f3f3;
+        border-top: 5px solid #fca311;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+      }
+      
+      @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+      }
+      
+      /* Skip link for accessibility */
+      .skip-link {
+        position: absolute;
+        left: -9999px;
+        top: 0;
+        width: 1px;
+        height: 1px;
+        overflow: hidden;
+        z-index: 9999;
+      }
+      
+      .skip-link:focus {
+        left: 50%;
+        transform: translateX(-50%);
+        width: auto;
+        height: auto;
+        padding: 10px 15px;
+        background-color: #0a192f;
+        color: #fca311;
+        text-decoration: none;
+        border-radius: 0 0 5px 5px;
+        outline: 2px solid #fca311;
+      }
+    </style>
   </head>
   <body>
-    <noscript>You need to enable JavaScript to run this app.</noscript>
-    <div id="root"></div>
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+    <noscript>
+      <div style="padding: 20px; text-align: center; font-family: 'Poppins', sans-serif;">
+        <h1>JavaScript Required</h1>
+        <p>We're sorry, but Prince AI Automation requires JavaScript to be enabled in your browser to function properly.</p>
+        <p>Please enable JavaScript to continue using this website.</p>
+      </div>
+    </noscript>
+    <div id="root">
+      <!-- Initial loading state before React loads -->
+      <div class="initial-loader">
+        <div class="loading-spinner"></div>
+      </div>
+    </div>
+    
+    <!-- Inline script to remove loading state once app is ready -->
+    <script>
+      window.addEventListener('DOMContentLoaded', function() {
+        // Add event listener to clean up loading animation when React mounts
+        window.addEventListener('app-loaded', function() {
+          var loader = document.querySelector('.initial-loader');
+          if (loader) {
+            loader.style.opacity = '0';
+            loader.style.transition = 'opacity 0.5s ease';
+            setTimeout(function() {
+              if (loader.parentNode) {
+                loader.parentNode.removeChild(loader);
+              }
+            }, 500);
+          }
+        });
+        
+        // Fallback to remove loading spinner after 5 seconds if app doesn't load
+        setTimeout(function() {
+          var loader = document.querySelector('.initial-loader');
+          if (loader && loader.parentNode) {
+            loader.parentNode.removeChild(loader);
+          }
+        }, 5000);
+      });
+      
+      // Add event handlers for better offline detection
+      window.addEventListener('online', function() {
+        console.log('Application is online');
+        // Notify the user that they're back online
+        if (window.showToast) {
+          window.showToast('You are back online!', 'success');
+        }
+      });
+      
+      window.addEventListener('offline', function() {
+        console.log('Application is offline');
+        // Notify the user that they're offline
+        if (window.showToast) {
+          window.showToast('You are currently offline. Some features may be limited.', 'warning');
+        }
+      });
+    </script>
   </body>
 </html>

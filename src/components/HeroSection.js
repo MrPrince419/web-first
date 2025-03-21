@@ -9,6 +9,7 @@ import {
   FaRegMoneyBillAlt, 
   FaChartLine 
 } from 'react-icons/fa';
+import useAnalytics from '../hooks/useAnalytics';
 
 // Services data
 const services = [
@@ -53,7 +54,7 @@ const testimonials = [
   }
 ];
 
-// Service Card Component
+// Optimize ServiceCard component
 const ServiceCard = ({ icon: Icon, title, description }) => {
   return (
     <motion.div
@@ -61,16 +62,34 @@ const ServiceCard = ({ icon: Icon, title, description }) => {
       whileHover={{ y: -10, boxShadow: "0px 10px 30px rgba(0,0,0,0.1)" }}
       transition={{ type: "spring", stiffness: 300 }}
     >
-      <div className="text-gold text-4xl mb-4">
-        <Icon />
-      </div>
+      <Icon className="text-gold text-4xl mb-4" aria-hidden="true" />
       <h3 className="text-xl font-bold mb-3">{title}</h3>
       <p className="text-gray-600 text-base">{description}</p>
     </motion.div>
   );
 };
 
+// Optimize testimonial rendering
+const TestimonialCard = ({ testimonial }) => (
+  <motion.div 
+    className="bg-gray-50 rounded-xl p-6 shadow-sm border-l-4 border-gold"
+    whileHover={{ x: 5 }}
+    transition={{ type: "spring", stiffness: 300 }}
+  >
+    <FaQuoteRight className="text-gold text-xl mb-3" aria-hidden="true" />
+    <p className="text-base italic mb-4">"{testimonial.quote}"</p>
+    <p className="font-bold">{testimonial.name}</p>
+    <p className="text-sm text-gray-600">{testimonial.business}</p>
+  </motion.div>
+);
+
 const HeroSection = () => {
+  const { trackCTAClick } = useAnalytics();
+  
+  const handleHeroCTAClick = () => {
+    trackCTAClick('hero_get_started');
+  };
+  
   return (
     <section className="hero-section">
       <div 
@@ -91,11 +110,11 @@ const HeroSection = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.2 }}
-              className="text-center"
+              className="text-center px-4 sm:px-6"
             >
-              <div className="flex items-center justify-center mb-4">
-                <FaRocket className="text-gold text-4xl mr-3" />
-                <h1 className="text-3xl sm:text-4xl md:text-6xl font-forum font-bold text-white break-words">
+              <div className="flex items-center justify-center mb-4 flex-wrap">
+                <FaRocket className="text-gold text-3xl sm:text-4xl mr-2" />
+                <h1 className="text-2xl sm:text-3xl md:text-5xl font-forum font-bold text-white break-words">
                   Revolutionize Your Business with <span className="text-gold">AI Automation</span>
                 </h1>
               </div>
@@ -122,7 +141,7 @@ const HeroSection = () => {
               transition={{ duration: 0.8, delay: 0.6 }}
               className="text-center"
             >
-              <Link to="/services">
+              <Link to="/services" onClick={handleHeroCTAClick}>
                 <button 
                   className="bg-orange text-white text-lg font-bold py-4 px-8 rounded-lg hover:bg-gold transition-colors shadow-lg hover:shadow-xl transform hover:-translate-y-1 inline-flex items-center"
                 >
@@ -134,8 +153,8 @@ const HeroSection = () => {
         </div>
       </div>
       
-      {/* Services Cards Section */}
-      <div className="bg-white py-16">
+      {/* Services Cards Section - Simplified DOM structure */}
+      <section className="bg-white py-16">
         <div className="container mx-auto px-4">
           <h2 className="text-3xl font-forum font-bold mb-10 text-center">How We Help Your Business</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -149,33 +168,17 @@ const HeroSection = () => {
             ))}
           </div>
           
-          {/* Testimonial Section */}
+          {/* Testimonial Section - Simplified DOM structure */}
           <div className="mt-16">
             <h3 className="text-2xl font-forum font-bold mb-6 text-center">What Our Clients Say</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {testimonials.map((testimonial, index) => (
-                <motion.div 
-                  key={index}
-                  className="bg-gray-50 rounded-xl p-6 shadow-sm border-l-4 border-gold"
-                  whileHover={{ x: 5 }}
-                  transition={{ type: "spring", stiffness: 300 }}
-                >
-                  <div className="flex flex-col gap-4">
-                    <FaQuoteRight className="text-gold text-xl" />
-                    <p className="text-base italic">
-                      "{testimonial.quote}"
-                    </p>
-                    <div>
-                      <p className="font-bold">{testimonial.name}</p>
-                      <p className="text-sm text-gray-600">{testimonial.business}</p>
-                    </div>
-                  </div>
-                </motion.div>
+                <TestimonialCard key={index} testimonial={testimonial} />
               ))}
             </div>
           </div>
         </div>
-      </div>
+      </section>
     </section>
   );
 };

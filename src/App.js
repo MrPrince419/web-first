@@ -1,6 +1,5 @@
 import React, { useEffect, Suspense, lazy } from 'react';
-import AOS from 'aos';
-import 'aos/dist/aos.css';
+// Remove AOS imports since they're not being used
 import { Outlet, RouterProvider, createBrowserRouter } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
@@ -8,9 +7,11 @@ import ScrollToTop from './components/ScrollToTop';
 import ScrollProgressBar from './components/ScrollProgressBar';
 import ChatWidget from './components/ChatWidget';
 import LoadingAnimation from './components/LoadingAnimation';
+import AnalyticsWrapper from './components/AnalyticsWrapper';
 import { ToastProvider } from './contexts/ToastContext';
 import ErrorBoundary from './components/ErrorBoundary';
 import ErrorPage from './pages/ErrorPage';
+import { registerServiceWorker } from './serviceWorkerRegistration';
 
 // Lazy load pages for better performance
 const HomePage = lazy(() => import('./pages/HomePage'));
@@ -24,29 +25,15 @@ const PrivacyPolicy = lazy(() => import('./pages/PrivacyPolicy'));
 const TermsOfService = lazy(() => import('./pages/TermsOfService'));
 
 function Layout() {
-  useEffect(() => {
-    AOS.init({
-      duration: 800,
-      once: true,
-      mirror: false,
-    });
-    
-    const refreshAOS = () => {
-      AOS.refresh();
-    };
-    
-    window.addEventListener('resize', refreshAOS);
-    return () => {
-      window.removeEventListener('resize', refreshAOS);
-    };
-  }, []);
-
   return (
-    <div className="min-h-screen">
+    <div className="relative min-h-screen w-full overflow-hidden">
       <Navbar />
-      <Outlet />
+      <main className="relative overflow-hidden">
+        <Outlet />
+      </main>
       <Footer />
       <ChatWidget />
+      <AnalyticsWrapper />
     </div>
   );
 }
@@ -112,11 +99,18 @@ const router = createBrowserRouter([
 ], {
   basename: "/Prince-Ai-Automation",
   future: {
-    v7_startTransition: true
+    v7_startTransition: true,
+    v7_relativeSplatPath: true
   }
 });
 
 function App() {
+  // Register service worker only in production
+  useEffect(() => {
+    // Only register service worker in production
+    registerServiceWorker();
+  }, []);
+  
   return <RouterProvider router={router} />;
 }
 

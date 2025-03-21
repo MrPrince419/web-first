@@ -7,6 +7,7 @@ import {
   FaSyncAlt, FaChevronLeft, FaRocket
 } from 'react-icons/fa';
 import ImageWithLazy from './ImageWithLazy';
+import SectionWrapper from './SectionWrapper';
 
 const PortfolioSection = () => {
   const [activeCategory, setActiveCategory] = useState('all');
@@ -215,7 +216,7 @@ const PortfolioSection = () => {
   const featuredProject = projects.find(project => project.featured);
   
   return (
-    <section id="portfolio" className="py-20 bg-gray-50">
+    <SectionWrapper id="portfolio" className="py-20 bg-gray-50">
       <div className="container mx-auto px-4">
         <motion.div 
           className="text-center mb-10"
@@ -345,51 +346,48 @@ const PortfolioSection = () => {
             ))}
         </motion.div>
       </div>
-    </section>
+    </SectionWrapper>
   );
 };
 
-// New FlippableProjectCard component
+// Optimize FlippableProjectCard to reduce DOM nesting
 const FlippableProjectCard = ({ project, categories }) => {
   const [isFlipped, setIsFlipped] = useState(false);
-  const Icon = project.icon || FaRocket; // Add default icon
+  const Icon = project.icon || FaRocket; 
   
   return (
     <motion.div 
-      className="relative h-[350px] w-full" // Adjusted height here
+      className="relative h-[350px] w-full"
       whileHover={{ y: -5 }}
       transition={{ duration: 0.2 }}
     >
       <div className="pricing-card-container">
         <div className={`pricing-card ${isFlipped ? 'is-flipped' : ''}`}>
-          {/* Front side */}
+          {/* Front side - Simplified DOM structure */}
           <div className="pricing-card-face rounded-xl overflow-hidden shadow-lg">
-            <div className="absolute inset-0 w-full h-full">
-              <ImageWithLazy
-                src={project.image}
-                alt={project.title}
-                className="w-full h-full"
-                fallbackSrc="https://placehold.co/800x600/eee/999?text=Project"
-              />
-              <div className="absolute inset-0 bg-gradient-to-b from-navy/60 to-navy/95 p-6 flex flex-col">
-                <div className="text-gold text-2xl">
-                  <Icon />
-                </div>
-                <h3 className="text-xl font-bold text-white mt-4 mb-2">{project.title}</h3>
-                <p className="text-white/90 text-sm flex-grow">
-                  {project.description}
-                </p>
-                <button 
-                  onClick={() => setIsFlipped(true)}
-                  className="mt-4 text-gold hover:text-orange flex items-center justify-center gap-2 transition-colors"
-                >
-                  Learn More <FaArrowRight />
-                </button>
-              </div>
+            <ImageWithLazy
+              src={project.image}
+              alt={project.title}
+              className="absolute inset-0 w-full h-full object-cover"
+              fallbackSrc="https://placehold.co/800x600/eee/999?text=Project"
+            />
+            <div className="absolute inset-0 bg-gradient-to-b from-navy/60 to-navy/95 p-6 flex flex-col">
+              <Icon className="text-gold text-2xl" aria-hidden="true" />
+              <h3 className="text-xl font-bold text-white mt-4 mb-2">{project.title}</h3>
+              <p className="text-white/90 text-sm flex-grow">
+                {project.description}
+              </p>
+              <button 
+                onClick={() => setIsFlipped(true)}
+                className="mt-4 text-gold hover:text-orange flex items-center justify-center gap-2 transition-colors"
+                aria-label={`Learn more about ${project.title}`}
+              >
+                Learn More <FaArrowRight aria-hidden="true" />
+              </button>
             </div>
           </div>
 
-          {/* Back side */}
+          {/* Back side - Simplified DOM structure */}
           <div className="pricing-card-face pricing-card-back rounded-xl overflow-hidden shadow-lg">
             <div className="p-6 flex flex-col h-full">
               <h3 className="text-lg font-bold text-navy mb-3">{project.title}</h3>
@@ -405,8 +403,9 @@ const FlippableProjectCard = ({ project, categories }) => {
               <button 
                 onClick={() => setIsFlipped(false)}
                 className="mt-4 text-gray-500 hover:text-gold flex items-center justify-center gap-2 transition-colors"
+                aria-label="Go back to project summary"
               >
-                <FaChevronLeft /> Back
+                <FaChevronLeft aria-hidden="true" /> Back
               </button>
             </div>
           </div>

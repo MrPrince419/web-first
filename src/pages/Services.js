@@ -6,7 +6,7 @@ import SEO from '../components/SEO';
 
 const Services = () => {
   return (
-    <main className="pt-20">
+    <main className="min-h-screen">
       <SEO 
         title="AI Automation Services | Prince AI Automation"
         description="Explore our range of AI automation services designed to streamline your business operations and boost productivity."

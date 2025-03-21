@@ -44,6 +44,7 @@ const Navbar = () => {
       className={`fixed w-full top-0 z-50 transition-all duration-300 ${
         scrolled ? 'bg-white shadow-md py-3' : 'bg-navy/60 backdrop-blur-sm py-5'
       }`}
+      style={{ maxHeight: '100px' }}
     >
       <div className="container mx-auto px-4 flex justify-between items-center">
         {/* Logo */}

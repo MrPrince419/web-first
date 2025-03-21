@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import { FaRocket } from 'react-icons/fa';
 
 /**
- * LoadingAnimation - A simple loading animation component
+ * LoadingAnimation - A simplified loading animation component
  */
 const LoadingAnimation = ({ 
   size = 'medium', 
@@ -51,16 +51,10 @@ const LoadingAnimation = ({
       ease: "easeOut"
     }
   };
-  
-  // Dots animation with staggered delays
-  const dotsAnimation = {
-    initial: { y: 0 },
-    animate: { y: [-8, 0] }
-  };
 
   return (
-    <div className={centered ? "flex flex-col items-center justify-center" : ""}>
-      <div className="relative flex flex-col items-center">
+    <div className={centered ? "flex flex-col items-center justify-center" : ""} role="status" aria-live="polite">
+      <div className="relative flex items-center justify-center">
         <motion.div
           className={`${container} ${colorClass} flex items-center justify-center relative`}
           initial={{ rotate: 0 }}
@@ -73,34 +67,27 @@ const LoadingAnimation = ({
         >
           <FaRocket className={icon} />
         </motion.div>
-        
-        <div className="flex space-x-1 mt-2">
-          {[0, 1, 2].map((index) => (
+        <div className="absolute bottom-0 flex space-x-1">
+          {[...Array(3)].map((_, i) => (
             <motion.div
-              key={index}
-              className={`${dots} rounded-full ${colorClass} bg-current`}
-              initial="initial"
-              animate="animate"
+              key={i}
+              className={`${dots} rounded-full ${colorClass} opacity-80`}
+              initial={{ y: 0 }}
+              animate={{ y: [-8, 0] }}
               transition={{
                 ...bounceTransition,
-                delay: index * 0.15
+                delay: i * 0.2
               }}
-              variants={dotsAnimation}
             />
           ))}
         </div>
-        
-        {text && (
-          <motion.p 
-            className={`${textClass} ${colorClass}`}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.3 }}
-          >
-            {text}
-          </motion.p>
-        )}
       </div>
+      {text && (
+        <p className={`${textClass} ${colorClass} text-center`}>
+          {text}
+        </p>
+      )}
+      <span className="sr-only">Loading...</span>
     </div>
   );
 };

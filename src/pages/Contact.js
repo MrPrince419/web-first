@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import SEO from '../components/SEO';
 import { ToastContext } from '../contexts/ToastContext';
 import { FaEnvelope, FaCalendarAlt, FaArrowRight } from 'react-icons/fa';
+import useAnalytics from '../hooks/useAnalytics';
 
 const Contact = () => {
   // Ensure we're using the context correctly
@@ -16,6 +17,7 @@ const Contact = () => {
     subject: '',
     message: ''
   });
+  const { trackContactFormSubmission, trackCTAClick } = useAnalytics();
 
   const validateForm = () => {
     const newErrors = {};
@@ -81,6 +83,9 @@ const Contact = () => {
         // Using the correct context function
         showToast('Message sent successfully! I\'ll be in touch soon.', 'success');
         
+        // Track successful form submission
+        trackContactFormSubmission();
+        
         // Reset form
         setFormData({
           name: '',
@@ -100,6 +105,11 @@ const Contact = () => {
     } finally {
       setSubmitting(false);
     }
+  };
+
+  // Track calendly click
+  const handleCalendlyClick = () => {
+    trackCTAClick('calendly_consultation');
   };
 
   return (
@@ -145,7 +155,7 @@ const Contact = () => {
                   <h2 className="text-2xl font-forum font-bold">Send Me a Message</h2>
                 </div>
                 
-                <form onSubmit={handleSubmit}>
+                <form onSubmit={handleSubmit} aria-label="Contact form">
                   <div className="mb-4 sm:mb-6">
                     <label htmlFor="name" className="block text-sm font-medium mb-2">Your Name</label>
                     <input
@@ -159,8 +169,11 @@ const Contact = () => {
                       } focus:outline-none focus:ring-2 focus:ring-gold`}
                       placeholder="John Doe"
                       required
+                      aria-required="true"
+                      aria-invalid={errors.name ? "true" : "false"}
+                      aria-describedby={errors.name ? "name-error" : undefined}
                     />
-                    {errors.name && <p className="text-red-500 text-sm mt-1">{errors.name}</p>}
+                    {errors.name && <p id="name-error" className="text-red-500 text-sm mt-1" role="alert">{errors.name}</p>}
                   </div>
                   
                   <div>
@@ -176,8 +189,11 @@ const Contact = () => {
                       } focus:outline-none focus:ring-2 focus:ring-gold`}
                       placeholder="john@example.com"
                       required
+                      aria-required="true"
+                      aria-invalid={errors.email ? "true" : "false"}
+                      aria-describedby={errors.email ? "email-error" : undefined}
                     />
-                    {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email}</p>}
+                    {errors.email && <p id="email-error" className="text-red-500 text-sm mt-1" role="alert">{errors.email}</p>}
                   </div>
                   
                   <div className="my-4 sm:my-6">
@@ -190,6 +206,7 @@ const Contact = () => {
                       onChange={handleChange}
                       className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-gold"
                       placeholder="Your Phone Number (Optional)"
+                      aria-required="false"
                     />
                   </div>
                   
@@ -205,8 +222,12 @@ const Contact = () => {
                         errors.subject ? 'border-red-500' : 'border-gray-300'
                       } focus:outline-none focus:ring-2 focus:ring-gold`}
                       placeholder="What's on your mind?"
+                      required
+                      aria-required="true"
+                      aria-invalid={errors.subject ? "true" : "false"}
+                      aria-describedby={errors.subject ? "subject-error" : undefined}
                     />
-                    {errors.subject && <p className="text-red-500 text-sm mt-1">{errors.subject}</p>}
+                    {errors.subject && <p id="subject-error" className="text-red-500 text-sm mt-1" role="alert">{errors.subject}</p>}
                   </div>
                   
                   <div className="mb-4 sm:mb-6">
@@ -221,14 +242,20 @@ const Contact = () => {
                         errors.message ? 'border-red-500' : 'border-gray-300'
                       } focus:outline-none focus:ring-2 focus:ring-gold`}
                       placeholder="Tell me more about your project!"
+                      required
+                      aria-required="true"
+                      aria-invalid={errors.message ? "true" : "false"}
+                      aria-describedby={errors.message ? "message-error" : undefined}
                     ></textarea>
-                    {errors.message && <p className="text-red-500 text-sm mt-1">{errors.message}</p>}
+                    {errors.message && <p id="message-error" className="text-red-500 text-sm mt-1" role="alert">{errors.message}</p>}
                   </div>
                   
                   <button
                     type="submit"
                     className="w-full bg-gold hover:bg-orange text-navy font-bold py-3 px-6 rounded-lg transition-colors shadow-md hover:shadow-lg"
                     disabled={submitting}
+                    aria-disabled={submitting}
+                    aria-busy={submitting}
                   >
                     {submitting ? 'Sending...' : 'Send Message'}
                   </button>
@@ -259,6 +286,7 @@ const Contact = () => {
                       href="https://calendly.com/princeaiautomation/1hour" 
                       target="_blank" 
                       rel="noopener noreferrer"
+                      onClick={handleCalendlyClick}
                       className="inline-flex items-center bg-gold hover:bg-orange text-navy font-bold py-4 px-8 rounded-lg transition-colors shadow-md hover:shadow-xl"
                     >
                       Schedule a 1-Hour Consultation <FaArrowRight className="ml-2" />

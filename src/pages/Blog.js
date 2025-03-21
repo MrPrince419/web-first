@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
+import { FaArrowRight } from 'react-icons/fa';  // Add this import
 import SEO from '../components/SEO';
 import { blogPosts, blogCategories, defaultImage, formatBlogDate } from '../data/blogPosts';
 
@@ -54,7 +55,7 @@ const Blog = () => {
         </motion.div>
         
         <motion.div 
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6" // Reduced gap
           layout
         >
           <AnimatePresence>
@@ -69,40 +70,40 @@ const Blog = () => {
               >
                 <Link to={`/blog/${post.id}`}>
                   <motion.div
-                    className="bg-white rounded-xl shadow-md overflow-hidden cursor-pointer h-full"
+                    className="bg-white rounded-lg shadow-md overflow-hidden cursor-pointer h-full flex flex-col"
                     initial={{ opacity: 0, y: 50 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ duration: 0.5 }}
-                    whileHover={{ y: -10, boxShadow: "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)" }}
+                    whileHover={{ y: -5, boxShadow: "0 10px 15px -3px rgba(0, 0, 0, 0.1)" }}
                   >
-                    <div className="h-48 overflow-hidden">
+                    <div className="h-40 overflow-hidden"> {/* Reduced height */}
                       <img
                         src={post.image}
                         alt={post.title}
-                        className="w-full h-full object-cover transition-transform duration-500 hover:scale-110"
+                        className="w-full h-full object-cover"
                         onError={(e) => {
                           e.target.onerror = null;
                           e.target.src = defaultImage;
                         }}
                       />
                     </div>
-                    <div className="p-6">
-                      <div className="flex items-center text-xs text-gray-500 mb-2">
+                    <div className="p-4 flex flex-col flex-grow"> {/* Reduced padding */}
+                      <div className="flex items-center text-xs text-gray-500 mb-1">
                         <span>{formatBlogDate(post.date)}</span>
-                        {/* Removed author display */}
                       </div>
-                      <h3 className="text-xl font-bold mb-2 truncate">{post.title}</h3>
-                      <p className="text-gray-600 mb-4 overflow-hidden" style={{ display: '-webkit-box', WebkitLineClamp: 3, WebkitBoxOrient: 'vertical' }}>{post.excerpt}</p>
-                      <div className="flex flex-wrap gap-1">
-                        {post.tags.slice(0, 3).map((tag, index) => (
-                          <span key={index} className="text-xs bg-gray-100 px-2 py-1 rounded-full">
+                      <h3 className="text-lg font-bold mb-2 line-clamp-2">{post.title}</h3> {/* Reduced font size */}
+                      <p className="text-gray-600 text-sm mb-3 line-clamp-2">{post.excerpt}</p> {/* Reduced font size and margin */}
+                      <div className="flex flex-wrap gap-1 mb-3"> {/* Reduced margin */}
+                        {post.tags.slice(0, 2).map((tag, index) => (
+                          <span key={index} className="text-xs bg-gray-100 px-2 py-0.5 rounded-full">
                             {tag}
                           </span>
                         ))}
                       </div>
-                      <div className="absolute top-4 right-4 text-gold text-2xl">
-                        <post.icon />
+                      <div className="mt-auto flex items-center text-gold hover:text-orange text-sm"> {/* Reduced font size */}
+                        <span>Learn More</span>
+                        <FaArrowRight className="ml-2" />
                       </div>
                     </div>
                   </motion.div>

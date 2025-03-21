@@ -20,6 +20,7 @@ const ChatWidget = () => {
   const [userInput, setUserInput] = useState('');
   const [loading, setLoading] = useState(false);
   const messagesEndRef = useRef(null);
+  const inputRef = useRef(null);
   
   // Initialize services on component load, not in state
   const nlpService = new NLPService();
@@ -93,6 +94,8 @@ const ChatWidget = () => {
         onClick={toggleChat}
         className="bg-gold hover:bg-orange text-navy w-14 h-14 rounded-full flex items-center justify-center shadow-lg transition-colors"
         aria-label={isOpen ? "Close chat" : "Open chat"}
+        aria-expanded={isOpen}
+        aria-controls="chat-window"
       >
         {isOpen ? <FaTimes size={20} /> : <FaComments size={20} />}
       </button>
@@ -101,6 +104,7 @@ const ChatWidget = () => {
       <AnimatePresence>
         {isOpen && (
           <motion.div
+            id="chat-window"
             className="chat-window bg-white rounded-lg shadow-xl overflow-hidden absolute bottom-20 right-0 w-80 sm:w-96 max-h-[600px] flex flex-col"
             initial={{ opacity: 0, y: 20, scale: 0.95 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
@@ -120,13 +124,20 @@ const ChatWidget = () => {
             </div>
 
             {/* Chat Messages */}
-            <div className="flex-1 overflow-y-auto p-4">
+            <div 
+              className="flex-1 p-4 overflow-y-auto" 
+              style={{ maxHeight: 'calc(70vh - 120px)', WebkitOverflowScrolling: 'touch' }}
+              aria-live="polite" 
+              role="log"
+            >
               {messages.map((message, index) => (
                 <div
                   key={index}
                   className={`mb-4 ${
                     message.sender === 'bot' ? 'text-left' : 'text-right'
                   }`}
+                  role="article"
+                  aria-label={`${message.sender === 'user' ? 'You' : 'Assistant'} message`}
                 >
                   <div
                     className={`inline-block rounded-lg px-4 py-2 max-w-[80%] ${
@@ -153,22 +164,27 @@ const ChatWidget = () => {
             </div>
 
             {/* Chat Input */}
-            <form onSubmit={handleSubmit} className="border-t border-gray-200 p-4">
+            <form onSubmit={handleSubmit} className="border-t border-gray-200 p-4" aria-label="Chat message form">
+              <label htmlFor="chatInput" className="sr-only">Type your message</label>
               <div className="flex">
                 <input
+                  id="chatInput"
+                  ref={inputRef}
                   type="text"
                   value={userInput}
                   onChange={handleInputChange}
                   placeholder="Type your message..."
                   className="flex-1 border border-gray-300 rounded-l-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-gold"
+                  aria-label="Chat message"
                   disabled={loading}
                 />
                 <button
                   type="submit"
                   className="bg-gold hover:bg-orange text-navy px-4 py-2 rounded-r-lg transition-colors"
+                  aria-label="Send message"
                   disabled={loading || !userInput.trim()}
                 >
-                  <FaPaperPlane />
+                  {loading ? <span className="loading-icon" aria-hidden="true"></span> : <FaPaperPlane />}
                 </button>
               </div>
             </form>

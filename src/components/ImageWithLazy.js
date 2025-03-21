@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
+import { getOptimizedSrc, generateSrcSet } from '../utils/imageOptimizer';
 
 /**
  * ImageWithLazy - A component that provides lazy loading for images
@@ -9,33 +10,47 @@ const ImageWithLazy = ({
   src, 
   alt, 
   className = '', 
-  fallbackSrc = "https://placehold.co/600x400/eee/999?text=Image",
-  width, 
+  fallbackSrc,
+  width,
   height,
-  objectFit = "cover",
+  objectFit = 'cover',
+  sizes = '100vw',
+  loadingStrategy = 'lazy', // Changed parameter name from 'loading' to 'loadingStrategy'
+  quality = 'high',
   ...props 
 }) => {
-  const [imgSrc, setImgSrc] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(true); // Changed state variable name from 'loading' to 'isLoading'
   const [error, setError] = useState(false);
-
+  const [imgSrc, setImgSrc] = useState('');
+  const [srcSet, setSrcSet] = useState('');
+  
   useEffect(() => {
-    // Reset states when src changes
-    setLoading(true);
-    setError(false);
+    setIsLoading(true);
     
+    // Create a new image to preload
     const img = new Image();
-    img.src = src;
     
+    // Optimize src and srcset
+    const optimizedSrc = getOptimizedSrc(src, width || 800);
+    const optimizedSrcSet = quality === 'high' ? generateSrcSet(src) : '';
+    
+    img.src = optimizedSrc;
     img.onload = () => {
-      setImgSrc(src);
-      setLoading(false);
+      setImgSrc(optimizedSrc);
+      setSrcSet(optimizedSrcSet);
+      setIsLoading(false);
+      setError(false);
     };
     
     img.onerror = () => {
-      setImgSrc(fallbackSrc);
+      if (fallbackSrc) {
+        setImgSrc(fallbackSrc);
+        setSrcSet('');
+      } else {
+        setImgSrc('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"%3E%3Crect width="100" height="100" fill="%23eee"/%3E%3Cpath d="M30 50 L70 50 M50 30 L50 70" stroke="%23999" stroke-width="4"/%3E%3C/svg%3E');
+      }
+      setIsLoading(false);
       setError(true);
-      setLoading(false);
     };
     
     return () => {
@@ -43,7 +58,7 @@ const ImageWithLazy = ({
       img.onload = null;
       img.onerror = null;
     };
-  }, [src, fallbackSrc]);
+  }, [src, fallbackSrc, width, quality]);
 
   const imgStyle = {
     objectFit,
@@ -54,22 +69,24 @@ const ImageWithLazy = ({
 
   return (
     <div className={`relative ${className}`} style={{ overflow: 'hidden' }}>
-      {loading && (
-        <div className="absolute inset-0 flex items-center justify-center bg-gray-100">
+      {isLoading && (
+        <div className="absolute inset-0 flex items-center justify-center bg-gray-100" aria-hidden="true">
           <div className="animate-pulse rounded-full h-12 w-12 bg-gray-200"></div>
         </div>
       )}
       
-      {!loading && (
+      {!isLoading && (
         <motion.img
           src={imgSrc}
+          srcSet={srcSet}
+          sizes={sizes}
           alt={alt}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.5 }}
           className={error ? 'opacity-80' : ''}
           style={imgStyle}
-          loading="lazy"
+          loading={loadingStrategy} // Use the renamed parameter
           {...props}
         />
       )}

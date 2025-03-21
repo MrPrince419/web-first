@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Forum&family=Poppins:wght@300;400;500;600;700&display=swap');
+@import './styles/theme.css';
 
 @tailwind base;
 @tailwind components;
@@ -7,21 +8,138 @@
 /* Base styles */
 @layer base {
   html, body {
+    overflow-x: hidden !important;
+    max-width: 100vw !important;
+    width: 100%;
+    position: relative;
+    margin: 0;
+    padding: 0;
+  }
+
+  html {
+    overflow-y: scroll;
     overflow-x: hidden;
-    max-width: 100%;
   }
 
   body {
-    @apply font-sans bg-white text-navy;
+    @apply bg-background text-text font-sans;
+    text-rendering: optimizeLegibility;
+    position: relative;
+    --sb-track-color: #ffffff;
+    --sb-thumb-color: #3b82f6;
+    --sb-size: 14px;
+    overflow-x: hidden;
+    position: relative;
+    width: 100%;
   }
 
   h1, h2, h3, h4, h5, h6 {
-    @apply font-forum;
+    @apply font-forum text-primary tracking-widest;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+  }
+
+  a {
+    @apply text-primary relative no-underline;
+    transition: var(--transition);
+  }
+
+  a::after {
+    content: '';
+    @apply absolute w-0 h-0.5 bottom-0 left-0 bg-secondary;
+    transition: var(--transition);
+  }
+
+  a:hover::after {
+    @apply w-full;
+  }
+
+  button {
+    @apply bg-primary text-white py-3 px-6 rounded-lg;
+    transition: var(--transition);
+  }
+
+  button:hover {
+    @apply bg-secondary transform scale-105;
+    box-shadow: var(--shadow-md);
+  }
+
+  section {
+    @apply translate-y-5;
+    transition: var(--transition);
+  }
+
+  section.visible {
+    @apply translate-y-0;
   }
 
   /* Ensure images don't cause overflow */
   img {
     @apply max-w-full h-auto;
+    object-fit: contain;
+  }
+
+  /* Focus styles for accessibility */
+  *:focus-visible {
+    @apply outline-none ring-2;
+    --tw-ring-color: #fca311;
+  }
+
+  /* Ensure all containers respect viewport width */
+  .container {
+    width: 95% !important;
+    max-width: 1200px !important;
+    margin: 0 auto;
+    padding: 0 1rem;
+    overflow-x: hidden;
+  }
+
+  /* Main scrollbar styling */
+  body::-webkit-scrollbar {
+    width: var(--sb-size)
+  }
+
+  body::-webkit-scrollbar-track {
+    background: var(--sb-track-color);
+    border-radius: 3px;
+  }
+
+  body::-webkit-scrollbar-thumb {
+    background: var(--sb-thumb-color);
+    border-radius: 3px;
+  }
+
+  @supports not selector(::-webkit-scrollbar) {
+    body {
+      scrollbar-color: var(--sb-thumb-color)
+                       var(--sb-track-color);
+    }
+  }
+}
+
+/* Remove all scrollbar styling */
+* {
+  scrollbar-width: none;  /* Firefox */
+  -ms-overflow-style: none;  /* IE and Edge */
+}
+
+*::-webkit-scrollbar {
+  display: none;  /* Chrome, Safari and Opera */
+}
+
+/* Component styles */
+@layer components {
+  .card {
+    @apply bg-white rounded-lg shadow-sm;
+    transition: var(--transition);
+  }
+
+  .card:hover {
+    @apply transform -translate-y-1;
+    box-shadow: var(--shadow-md);
+  }
+
+  .section-title {
+    @apply text-4xl font-bold mb-6;
   }
 }
 
@@ -32,27 +150,34 @@
   }
 }
 
-/* Scrollbar styling */
-::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+/* Hide scrollbars on all internal elements */
+.overflow-auto,
+.overflow-y-auto,
+.overflow-x-auto,
+.chat-window,
+.features,
+.results-content,
+.pricing-card-face,
+div[class*="overflow-"] {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 }
 
-::-webkit-scrollbar-track {
-  @apply bg-gray-100;
-}
-
-::-webkit-scrollbar-thumb {
-  @apply bg-gray-300 rounded-full;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  @apply bg-gray-400;
+.overflow-auto::-webkit-scrollbar,
+.overflow-y-auto::-webkit-scrollbar,
+.overflow-x-auto::-webkit-scrollbar,
+.chat-window::-webkit-scrollbar,
+.features::-webkit-scrollbar,
+.results-content::-webkit-scrollbar,
+.pricing-card-face::-webkit-scrollbar,
+div[class*="overflow-"]::-webkit-scrollbar {
+  display: none;
 }
 
 /* Focus styles for accessibility */
 *:focus-visible {
-  @apply outline-none ring-2 ring-gold;
+  outline: none;
+  box-shadow: 0 0 0 2px var(--gold);
 }
 
 /* Animation utilities */
@@ -94,12 +219,12 @@
 }
 
 :root {
-  --navy-blue: #0a192f;
-  --light-navy: #112240;
-  --lightest-navy: #233554;
-  --white: #e6f1ff;
-  --gold: #fca311;
-  --orange: #ff8c00;
+  --navy-blue: #2c3e50;
+  --light-navy: #34495e;
+  --lightest-navy: #445c74;
+  --white: #f8fafc;
+  --gold: #3498db;
+  --orange: #2980b9;
 }
 
 body {
@@ -116,10 +241,11 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .container {
-  width: 100%;
-  max-width: 1200px;
+  width: 95% !important;
+  max-width: 1200px !important;
   margin: 0 auto;
   padding: 0 1rem;
+  overflow-x: hidden;
 }
 
 .section {
@@ -223,10 +349,38 @@ h1, h2, h3, h4, h5, h6 {
   .pt-4.pb-2.text-gray-600 {
     padding: 1rem 0;
   }
+
+  .grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .container {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  /* Prevent text overflow */
+  h1, h2, h3, h4, h5, h6, p {
+    word-wrap: break-word;
+    max-width: 100%;
+  }
+
+  /* Ensure buttons don't overflow */
+  button, .btn {
+    max-width: 100%;
+    white-space: normal;
+  }
 }
 
 /* Mobile optimization for About section */
 @media (max-width: 768px) {
+  .grid {
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)) !important;
+    gap: 1rem !important;
+    padding: 0 1rem;
+  }
+  
   .grid.grid-cols-1.md\:grid-cols-3 {
     gap: 2rem;
   }
@@ -245,6 +399,22 @@ h1, h2, h3, h4, h5, h6 {
   .w-12.h-12.rounded-full {
     width: 48px;
     height: 48px;
+  }
+
+  /* Adjust card padding */
+  .card, .pricing-card-face {
+    padding: 1rem !important;
+  }
+  
+  /* Reduce margins and padding */
+  .section {
+    padding: 2rem 0 !important;
+  }
+  
+  /* Ensure text doesn't overflow */
+  h1, h2, h3, p {
+    max-width: 100%;
+    word-wrap: break-word;
   }
 }
 

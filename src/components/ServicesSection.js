@@ -5,6 +5,7 @@ import {
   FaCheck, FaEnvelope, FaComments, 
   FaSyncAlt, FaHeadset, FaDatabase, FaChartBar, FaRocket, FaArrowRight, FaChevronLeft 
 } from 'react-icons/fa';
+import SectionWrapper from './SectionWrapper';
 
 const PricingCard = ({ plan, isPopular, features, price, faq, planId }) => {
   const [isFlipped, setIsFlipped] = useState(false);
@@ -179,7 +180,7 @@ const ServicesSection = () => {
   ];
 
   return (
-    <section id="services" className="py-20">
+    <SectionWrapper id="services" className="py-20">
       <div className="container mx-auto px-4">
         <motion.div 
           className="text-center mb-16"
@@ -247,7 +248,7 @@ const ServicesSection = () => {
           <p>An upfront consultation fee of $150 CAD is required to secure your spot. This fee covers the initial audit and planning phase and is non-refundable after the consultation.</p>
         </motion.div>
       </div>
-    </section>
+    </SectionWrapper>
   );
 };
 

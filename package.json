@@ -27,7 +27,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "react-scripts build && npx workbox generateSW workbox-config.js",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "clean": "rimraf build",
