@@ -2,13 +2,9 @@ import React, { useEffect, Suspense, lazy } from 'react';
 import { Outlet, RouterProvider, createBrowserRouter } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
-import ScrollToTop from './components/ScrollToTop';
 import ScrollProgressBar from './components/ScrollProgressBar';
-import ChatWidget from './components/ChatWidget';
 import LoadingAnimation from './components/LoadingAnimation';
-import AnalyticsWrapper from './components/AnalyticsWrapper';
 import { ToastProvider } from './contexts/ToastContext';
-import ErrorBoundary from './components/ErrorBoundary';
 import ErrorPage from './pages/ErrorPage';
 import { registerServiceWorker } from './serviceWorkerRegistration';
 
@@ -77,10 +73,8 @@ const router = createBrowserRouter([
     ]
   }
 ], {
-  basename: "/Prince-Ai-Automation", // Must match homepage path
   future: {
-    v7_startTransition: true,
-    v7_relativeSplatPath: true
+    v7_startTransition: true
   }
 });
 

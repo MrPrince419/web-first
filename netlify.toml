@@ -1,6 +1,12 @@
 [build]
-  command = "npm run build"
-  publish = "dist"
+  command = "CI=false npm run build --no-warnings"
+  publish = "build"
+
+[build.environment]
+  NODE_VERSION = "18"
+
+[[plugins]]
+  package = "@netlify/plugin-lighthouse"
 
 [[redirects]]
   from = "/*"
@@ -11,8 +17,8 @@
   for = "/*"
   [headers.values]
     X-Frame-Options = "DENY"
-    X-Content-Type-Options = "nosniff"
     X-XSS-Protection = "1; mode=block"
+    X-Content-Type-Options = "nosniff"
     Content-Security-Policy = "frame-ancestors 'none'; default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' *.google-analytics.com *.googletagmanager.com; style-src 'self' 'unsafe-inline' fonts.googleapis.com; img-src 'self' data: *.unsplash.com *.google-analytics.com; font-src 'self' fonts.gstatic.com fonts.googleapis.com; connect-src 'self' *.google-analytics.com *.formspree.io;"
     Referrer-Policy = "strict-origin-when-cross-origin"
     Permissions-Policy = "camera=(), microphone=(), geolocation=(), interest-cohort=()"
