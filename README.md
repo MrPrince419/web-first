@@ -1,7 +1,7 @@
 # PAA Website
 
 ## Overview
-Official website for Prince Akachi & Associates, built with React + Vite.
+Official website for PrinceAi Automation, built with React
 
 ## Features
 
@@ -14,7 +14,6 @@ Official website for Prince Akachi & Associates, built with React + Vite.
 
 ## Tech Stack
 - React 18
-- Vite
 - TailwindCSS
 - React Router DOM
 - [Other dependencies]
