@@ -1,12 +1,21 @@
 {
   "files": {
-    "main.css": "/Prince-Ai-Automation/static/css/main.5634d88e.css",
-    "main.js": "/Prince-Ai-Automation/static/js/main.bdc64a9a.js",
-    "static/js/685.5df0e363.chunk.js": "/Prince-Ai-Automation/static/js/685.5df0e363.chunk.js",
+    "main.css": "/Prince-Ai-Automation/static/css/main.27f700cb.css",
+    "main.js": "/Prince-Ai-Automation/static/js/main.f9181a1c.js",
+    "static/js/403.eeadc8ab.chunk.js": "/Prince-Ai-Automation/static/js/403.eeadc8ab.chunk.js",
+    "static/js/594.ba653c0c.chunk.js": "/Prince-Ai-Automation/static/js/594.ba653c0c.chunk.js",
+    "static/js/891.8a73bc8f.chunk.js": "/Prince-Ai-Automation/static/js/891.8a73bc8f.chunk.js",
+    "static/js/728.a3ef51c0.chunk.js": "/Prince-Ai-Automation/static/js/728.a3ef51c0.chunk.js",
+    "static/js/376.aaa4c323.chunk.js": "/Prince-Ai-Automation/static/js/376.aaa4c323.chunk.js",
+    "static/js/118.bfb2f3f8.chunk.js": "/Prince-Ai-Automation/static/js/118.bfb2f3f8.chunk.js",
+    "static/js/542.b5eff1f9.chunk.js": "/Prince-Ai-Automation/static/js/542.b5eff1f9.chunk.js",
+    "static/js/52.40a45401.chunk.js": "/Prince-Ai-Automation/static/js/52.40a45401.chunk.js",
+    "static/js/701.e4e724ec.chunk.js": "/Prince-Ai-Automation/static/js/701.e4e724ec.chunk.js",
+    "static/js/943.aace95c9.chunk.js": "/Prince-Ai-Automation/static/js/943.aace95c9.chunk.js",
     "index.html": "/Prince-Ai-Automation/index.html"
   },
   "entrypoints": [
-    "static/css/main.5634d88e.css",
-    "static/js/main.bdc64a9a.js"
+    "static/css/main.27f700cb.css",
+    "static/js/main.f9181a1c.js"
   ]
 }

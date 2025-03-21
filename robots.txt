@@ -1,6 +1,11 @@
+# Allow all web crawlers to index the site
 User-agent: *
 Allow: /
 
-Sitemap: https://princeaiautomation.com/sitemap.xml
-
+# Disallow crawling of administrative and sensitive areas
+Disallow: /api/
+Disallow: /admin/
 Disallow: /private/
+
+# Sitemap location
+Sitemap: https://princeaiautomation.com/sitemap.xml
