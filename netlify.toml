@@ -1,5 +1,5 @@
 [build]
-  command = "CI=false npm run build && cp zoho-domain-verification.html build/"
+  command = "npm install && CI=false npm run build && cp zoho-domain-verification.html build/"
   publish = "build"
 
 [build.environment]
