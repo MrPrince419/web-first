@@ -1,5 +1,5 @@
 [build]
-  command = "CI=false npm run build"
+  command = "CI=false npm run build && cp zoho-domain-verification.html build/"
   publish = "build"
 
 [build.environment]
@@ -7,6 +7,13 @@
 
 [[plugins]]
   package = "@netlify/plugin-lighthouse"
+
+[[plugins]]
+  package = "netlify-plugin-copy"
+  [plugins.inputs]
+    items = [
+      { "from": "zoho-domain-verification.html", "to": "build/zoho-domain-verification.html" }
+    ]
 
 [[redirects]]
   from = "/*"
