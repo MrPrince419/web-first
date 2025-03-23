@@ -1,5 +1,5 @@
 [build]
-  command = "npm install && CI=false npm run build && cp zoho-domain-verification.html build/"
+  command = "npm install && CI=false npm run build"
   publish = "build"
 
 [build.environment]
@@ -8,17 +8,17 @@
 [[plugins]]
   package = "@netlify/plugin-lighthouse"
 
-[[plugins]]
-  package = "netlify-plugin-copy"
-  [plugins.inputs]
-    items = [
-      { "from": "zoho-domain-verification.html", "to": "build/zoho-domain-verification.html" }
-    ]
-
 [[redirects]]
   from = "/*"
   to = "/index.html"
   status = 200
+
+# Add static file copying directly in the build command
+[build.processing]
+  skip_processing = false
+
+[build.processing.html]
+  pretty_urls = true
 
 [[headers]]
   for = "/*"
