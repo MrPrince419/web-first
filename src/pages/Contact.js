@@ -113,11 +113,38 @@ const Contact = () => {
   };
 
   return (
-    <main className="pt-20">
+    <main className="pt-20" id="main-content">
       <SEO 
         title="Contact Me | Prince AI Automation"
-        description="Get in touch or book a free consultation to see how AI automation can transform your business."
+        description="Get in touch or book a free consultation to see how AI automation can transform your business operations and improve efficiency."
         url="/contact"
+        image="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=1200&auto=format&fit=crop" 
+        imageAlt="Prince AI Automation business consultation and customer service"
+        type="website"
+        robots="index, follow"
+        schema={{
+          "@context": "https://schema.org",
+          "@type": "ContactPage",
+          "name": "Contact Prince AI Automation",
+          "description": "Get in touch or book a free consultation to see how AI automation can transform your business operations and improve efficiency.",
+          "url": "https://princeaiautomation.netlify.app/contact",
+          "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https://princeaiautomation.netlify.app/contact"
+          },
+          "provider": {
+            "@type": "Organization",
+            "name": "Prince AI Automation",
+            "url": "https://princeaiautomation.netlify.app"
+          },
+          "contactPoint": {
+            "@type": "ContactPoint",
+            "telephone": "+12493564705",
+            "contactType": "customer service",
+            "email": "uwagboe.o.p@gmail.com",
+            "availableLanguage": "English"
+          }
+        }}
       />
 
       {/* Hero Section */}

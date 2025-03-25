@@ -1,3 +1,6 @@
+# Prince AI Automation - robots.txt
+# https://princeaiautomation.netlify.app
+
 # Allow all web crawlers to index the site
 User-agent: *
 Allow: /
@@ -8,4 +11,4 @@ Disallow: /admin/
 Disallow: /private/
 
 # Sitemap location
-Sitemap: https://princeaiautomation.com/sitemap.xml
+Sitemap: https://princeaiautomation.netlify.app/sitemap.xml

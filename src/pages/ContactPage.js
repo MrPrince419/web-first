@@ -13,11 +13,38 @@ const ContactPage = () => {
   };
 
   return (
-    <main className="pt-20">
+    <main className="pt-20" id="main-content">
       <SEO 
         title="Contact Us | Prince AI Automation"
-        description="Get in touch with us to discuss your automation needs and explore how we can help transform your business."
+        description="Get in touch with us to discuss your automation needs and explore how our AI solutions can transform your business operations and workflow efficiency."
         url="/contact"
+        image="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=1200&auto=format&fit=crop"
+        imageAlt="Prince AI Automation contact and customer service team"
+        type="website"
+        robots="index, follow"
+        schema={{
+          "@context": "https://schema.org",
+          "@type": "ContactPage",
+          "name": "Contact Prince AI Automation",
+          "description": "Get in touch with us to discuss your automation needs and explore how our AI solutions can transform your business operations and workflow efficiency.",
+          "url": "https://princeaiautomation.netlify.app/contact",
+          "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https://princeaiautomation.netlify.app/contact"
+          },
+          "provider": {
+            "@type": "Organization",
+            "name": "Prince AI Automation",
+            "url": "https://princeaiautomation.netlify.app"
+          },
+          "contactPoint": {
+            "@type": "ContactPoint",
+            "telephone": "+12493564705",
+            "contactType": "customer service",
+            "email": "uwagboe.o.p@gmail.com",
+            "availableLanguage": "English"
+          }
+        }}
       />
       
       <section className="py-20 bg-white">
