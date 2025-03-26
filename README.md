@@ -1,63 +1,68 @@
-# PAA Website
+# Prince AI Automation Business Website
+
+[![Netlify Status](https://api.netlify.com/api/v1/badges/your-badge-id/deploy-status)](https://app.netlify.com/sites/princeaiautomation/deploys)
 
 ## Overview
-Official website for PrinceAi Automation, built with React
 
-## Features
+Official business website for Prince AI Automation. We specialize in AI-powered business automation solutions, helping companies streamline operations and reduce costs.
 
-- Modern, responsive design
-- Interactive chat widget
-- Dynamic portfolio showcase
-- Blog section
-- Contact form integration
-- Animated UI components
+## Business Information
 
-## Tech Stack
-- React 18
+- **Services**: Custom AI automation solutions for businesses
+- **Location**: Sault Ste. Marie, Ontario, Canada
+- **Service Area**: Worldwide (Remote)
+- **Contact**: 
+  - Email: [Contact Form]
+  - Phone: [On Request]
+  - Consultation: [Book Online](https://calendly.com/princeaiautomation/1hour)
+
+## Website Features
+
+- 🎨 Professional, modern business design
+- 💬 AI-powered chat assistance for visitors
+- 📊 Portfolio of successful automation projects
+- 📱 Mobile-friendly and accessible design
+- 📝 Business insights through our blog
+- 📬 Easy contact and consultation booking
+- ✨ Smooth, professional animations
+
+## Development Information
+
+Built with modern web technologies:
+- React
 - TailwindCSS
-- React Router DOM
-- [Other dependencies]
+- Framer Motion
+- Progressive Web App features
 
-## Getting Started
+### Local Development
 
-### Prerequisites
-- Node.js >= 16.0.0
-- npm >= 8.0.0
-
-### Installation
 ```bash
-git clone [repository-url]
-cd PAAWebsite
+# Install dependencies
 npm install
-```
 
-### Development
-```bash
-npm run dev
-```
+# Start development server
+npm start
 
-### Build
-```bash
+# Create production build
 npm run build
 ```
 
-## Project Structure
-```
-src/
-├── assets/      # Static assets
-├── components/  # Reusable components
-├── pages/       # Page components
-├── styles/      # Global styles
-└── utils/       # Utility functions
-```
+## Security
 
-## Deployment
-This project is deployed on Netlify. See netlify.toml for configuration.
+We take security seriously. For details about our security practices and how to report security issues, please see our [Security Policy](/SECURITY.md).
 
-## Version
-Current version: 1.0.0
+**Notice**: This is a private business website with enhanced security measures. All activities are monitored and logged.
 
-## License
+## Copyright
 
-MIT License
+© 2024 Prince AI Automation. All rights reserved.
+
+This is a private business website. All content, including but not limited to text, images, and code, is proprietary and confidential.
+
+## Contact
+
+Prince Uwagboe - [LinkedIn](https://www.linkedin.com/in/prince05/)
+
+Website: [https://princeaiautomation.netlify.app](https://princeaiautomation.netlify.app)
+[Contact Form](/contact)
 

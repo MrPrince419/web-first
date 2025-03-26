@@ -1,5 +1,11 @@
 # Security Policy
 
+## Reporting Security Issues
+
+Please do not report security vulnerabilities through public GitHub issues. 
+Instead use our secure contact form on the website:
+[Security Contact Form](https://princeaiautomation.netlify.app/contact)
+
 ## Handling Dependencies & Vulnerabilities
 
 This project includes tools and procedures to manage security vulnerabilities in dependencies.
@@ -43,22 +49,30 @@ npm audit fix --force
 
 ### Security Best Practices
 
-1. **Keep dependencies updated**:
+1. **Data Protection**:
+   - End-to-end encryption for sensitive data
+   - Regular security audits
+   - Access control implementation
+   - Secure data handling
+
+2. **Development Security**:
+   - Regular dependency updates
+   - Security scanning in CI/CD
+   - Code signing for deployments
+   - Protected branch policies
+
+3. **Keep dependencies updated**:
    ```bash
    npm update
    ```
 
-2. **Regularly check for vulnerabilities**:
+4. **Regularly check for vulnerabilities**:
    ```bash
    npm audit
    ```
 
-3. **Use package lockfiles**:
+5. **Use package lockfiles**:
    Our project is configured to always use package-lock.json
 
-4. **Pin dependency versions**:
+6. **Pin dependency versions**:
    We use exact versions for dependencies to avoid unexpected updates
-
-## Reporting Security Issues
-
-If you discover a security vulnerability within this project, please send an email to uwagboe.o.p@gmail.com. All security vulnerabilities will be promptly addressed.
