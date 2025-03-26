@@ -59,7 +59,8 @@
   }
 
   button:hover {
-    @apply bg-secondary transform scale-105;
+    @apply bg-secondary;
+    transform: var(--hover-translate-y);
     box-shadow: var(--shadow-md);
   }
 
@@ -81,7 +82,7 @@
   /* Focus styles for accessibility */
   *:focus-visible {
     @apply outline-none ring-2;
-    --tw-ring-color: #fca311;
+    --tw-ring-color: var(--primary);
   }
 
   /* Ensure all containers respect viewport width */
@@ -143,11 +144,12 @@
   .card {
     @apply bg-white rounded-lg shadow-sm;
     transition: var(--transition);
+    border-radius: var(--radius-lg);
   }
 
   .card:hover {
-    @apply transform -translate-y-1;
-    box-shadow: var(--shadow-md);
+    transform: var(--hover-translate-y);
+    box-shadow: var(--shadow-hover);
   }
 
   .section-title {
@@ -189,7 +191,7 @@ div[class*="overflow-"]::-webkit-scrollbar {
 /* Focus styles for accessibility */
 *:focus-visible {
   outline: none;
-  box-shadow: 0 0 0 2px var(--gold);
+  box-shadow: 0 0 0 2px var(--primary);
 }
 
 /* Animation utilities */
@@ -231,12 +233,8 @@ div[class*="overflow-"]::-webkit-scrollbar {
 }
 
 :root {
-  --navy-blue: #2c3e50;
-  --light-navy: #34495e;
-  --lightest-navy: #445c74;
-  --white: #f8fafc;
-  --gold: #3498db;
-  --orange: #2980b9;
+  /* Removing redundant variables */
+  /* These are now defined in theme.css */
 }
 
 body {
@@ -267,32 +265,32 @@ h1, h2, h3, h4, h5, h6 {
 .btn {
   display: inline-block;
   padding: 0.75rem 1.5rem;
-  border-radius: 0.5rem;
+  border-radius: var(--radius-md);
   font-weight: 600;
-  transition: all 0.3s ease;
+  transition: var(--transition);
   cursor: pointer;
 }
 
 .btn-primary {
-  background-color: var(--gold);
-  color: var (--navy-blue);
+  background-color: var(--primary);
+  color: var(--navy);
 }
 
 .btn-primary:hover {
-  background-color: var(--orange);
-  transform: translateY(-3px);
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+  background-color: var(--secondary);
+  transform: var(--hover-translate-y);
+  box-shadow: var(--shadow-hover);
 }
 
 /* Enhanced Button Hover Effects */
-.btn-primary, button.bg-gold {
-  transition: all 0.3s ease;
+.btn-primary, button.bg-primary {
+  transition: var(--transition);
   position: relative;
 }
 
-.btn-primary:hover, button.bg-gold:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+.btn-primary:hover, button.bg-primary:hover {
+  transform: var(--hover-translate-y);
+  box-shadow: var(--shadow-hover);
 }
 
 /* Mobile Optimization */
@@ -497,15 +495,15 @@ h1, h2, h3, h4, h5, h6 {
 
 /* Custom Card Styles */
 .service-card {
-  transition: all 0.3s ease;
+  transition: var(--transition);
   display: flex;
   flex-direction: column;
   height: 100%;
 }
 
 .service-card:hover {
-  transform: translateY(-10px);
-  box-shadow: 0px 10px 30px rgba(0,0,0,0.1);
+  transform: var(--hover-translate-y);
+  box-shadow: var(--shadow-hover);
 }
 
 .service-card-content {
@@ -520,32 +518,32 @@ h1, h2, h3, h4, h5, h6 {
 
 /* Custom Hero Gradient Overlay */
 .hero-gradient-overlay {
-  background: linear-gradient(135deg, rgba(10, 25, 47, 0.9) 0%, rgba(10, 25, 47, 0.8) 50%, rgba(10, 25, 47, 0.9) 100%);
+  background: var(--gradient-overlay);
 }
 
 .card {
   background-color: white;
-  border-radius: 1rem;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  transition: all 0.3s ease;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  transition: var(--transition);
   overflow: hidden;
 }
 
 .card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+  transform: var(--hover-translate-y);
+  box-shadow: var(--shadow-hover);
 }
 
 /* Enhance CTA buttons */
-button.bg-gold, button.border-gold {
+button.bg-primary, button.border-primary {
   min-height: 48px; /* Minimum height for easy tapping on mobile */
   min-width: 150px;
-  transition: all 0.3s ease;
+  transition: var(--transition);
 }
 
-button.bg-gold:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+button.bg-primary:hover {
+  transform: var(--hover-translate-y);
+  box-shadow: var(--shadow-hover);
 }
 
 /* Testimonial styling */
@@ -559,12 +557,12 @@ button.bg-gold:hover {
 
 /* Professional testimonial styling */
 .testimonial-card {
-  transition: all 0.3s ease;
+  transition: var(--transition);
 }
 
 .testimonial-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  transform: var(--hover-translate-y);
+  box-shadow: var(--shadow-hover);
 }
 
 /* Mobile optimizations for testimonials */
@@ -629,7 +627,7 @@ button.bg-gold:hover {
   width: 100%;
   height: 100%;
   text-align: center;
-  transition: transform 0.6s;
+  transition: transform var(--transition-slow);
   transform-style: preserve-3d;
 }
 
@@ -645,9 +643,9 @@ button.bg-gold:hover {
   display: flex;
   flex-direction: column;
   padding: 20px;
-  border-radius: 0.75rem;
+  border-radius: var(--radius-lg);
   background: white;
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--shadow-md);
   overflow: hidden; /* Prevent content from spilling out */
 }
 
@@ -656,7 +654,7 @@ button.bg-gold:hover {
 }
 
 .pricing-card-front.popular {
-  border: 2px solid var(--gold);
+  border: 2px solid var(--primary);
 }
 
 .pricing-card-back {
@@ -665,12 +663,12 @@ button.bg-gold:hover {
 }
 
 .pricing-card-back.popular {
-  border: 2px solid var(--gold);
+  border: 2px solid var(--primary);
 }
 
 .popular-badge {
-  background-color: var(--gold);
-  color: var(--navy-blue);
+  background-color: var(--primary);
+  color: var(--navy);
   font-weight: bold;
   padding: 0.25rem 1rem;
   margin: -20px -20px 20px -20px;
@@ -716,7 +714,7 @@ button.bg-gold:hover {
 }
 
 .check-icon {
-  color: var(--gold);
+  color: var(--primary);
   margin-top: 0.25rem;
   margin-right: 0.5rem;
   flex-shrink: 0;
@@ -730,13 +728,13 @@ button.bg-gold:hover {
 .cta-button {
   width: 100%;
   padding: 1rem;
-  border-radius: 0.5rem;
+  border-radius: var(--radius-md);
   font-weight: 500;
   font-size: 1.125rem;
   min-height: 48px;
-  transition: all 0.3s ease;
+  transition: var(--transition);
   background-color: #f3f4f6;
-  color: var(--navy-blue);
+  color: var(--text);
 }
 
 .cta-button:hover {
@@ -744,13 +742,13 @@ button.bg-gold:hover {
 }
 
 .cta-button-popular {
-  background-color: var(--gold);
-  color: var(--navy-blue);
+  background-color: var(--primary);
+  color: var(--navy);
 }
 
 .cta-button-popular:hover {
-  background-color: var(--orange);
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  background-color: var(--secondary);
+  box-shadow: var(--shadow-lg);
 }
 
 .learn-more-button {
@@ -761,16 +759,16 @@ button.bg-gold:hover {
   font-size: 0.875rem;
   color: #6b7280;
   padding: 0.5rem 1rem;
-  border-radius: 0.5rem;
+  border-radius: var(--radius-md);
   border: 1px solid #e5e7eb;
   margin-top: 0.75rem;
   margin-bottom: 0.25rem; /* Add bottom margin */
-  transition: all 0.3s ease;
+  transition: var(--transition);
 }
 
 .learn-more-button:hover {
-  color: var(--gold);
-  border-color: var(--gold);
+  color: var(--primary);
+  border-color: var(--primary);
 }
 
 .arrow-icon {
@@ -801,12 +799,12 @@ button.bg-gold:hover {
 
 .popular-tag {
   margin-left: 0.5rem;
-  background-color: var(--gold);
-  color: var(--navy-blue);
+  background-color: var(--primary);
+  color: var(--navy);
   font-size: 0.75rem;
   font-weight: bold;
   padding: 0.25rem 0.5rem;
-  border-radius: 0.25rem;
+  border-radius: var(--radius-sm);
 }
 
 .faq-content {
@@ -841,8 +839,8 @@ button.bg-gold:hover {
 }
 
 .back-button:hover {
-  color: var(--gold);
-  border-color: var(--gold);
+  color: var(--primary);
+  border-color: var(--primary);
 }
 
 .back-icon {
@@ -860,7 +858,7 @@ button.bg-gold:hover {
 .project-metric {
   font-size: 28px;
   font-weight: 700;
-  color: var(--gold);
+  color: var(--primary);
   line-height: 1;
 }
 
@@ -884,7 +882,7 @@ button.bg-gold:hover {
   top: 0;
   left: 8px;
   font-size: 24px;
-  color: var(--gold);
+  color: var(--primary);
   opacity: 0.2;
 }
 
@@ -896,12 +894,12 @@ button.bg-gold:hover {
 }
 
 .featured-badge {
-  background-color: var(--gold);
-  color: var(--navy-blue);
+  background-color: var(--primary);
+  color: var(--navy);
   font-size: 12px;
   font-weight: 600;
   padding: 4px 10px;
-  border-radius: 9999px;
+  border-radius: var(--radius-full);
   display: inline-flex;
   align-items: center;
   position: absolute;
@@ -916,17 +914,17 @@ button.bg-gold:hover {
 /* Active filter styles */
 .filter-button {
   padding: 0.5rem 1rem;
-  border-radius: 9999px;
-  transition: all 0.2s ease;
+  border-radius: var(--radius-full);
+  transition: var(--transition-fast);
   font-size: 0.875rem;
 }
 
 .filter-button.active {
-  background-color: var(--gold);
-  color: var (--navy-blue);
+  background-color: var(--primary);
+  color: var(--navy);
   font-weight: 500;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+  transform: var(--active-translate-y);
 }
 
 .filter-button:not(.active) {
@@ -936,8 +934,8 @@ button.bg-gold:hover {
 }
 
 .filter-button:not(.active):hover {
-  border-color: var(--gold);
-  color: var(--gold);
+  border-color: var(--primary);
+  color: var(--primary);
 }
 
 /* Project card styling */
@@ -950,7 +948,7 @@ button.bg-gold:hover {
   position: absolute;
   inset: 0;
   transform-style: preserve-3d;
-  transition: transform 0.6s;
+  transition: transform var(--transition-slow);
 }
 
 .project-card.is-flipped {
@@ -959,9 +957,9 @@ button.bg-gold:hover {
 
 .project-card-face {
   position: absolute;
-  inset: 0; /* Add this instead of width/height */
+  inset: 0;
   backface-visibility: hidden;
-  border-radius: 0.75rem;
+  border-radius: var(--radius-lg);
   overflow: hidden;
 }
 
@@ -972,7 +970,7 @@ button.bg-gold:hover {
 .project-card-front .overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(to bottom, rgba(10, 25, 47, 0.7), rgba(10, 25, 47, 0.95));
+  background: var(--gradient-card);
   padding: 1.25rem;
   display: flex;
   flex-direction: column;
@@ -982,7 +980,7 @@ button.bg-gold:hover {
   position: absolute;
   top: 1rem;
   left: 1rem;
-  color: var(--gold);
+  color: var(--primary);
   font-size: 1.5rem;
 }
 
@@ -1002,23 +1000,23 @@ button.bg-gold:hover {
 }
 
 .project-card-front .card-button {
-  background-color: var(--gold);
+  background-color: var(--primary);
   color: var(--navy);
   padding: 0.5rem 1rem;
-  border-radius: 0.5rem;
+  border-radius: var(--radius-md);
   font-weight: 500;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  transition: all 0.3s ease;
+  transition: var(--transition);
   width: 100%;
   margin-top: auto;
 }
 
 .project-card-front .card-button:hover {
-  background-color: var(--orange);
-  transform: translateY(-2px);
+  background-color: var(--secondary);
+  transform: var(--active-translate-y);
 }
 
 .project-card-back {
@@ -1045,7 +1043,7 @@ button.bg-gold:hover {
 }
 
 .results-content::-webkit-scrollbar-thumb {
-  background: var(--gold);
+  background: var(--primary);
   border-radius: 4px;
 }
 
@@ -1059,7 +1057,7 @@ button.bg-gold:hover {
   position: relative;
   width: 100%;
   height: 100%;
-  transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: transform var(--transition-slow);
   transform-style: preserve-3d;
 }
 
@@ -1093,7 +1091,7 @@ button.bg-gold:hover {
   width: 100%;
   height: 100%;
   text-align: left;
-  transition: transform 0.6s;
+  transition: transform var(--transition-slow);
   transform-style: preserve-3d;
 }
 

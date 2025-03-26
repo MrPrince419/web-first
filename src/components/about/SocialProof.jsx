@@ -40,11 +40,12 @@ const SocialProof = () => {
           {testimonials.map((testimonial, index) => (
             <motion.div 
               key={index} 
-              className="bg-white p-6 rounded-lg shadow-sm border border-gray-100 text-center"
+              className="bg-white p-6 rounded-lg shadow-md border border-gray-100 text-center card"
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: index * 0.2 }}
+              whileHover={{ y: -5, boxShadow: "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)" }}
             >
               <div className="text-gold text-2xl mb-4 flex justify-center">
                 <FaQuoteLeft />

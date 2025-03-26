@@ -2,35 +2,49 @@
   /* Primary Colors */
   --primary: #3498db;
   --secondary: #2980b9;
+  --navy: #0a192f;
+  --navy-light: #112240;
   --background: #f8fafc;
   --text: #2c3e50;
   --text-light: #64748b;
   
-  /* Transitions */
-  --transition: all 0.3s ease;
+  /* Standardized Transitions - Updated for faster animations */
+  --transition-fast: 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-base: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-slow: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition: all var(--transition-base);
   
   /* Shadows */
   --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
   --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
   --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  --shadow-hover: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+  
+  /* Transforms */
+  --hover-translate-y: translateY(-5px);
+  --active-translate-y: translateY(-2px);
   
   /* Gradients */
-  --gradient-primary: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+  --gradient-primary: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
   --gradient-overlay: linear-gradient(180deg, rgba(44, 62, 80, 0.8) 0%, rgba(44, 62, 80, 0.9) 100%);
+  --gradient-card: linear-gradient(to bottom, rgba(10, 25, 47, 0.7), rgba(10, 25, 47, 0.95));
   
   /* Typography */
   --font-forum: 'Forum', serif;
   --font-base: 'Poppins', -apple-system, system-ui, sans-serif;
   --font-heading: 700 2.5rem/1.2 var(--font-forum);
   --font-subheading: 600 1.75rem/1.3 var(--font-forum);
-  --font-body: 400 1rem/1.6 var(--font-forum);
+  --font-body: 400 1rem/1.6 var(--font-base);
   
   /* Letter spacing */
   --spacing-tight: -0.5px;
   --spacing-wide: 1px;
   
-  /* Transitions */
-  --transition-slow: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  /* Border Radius */
+  --radius-sm: 0.25rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.75rem;
+  --radius-full: 9999px;
 }
 
 /* Dark theme overrides */
