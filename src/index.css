@@ -610,8 +610,109 @@ button.bg-primary:hover {
 
 /* Make sure the cards maintain a consistent height */
 .grid.grid-cols-1.md\:grid-cols-3.gap-8.items-start > div {
-  min-height: 500px;
+  min-height: 600px; /* Increased from 500px */
   height: 100%;
+}
+
+/* Pricing Card Styles */
+.pricing-card-container {
+  min-height: 600px; /* Increased from 500px */
+  height: 100%;
+  width: 100%;
+  perspective: 1000px;
+}
+
+.pricing-card {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  transition: transform 0.8s;
+  transform-style: preserve-3d;
+}
+
+.pricing-card.is-flipped {
+  transform: rotateY(180deg);
+}
+
+.pricing-card-face {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  display: flex;
+  flex-direction: column;
+  background: white;
+  border-radius: 0.75rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  overflow: hidden; /* Contains the scrollable content */
+}
+
+.pricing-card-front {
+  z-index: 2;
+}
+
+.pricing-card-back {
+  transform: rotateY(180deg);
+  padding: 1.5rem;
+}
+
+.back-content {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.back-header {
+  margin: -1.5rem -1.5rem 1rem;
+  padding: 1rem;
+  background-color: var(--gold);
+  color: var(--navy);
+}
+
+.faq-content {
+  flex: 1;
+  overflow-y: auto;
+  padding-right: 0.5rem;
+  margin-bottom: 1rem;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+}
+
+.faq-content::-webkit-scrollbar {
+  display: none; /* Chrome, Safari and Opera */
+}
+
+.back-button {
+  position: sticky;
+  bottom: 0;
+  background: white;
+  padding: 0.75rem;
+  margin-top: 0.5rem;
+  width: 100%;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border-top: 1px solid #e5e7eb;
+}
+
+.learn-more-button {
+  margin-top: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.75rem;
+  width: 100%;
+  color: var(--gray-600);
+  transition: all 0.3s ease;
+}
+
+.learn-more-button:hover {
+  color: var(--gold);
 }
 
 /* Card flip styling - Fixed implementation */
@@ -684,7 +785,7 @@ button.bg-primary:hover {
 
 .price {
   display: flex;
-  align-items: flex-end;
+  align-items: baseline;
   justify-content: center;
   margin-bottom: 1.5rem;
 }
@@ -692,32 +793,38 @@ button.bg-primary:hover {
 .amount {
   font-size: 2.25rem;
   font-weight: bold;
+  line-height: 1;
 }
 
 .period {
   color: #6b7280;
   margin-left: 0.25rem;
+  font-size: 0.875rem;
 }
 
 .features {
-  margin-bottom: 1.5rem;
-  flex-grow: 1;
-  text-align: left;
-  overflow-y: auto; /* Allow scrolling if needed */
-  max-height: 50%; /* Limit maximum height */
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.75rem;
+  flex: 1;
+  overflow-y: auto;
+  padding-right: 0.5rem;
+  margin-bottom: 1rem;
+  scrollbar-width: none;
 }
 
 .features li {
   display: flex;
-  align-items: flex-start;
-  margin-bottom: 0.75rem;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9375rem;
+  line-height: 1.4;
 }
 
 .check-icon {
   color: var(--primary);
-  margin-top: 0.25rem;
-  margin-right: 0.5rem;
   flex-shrink: 0;
+  font-size: 0.875rem;
 }
 
 .cta-link {
@@ -852,6 +959,10 @@ button.bg-primary:hover {
   margin-top: auto;
   padding-top: 1rem;
   width: 100%;
+  position: sticky;
+  bottom: 0;
+  background: white;
+  z-index: 1;
 }
 
 /* Portfolio section enhancements */

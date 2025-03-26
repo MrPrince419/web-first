@@ -20,7 +20,7 @@ export const websiteContent = [
   },
   {
     id: 'pricing',
-    text: 'Our pricing starts at $500/month for the Starter Plan. We also offer Growth ($900/month) and Enterprise ($1500/month) plans. Each plan includes different levels of automation and support.',
+    text: 'Our pricing starts at $600/month for the Starter Plan. We also offer Growth ($1000/month) and Enterprise (Custom pricing) plans. Each plan includes different levels of automation and support.',
     keywords: ['price', 'cost', 'plan', 'package', 'fee', 'starter', 'growth', 'enterprise'],
     type: 'info',
     suggestions: ['Tell me more about the Growth plan', 'What\'s included in Enterprise?']

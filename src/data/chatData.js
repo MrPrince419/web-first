@@ -165,7 +165,7 @@ export const chatResponses = [
   // Pricing related
   {
     keywords: ['price', 'cost', 'fee', 'budget', 'expensive', 'cheap', 'affordable', 'pricing', 'how much'],
-    response: "Our pricing starts at $500 CAD/month for our Starter Plan, $900 CAD/month for our Growth Plan, and $1500+ CAD/month for our Enterprise Plan. Would you like to learn more about a specific plan? 💰",
+    response: "Our pricing starts at $600 CAD/month for our Starter Plan, $1000 CAD/month for our Growth Plan, and Custom pricing for our Enterprise Plan. Would you like to learn more about a specific plan? 💰",
     icon: chatIcons.link,
     contextTopic: "pricing",
     suggestions: ['Tell me about the Starter Plan', 'Tell me about the Growth Plan', 'Tell me about the Enterprise Plan', 'Book a consultation']
@@ -174,7 +174,7 @@ export const chatResponses = [
   // Starter Plan
   {
     keywords: ['starter plan', 'basic plan', 'starter'],
-    response: "The Starter Plan at $500 CAD/month is perfect for small businesses beginning their automation journey. It includes email automation setup, basic social media scheduling, a monthly strategy call, email support, and 1 workflow automation. Would you like to book a consultation to discuss this plan? 🗓️",
+    response: "The Starter Plan at $600 CAD/month is perfect for small businesses beginning their automation journey. It includes email automation setup, basic social media scheduling, a monthly strategy call, email support, and 1 workflow automation. Would you like to book a consultation to discuss this plan? 🗓️",
     icon: chatIcons.link,
     contextTopic: "pricing",
     category: "starter_plan",
@@ -184,7 +184,7 @@ export const chatResponses = [
   // Growth Plan
   {
     keywords: ['growth plan', 'professional plan', 'growth'],
-    response: "Our popular Growth Plan at $900 CAD/month includes everything in Starter plus advanced CRM integration, customer support automation, bi-weekly strategy calls, 3 workflow automations, and priority email support. It's designed for businesses ready to scale their automation. Interested in discussing this plan? 🚀",
+    response: "Our popular Growth Plan at $1000 CAD/month includes everything in Starter plus advanced CRM integration, customer support automation, bi-weekly strategy calls, 3 workflow automations, and priority email support. It's designed for businesses ready to scale their automation. Interested in discussing this plan? 🚀",
     icon: chatIcons.growth,
     contextTopic: "pricing",
     category: "growth_plan",
@@ -194,7 +194,7 @@ export const chatResponses = [
   // Enterprise Plan
   {
     keywords: ['enterprise plan', 'advanced plan', 'enterprise'],
-    response: "Our Enterprise Plan at $1500+ CAD/month includes everything in Growth plus full marketing automation, custom AI implementation, weekly strategy calls, unlimited workflow automations, custom integrations, and priority support. It's ideal for larger businesses with complex automation needs. Shall we discuss if this is right for you? 🏢",
+    response: "Our Enterprise Plan offers custom pricing based on your specific needs. It includes everything in Growth plus full marketing automation, custom AI implementation, weekly strategy calls, unlimited workflow automations, custom integrations, and priority support. It's ideal for larger businesses with complex automation needs. Shall we discuss if this is right for you? 🏢",
     icon: chatIcons.link,
     contextTopic: "pricing",
     category: "enterprise_plan",
@@ -379,21 +379,21 @@ export const followUpResponses = [
   {
     context: "pricing",
     keywords: ['starter plan', 'basic', 'starter'],
-    response: "The Starter Plan at $500 CAD/month is perfect for small businesses beginning their automation journey. It includes email automation setup, basic social media scheduling, a monthly strategy call, email support, and 1 workflow automation. Would you like to book a consultation to discuss this plan? 🗓️",
+    response: "The Starter Plan at $600 CAD/month is perfect for small businesses beginning their automation journey. It includes email automation setup, basic social media scheduling, a monthly strategy call, email support, and 1 workflow automation. Would you like to book a consultation to discuss this plan? 🗓️",
     suggestions: ['Book a consultation', 'Tell me about the Growth Plan', "What's included in workflow automation?"],
     category: "starter_plan"
   },
   {
     context: "pricing",
     keywords: ['growth plan', 'professional', 'growth'],
-    response: "Our popular Growth Plan at $900 CAD/month includes everything in Starter plus advanced CRM integration, customer support automation, bi-weekly strategy calls, 3 workflow automations, and priority email support. It's designed for businesses ready to scale their automation. Interested in discussing this plan? 🚀",
+    response: "Our popular Growth Plan at $1000 CAD/month includes everything in Starter plus advanced CRM integration, customer support automation, bi-weekly strategy calls, 3 workflow automations, and priority email support. It's designed for businesses ready to scale their automation. Interested in discussing this plan? 🚀",
     suggestions: ['Book a consultation', 'Tell me about the Enterprise Plan', 'What are the payment terms?'],
     category: "growth_plan"
   },
   {
     context: "pricing",
     keywords: ['enterprise plan', 'advanced', 'enterprise'],
-    response: "Our Enterprise Plan at $1500+ CAD/month includes everything in Growth plus full marketing automation, custom AI implementation, weekly strategy calls, unlimited workflow automations, custom integrations, and priority support. It's ideal for larger businesses with complex automation needs. Shall we discuss if this is right for you? 🏢",
+    response: "Our Enterprise Plan offers custom pricing based on your specific needs. It includes everything in Growth plus full marketing automation, custom AI implementation, weekly strategy calls, unlimited workflow automations, custom integrations, and priority support. It's ideal for larger businesses with complex automation needs. Shall we discuss if this is right for you? 🏢",
     suggestions: ['Book a consultation', 'Enterprise plan case studies', "What's the onboarding process?"],
     category: "enterprise_plan"
   },
