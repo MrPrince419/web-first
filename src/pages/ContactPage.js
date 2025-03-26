@@ -105,9 +105,9 @@ const ContactPage = () => {
                   <div>
                     <h3 className="font-bold mb-1">Location</h3>
                     <p className="text-gray-600">
-                      Sault Ste. Marie, Ontario, Canada
+                      Headquartered in Sault Ste. Marie, Ontario, Canada
                       <br />
-                      (Remote work available worldwide)
+                      <span className="text-sm">Serving clients worldwide remotely</span>
                     </p>
                   </div>
                 </div>

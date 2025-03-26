@@ -90,15 +90,14 @@ const TestimonialsSection = () => {
                 transition={{ duration: 0.5, delay: index * 0.1 }}
                 whileHover={{ y: -5, boxShadow: "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)" }}
               >
-                <div className="h-2 bg-gold"></div>
                 <div className="p-6 flex flex-col flex-grow">
                   <div className="flex items-center mb-4">
                     <div className="w-12 h-12 rounded-full bg-gray-100 flex items-center justify-center text-gold mr-4 flex-shrink-0">
                       <testimonial.icon className="text-xl" />
                     </div>
-                    <div>
-                      <h4 className="font-bold">{testimonial.name}</h4>
-                      <p className="text-gray-600 text-sm">{testimonial.position}, {testimonial.industry}</p>
+                    <div className="min-w-0">
+                      <h4 className="font-bold break-words">{testimonial.name}</h4>
+                      <p className="text-gray-600 text-sm break-words">{testimonial.position}, {testimonial.industry}</p>
                     </div>
                   </div>
                   
@@ -106,7 +105,7 @@ const TestimonialsSection = () => {
                     <FaQuoteLeft className="text-xl opacity-50" />
                   </div>
                   
-                  <p className="text-gray-700 italic mb-4 flex-grow">{testimonial.quote}</p>
+                  <p className="text-gray-700 italic mb-4 flex-grow overflow-y-auto testimonial-quote break-words">{testimonial.quote}</p>
                   
                   <div className="flex mt-auto">
                     {renderStars(testimonial.rating)}

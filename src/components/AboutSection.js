@@ -61,35 +61,38 @@ const AboutSection = () => {
         </motion.div>
         
         <motion.div
-          className="max-w-3xl mx-auto text-center"
+          className="max-w-3xl mx-auto text-center px-4"
           initial={{ opacity: 0, y: 50 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8, delay: 0.2 }}
         >
-          <h3 className="text-3xl font-forum font-bold mb-4">
+          <h3 className="text-3xl font-forum font-bold mb-4 break-words">
             Hi, I'm Prince—Your AI Automation Expert
             <span className="inline-block ml-2 animate-pulse"><FaRocket className="text-gold" /></span>
           </h3>
-          <p className="text-lg mb-10">
+          <p className="text-lg mb-6 break-words">
             Based in Sault Ste. Marie, Ontario, I help small businesses like yours 
             <span className="text-gold font-medium"> save time and money </span> 
             with custom AI solutions. From social media automation to CRM updates, 
             I'll streamline your operations so you can focus on growth. Let's unlock 
             the power of AI for your business!
           </p>
+          <p className="text-md mb-10">
+            <span className="text-gray-600">Serving clients worldwide</span>
+          </p>
         </motion.div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
           {/* Card sections with icons */}
           <motion.div 
-            className="bg-white p-6 rounded-lg shadow-md"
+            className="bg-white p-6 rounded-lg shadow-md flex flex-col h-full"
             whileHover={{ y: -10, boxShadow: "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)" }}
             transition={{ type: "spring", stiffness: 300 }}
           >
             <FaRocket className="text-gold text-5xl mb-6" />
-            <h4 className="text-xl font-bold mb-3">I Live for AI Innovation</h4>
-            <p className="text-base text-gray-600">
+            <h4 className="text-xl font-bold mb-3 break-words">I Live for AI Innovation</h4>
+            <p className="text-base text-gray-600 break-words flex-grow">
               I'm always exploring new AI tools to bring cutting-edge solutions to your business.
             </p>
           </motion.div>
@@ -106,8 +109,11 @@ const AboutSection = () => {
             </p>
           </motion.div>
 
-          <motion.div 
-            className="bg-white p-6 rounded-lg shadow-md"
+          <motion.div
+            className="bg-white p-6 rounded-lg shadow-md flex flex-col items-center text-center"
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
             whileHover={{ y: -10, boxShadow: "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)" }}
             transition={{ type: "spring", stiffness: 300, delay: 0.2 }}
           >

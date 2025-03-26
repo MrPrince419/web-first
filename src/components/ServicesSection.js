@@ -211,17 +211,17 @@ const ServicesSection = () => {
             {services.map((service, index) => (
               <motion.div 
                 key={index}
-                className="bg-white rounded-lg shadow-md overflow-hidden border-t-4 border-transparent hover:border-gold"
+                className="bg-white rounded-lg shadow-md overflow-hidden border-transparent flex flex-col h-full"
                 whileHover={{ y: -5, boxShadow: "0px 10px 30px rgba(0,0,0,0.1)" }}
                 transition={{ type: "spring", stiffness: 300 }}
               >
-                <div className="p-6">
+                <div className="p-6 flex flex-col h-full">
                   <div className="text-gold text-4xl mb-4">
                     <service.icon />
                   </div>
-                  <h4 className="text-xl font-bold mb-2">{service.title}</h4>
-                  <p className="font-medium text-gray-700 mb-2">{service.description}</p>
-                  <p className="text-gray-600 text-base">{service.subtext}</p>
+                  <h4 className="text-xl font-bold mb-2 break-words">{service.title}</h4>
+                  <p className="font-medium text-gray-700 mb-2 break-words">{service.description}</p>
+                  <p className="text-gray-600 text-base break-words flex-grow">{service.subtext}</p>
                 </div>
               </motion.div>
             ))}
@@ -244,8 +244,8 @@ const ServicesSection = () => {
           viewport={{ once: true }}
           transition={{ duration: 0.8, delay: 0.5 }}
         >
-          <h3 className="text-xl font-forum font-bold mb-4">Important Note</h3>
-          <p>An upfront consultation fee of $150 CAD is required to secure your spot. This fee covers the initial audit and planning phase and is non-refundable after the consultation.</p>
+          <h3 className="text-xl font-forum font-bold mb-4 break-words">Important Note</h3>
+          <p className="break-words">An upfront consultation fee of $150 CAD is required to secure your spot. This fee covers the initial audit and planning phase and is non-refundable after the consultation.</p>
         </motion.div>
       </div>
     </SectionWrapper>
