@@ -4,6 +4,27 @@ import SEO from '../components/SEO';
 import { ToastContext } from '../contexts/ToastContext';
 import { FaEnvelope, FaCalendarAlt, FaArrowRight } from 'react-icons/fa';
 import useAnalytics from '../hooks/useAnalytics';
+import FAQSection from '../components/FAQSection';
+
+// Component constants defined at the file level
+const CONTACT_FAQS = [
+  {
+    question: "How quickly will I receive a response?",
+    answer: "We typically respond to all inquiries within 24 hours during business days. For urgent matters, you can book an instant consultation through our calendar."
+  },
+  {
+    question: "What happens after I submit the contact form?",
+    answer: "You'll receive an immediate confirmation email. Then, we'll review your inquiry and get back to you with a personalized response within 24 hours."
+  },
+  {
+    question: "What should I prepare for the consultation?",
+    answer: "Just have a general idea of your business challenges and automation goals. We'll guide the conversation and help identify the best opportunities for your business."
+  },
+  {
+    question: "Is the consultation really free?",
+    answer: "Yes! The initial 30-minute consultation is completely free. We only charge the $150 CAD consultation fee for comprehensive business audits, which is credited toward your first invoice if you proceed with our services."
+  }
+];
 
 const Contact = () => {
   // Ensure we're using the context correctly
@@ -361,6 +382,11 @@ const Contact = () => {
             </motion.div>
           </div>
         </div>
+      </section>
+
+      {/* Contact FAQ Section */}
+      <section className="py-16 bg-gray-50">
+        <FAQSection title="Contact FAQs" faqs={CONTACT_FAQS} />
       </section>
     </main>
   );

@@ -1,12 +1,15 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
+import { FaCalendarAlt, FaClock } from 'react-icons/fa';
 import SEO from '../components/SEO';
 import { blogPosts, blogCategories, defaultImage, formatBlogDate } from '../data/blogPosts';
 import ImageWithLazy from '../components/ImageWithLazy';
 
 const Blog = () => {
   const [activeCategory, setActiveCategory] = useState('all');
+  const [currentPage, setCurrentPage] = useState(1);
+  const postsPerPage = 9;
 
   const filteredPosts = activeCategory === 'all'
     ? blogPosts
@@ -15,6 +18,44 @@ const Blog = () => {
           cat.toLowerCase().replace(/\s+/g, '-') === activeCategory
         )
       );
+
+  // Get current posts
+  const indexOfLastPost = currentPage * postsPerPage;
+  const indexOfFirstPost = indexOfLastPost - postsPerPage;
+  const currentPosts = filteredPosts.slice(indexOfFirstPost, indexOfLastPost);
+
+  // Calculate read time
+  const calculateReadTime = (content) => {
+    const wordsPerMinute = 200;
+    const wordCount = content.split(/\s+/g).length;
+    return Math.ceil(wordCount / wordsPerMinute);
+  };
+
+  // Pagination component
+  const Pagination = ({ postsPerPage, totalPosts, paginate }) => {
+    const pageNumbers = [];
+    for (let i = 1; i <= Math.ceil(totalPosts / postsPerPage); i++) {
+      pageNumbers.push(i);
+    }
+
+    return (
+      <div className="flex justify-center space-x-2 mt-8">
+        {pageNumbers.map(number => (
+          <button
+            key={number}
+            onClick={() => paginate(number)}
+            className={`px-4 py-2 rounded-lg ${
+              currentPage === number 
+                ? 'bg-gold text-navy' 
+                : 'bg-white text-gray-700 hover:bg-gray-100'
+            }`}
+          >
+            {number}
+          </button>
+        ))}
+      </div>
+    );
+  };
 
   return (
     <main className="pt-24 pb-16">
@@ -25,6 +66,7 @@ const Blog = () => {
       />
       
       <div className="container mx-auto px-4">
+        {/* Categories */}
         <motion.div 
           className="text-center mb-16"
           initial={{ opacity: 0, y: 20 }}
@@ -54,53 +96,63 @@ const Blog = () => {
           </div>
         </motion.div>
         
+        {/* Blog Posts Grid */}
         <motion.div 
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
           layout
         >
-          <AnimatePresence>
-            {filteredPosts.map((post) => (
+          <AnimatePresence mode="wait">
+            {currentPosts.map((post) => (
               <motion.div
                 key={post.id}
                 layout
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.9 }}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
                 transition={{ duration: 0.3 }}
               >
-                <Link to={`/blog/${post.id}`}>
+                <Link to={`/blog/${post.id}`} className="block h-full">
                   <motion.div
-                    className="bg-white rounded-xl shadow-md overflow-hidden cursor-pointer h-full"
-                    initial={{ opacity: 0, y: 50 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.5 }}
-                    whileHover={{ y: -10, boxShadow: "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)" }}
+                    className="bg-white rounded-xl shadow-md overflow-hidden h-full flex flex-col"
+                    whileHover={{ y: -10, boxShadow: "0 20px 25px -5px rgba(0, 0, 0, 0.1)" }}
                   >
-                    <div className="h-48 overflow-hidden">
+                    <div className="relative h-48 overflow-hidden bg-gray-100">
                       <ImageWithLazy
-                        src={post.image}
+                        src={post.image || defaultImage}
                         alt={post.title}
-                        className="w-full h-full object-cover transition-transform duration-500 hover:scale-110"
-                        fallbackSrc={defaultImage}
+                        className="w-full h-full object-cover transform transition-transform duration-300 hover:scale-105"
+                        loadingStrategy="eager"
                       />
+                      {post.icon && (
+                        <div className="absolute top-4 right-4 text-gold text-2xl bg-white/80 p-2 rounded-full">
+                          <post.icon />
+                        </div>
+                      )}
                     </div>
-                    <div className="p-6">
-                      <div className="flex items-center text-xs text-gray-500 mb-2">
-                        <span>{formatBlogDate(post.date)}</span>
-                        {/* Removed author display */}
+
+                    <div className="p-6 flex flex-col flex-grow">
+                      <div className="flex items-center justify-between mb-3">
+                        <div className="flex items-center text-sm text-gray-500">
+                          <FaCalendarAlt className="mr-2" />
+                          <span>{formatBlogDate(post.date)}</span>
+                        </div>
+                        <div className="flex items-center text-sm text-gray-500">
+                          <FaClock className="mr-2" />
+                          <span>{calculateReadTime(post.content)} min read</span>
+                        </div>
                       </div>
-                      <h3 className="text-xl font-bold mb-2 truncate">{post.title}</h3>
-                      <p className="text-gray-600 mb-4 overflow-hidden" style={{ display: '-webkit-box', WebkitLineClamp: 3, WebkitBoxOrient: 'vertical' }}>{post.excerpt}</p>
-                      <div className="flex flex-wrap gap-1">
-                        {post.tags.slice(0, 3).map((tag, index) => (
-                          <span key={index} className="text-xs bg-gray-100 px-2 py-1 rounded-full">
-                            {tag}
-                          </span>
-                        ))}
-                      </div>
-                      <div className="absolute top-4 right-4 text-gold text-2xl">
-                        <post.icon />
+
+                      <h3 className="text-xl font-bold mb-2 line-clamp-2">{post.title}</h3>
+                      <p className="text-gray-600 mb-4 line-clamp-3">{post.excerpt}</p>
+
+                      <div className="mt-auto">
+                        <div className="flex flex-wrap gap-2 mb-4">
+                          {post.tags?.slice(0, 3).map((tag, index) => (
+                            <span key={index} className="text-xs bg-gray-100 px-2 py-1 rounded-full">
+                              {tag}
+                            </span>
+                          ))}
+                        </div>
                       </div>
                     </div>
                   </motion.div>
@@ -109,6 +161,13 @@ const Blog = () => {
             ))}
           </AnimatePresence>
         </motion.div>
+
+        {/* Pagination */}
+        <Pagination
+          postsPerPage={postsPerPage}
+          totalPosts={filteredPosts.length}
+          paginate={setCurrentPage}
+        />
       </div>
     </main>
   );
