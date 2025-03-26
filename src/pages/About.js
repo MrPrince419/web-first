@@ -1,6 +1,5 @@
 import React from 'react';
-import AboutSection from '../components/AboutSection';
-import TestimonialsSection from '../components/TestimonialsSection';
+import AboutContent from '../components/about/AboutContent';
 import SEO from '../components/SEO';
 
 const About = () => {
@@ -11,8 +10,7 @@ const About = () => {
         description="Learn about Prince Uwagboe, an AI automation specialist based in Ontario, Canada, helping businesses save time and reduce costs."
         url="/about"
       />
-      <AboutSection />
-      <TestimonialsSection />
+      <AboutContent />
       {/* Footer is already included via App.js for all pages */}
     </main>
   );

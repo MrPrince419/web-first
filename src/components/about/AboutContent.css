@@ -1,0 +1,10 @@
+/* We're removing most of the custom CSS in favor of Tailwind classes for consistency */
+/* Only keep essential custom styles not easily achieved with Tailwind */
+
+/* For mobile responsiveness - these complement the Tailwind classes */
+@media (max-width: 768px) {
+  .stats-container {
+    flex-direction: column;
+    align-items: center;
+  }
+}
