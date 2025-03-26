@@ -137,3 +137,26 @@ export function unregisterServiceWorker() {
       });
   }
 }
+
+export function register() {
+  if (process.env.NODE_ENV === 'production' && 'serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      const swUrl = '/service-worker.js';
+      
+      navigator.serviceWorker
+        .register(swUrl)
+        .then(registration => {
+          console.log('SW registered:', registration);
+          
+          registration.addEventListener('error', event => {
+            console.error('Service worker error:', event.error);
+          });
+        })
+        .catch(error => {
+          console.error('SW registration failed:', error);
+        });
+    });
+  } else {
+    console.log('Service worker not enabled in development');
+  }
+}

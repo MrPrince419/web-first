@@ -6,7 +6,6 @@ import {
   FaChevronLeft, FaRocket, FaCogs, FaChartBar, FaUserPlus, 
   FaHeadset, FaBoxes, FaEnvelope, FaSyncAlt, FaDatabase
 } from 'react-icons/fa';
-import ImageWithLazy from './ImageWithLazy';
 import SectionWrapper from './SectionWrapper';
 import ProjectStatsDashboard from './portfolio/ProjectStatsDashboard';
 
@@ -41,7 +40,7 @@ const PortfolioSection = () => {
         quote: "Our social media management is now seamless and efficient.",
         client: "Marketing Manager"
       },
-      image: "https://images.unsplash.com/photo-1611926653458-09294b3142bf?w=800&auto=format&fit=crop"
+      image: "https://images.unsplash.com/photo-1611926653458-09294b3142bf?w=800&auto=format&fit=crop" // Social media dashboard with multiple screens
     },
     {
       id: 2,
@@ -60,7 +59,7 @@ const PortfolioSection = () => {
         quote: "Our email campaigns are now more effective with much less manual work.",
         client: "Small Business Owner"
       },
-      image: "https://images.unsplash.com/photo-1517697471339-4aa32003c11a?w=800&auto=format&fit=crop"
+      image: "https://images.unsplash.com/photo-1611241893603-3c359704e0ee?w=800&auto=format&fit=crop" // Email marketing campaign visualization
     },
     {
       id: 3,
@@ -79,7 +78,7 @@ const PortfolioSection = () => {
         quote: "Data sync is now seamless and error-free across all our platforms.",
         client: "Sales Manager"
       },
-      image: "https://images.unsplash.com/photo-1581091870622-1c6baca6a6d8?w=800&auto=format&fit=crop"
+      image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&auto=format&fit=crop" // Data visualization dashboard
     },
     {
       id: 4,
@@ -306,14 +305,15 @@ const PortfolioSection = () => {
             transition={{ duration: 0.8 }}
           >
             <div className="bg-white rounded-xl overflow-hidden shadow-lg">
-              <div className="lg:flex">
-                <div className="lg:w-1/2 relative">
-                  <ImageWithLazy 
-                    src={featuredProject.image} 
-                    alt={featuredProject.title} 
-                    className="w-full h-full object-cover object-center"
-                    style={{ minHeight: "300px" }}
-                    fallbackSrc='https://placehold.co/800x600/eee/999?text=Featured+Project'
+              <div className="lg:flex min-h-[400px]"> {/* Added min-height */}
+                <div className="lg:w-1/2 relative min-h-[400px]"> {/* Added min-height */}
+                  <img 
+                    src={featuredProject.image}
+                    alt={featuredProject.title}
+                    className="absolute inset-0 w-full h-full object-cover"
+                    onError={(e) => {
+                      e.target.src = 'https://placehold.co/800x600/eee/999?text=Featured+Project';
+                    }}
                   />
                   <div className="absolute top-4 left-4">
                     <span className="bg-gold text-navy px-3 py-1 rounded-full text-sm font-bold flex items-center">
@@ -410,25 +410,30 @@ const FlippableProjectCard = ({ project, categories }) => {
         <div className={`pricing-card ${isFlipped ? 'is-flipped' : ''}`}>
           {/* Front side - Simplified DOM structure */}
           <div className="pricing-card-face rounded-xl overflow-hidden shadow-lg">
-            <ImageWithLazy
-              src={project.image}
-              alt={project.title}
-              className="absolute inset-0 w-full h-full object-cover"
-              fallbackSrc="https://placehold.co/800x600/eee/999?text=Project"
-            />
-            <div className="absolute inset-0 bg-gradient-to-b from-navy/60 to-navy/95 p-6 flex flex-col">
-              <Icon className="text-gold text-2xl" aria-hidden="true" />
-              <h3 className="text-xl font-bold text-white mt-4 mb-2">{project.title}</h3>
-              <p className="text-white/90 text-sm flex-grow">
-                {project.description}
-              </p>
-              <button 
-                onClick={() => setIsFlipped(true)}
-                className="mt-4 text-sm bg-gold hover:bg-orange text-navy py-2 px-4 rounded-lg transition-all duration-300 flex items-center justify-center gap-2"
-                aria-label={`Learn more about ${project.title}`}
-              >
-                Learn More <FaArrowRight className="text-navy" aria-hidden="true" />
-              </button>
+            <div className="relative w-full h-full">
+              <img
+                src={project.image}
+                alt={project.title}
+                className="absolute inset-0 w-full h-full object-cover"
+                loading="lazy"
+                onError={(e) => {
+                  e.target.src = 'https://placehold.co/800x600/eee/999?text=Project';
+                }}
+              />
+              <div className="absolute inset-0 bg-gradient-to-b from-navy/60 to-navy/95 p-6 flex flex-col">
+                <Icon className="text-gold text-2xl" aria-hidden="true" />
+                <h3 className="text-xl font-bold text-white mt-4 mb-2">{project.title}</h3>
+                <p className="text-white/90 text-sm flex-grow">
+                  {project.description}
+                </p>
+                <button 
+                  onClick={() => setIsFlipped(true)}
+                  className="mt-4 text-sm bg-gold hover:bg-orange text-navy py-2 px-4 rounded-lg transition-all duration-300 flex items-center justify-center gap-2"
+                  aria-label={`Learn more about ${project.title}`}
+                >
+                  Learn More <FaArrowRight className="text-navy" aria-hidden="true" />
+                </button>
+              </div>
             </div>
           </div>
 

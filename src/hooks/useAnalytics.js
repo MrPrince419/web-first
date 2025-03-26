@@ -2,23 +2,31 @@ import { useEffect, useCallback } from 'react';
 import { useLocation } from 'react-router-dom';
 
 /**
- * A hook to manage Google Analytics tracking with fallback options
+ * A hook to manage Google Analytics tracking
  */
 const useAnalytics = () => {
   const location = useLocation();
 
-  // Track page views
+  // Track page views automatically
   useEffect(() => {
-    // Track page view (handled by AnalyticsWrapper to avoid duplication)
+    if (typeof window.gtag === 'function') {
+      window.gtag('config', 'G-LBFHMF14F5', {
+        'page_path': location.pathname,
+        'page_location': window.location.href,
+        'page_title': document.title
+      });
+    }
   }, [location]);
 
-  // Track custom events with fallback support
-  const trackEvent = useCallback((action, category, label, value) => {
+  // Simplified event tracking without consent check
+  const trackEvent = useCallback((action, category, label, value = null) => {
     if (typeof window.gtag === 'function') {
       window.gtag('event', action, {
         'event_category': category,
         'event_label': label,
-        'value': value
+        'value': value,
+        'page_path': location.pathname,
+        'page_location': window.location.href
       });
       return true;
     } else if (typeof window.trackEvent === 'function') {
@@ -26,8 +34,8 @@ const useAnalytics = () => {
       return true;
     }
     return false;
-  }, []);
-  
+  }, [location]);
+
   // Common tracking functions
   const trackContactFormSubmission = useCallback(() => {
     return trackEvent('submit', 'contact', 'contact_form_submission');

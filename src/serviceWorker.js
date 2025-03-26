@@ -1,3 +1,14 @@
+function handleError(error) {
+  if (error.status === 404) {
+    console.warn('Resource not found:', error.url);
+    return new Response('Resource not found', {
+      status: 404,
+      statusText: 'Not Found'
+    });
+  }
+  throw error;
+}
+
 export function register() {
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
@@ -5,9 +16,15 @@ export function register() {
         .register('/service-worker.js')
         .then(registration => {
           console.log('SW registered: ', registration);
+          
+          // Add error handling
+          registration.addEventListener('error', event => {
+            handleError(event.error);
+          });
         })
         .catch(error => {
-          console.log('SW registration failed: ', error);
+          console.error('SW registration failed: ', error);
+          handleError(error);
         });
     });
   }

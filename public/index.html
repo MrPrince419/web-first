@@ -40,25 +40,36 @@
     <!-- Preconnect to domains we know we'll use -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Forum&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="preconnect" href="https://www.googletagmanager.com" />
     
-    <!-- Enhanced Analytics Implementation with minimal GDPR impact -->
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-LBFHMF14F5"></script>
     <script>
-      // First-party analytics fallback with privacy focus
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-LBFHMF14F5', {
+        'anonymize_ip': true,
+        'cookie_flags': 'SameSite=None;Secure',
+        'transport_type': 'beacon',
+        'page_path': window.location.pathname
+      });
+    </script>
+    
+    <!-- Remove all consent-related code and keep only the fallback implementation -->
+    <script>
+      // First-party analytics fallback
       window.analyticsData = [];
       window.trackPageView = function(path) {
-        console.log('Fallback tracking: Page view', path);
         window.analyticsData.push({
           type: 'pageview',
           path: path,
           timestamp: new Date().toISOString()
         });
-        // Data will be stored locally only unless explicitly sent to backend
-        localStorage.setItem('analyticsConsent', 'pending');
       };
       
       window.trackEvent = function(category, action, label, value) {
-        console.log('Fallback tracking: Event', category, action, label);
         window.analyticsData.push({
           type: 'event',
           category: category,
@@ -68,62 +79,6 @@
           timestamp: new Date().toISOString()
         });
       };
-
-      // Initialize standard GA conditionally on consent
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      
-      // Check for previous consent
-      const hasAnalyticsConsent = localStorage.getItem('analyticsConsent') === 'granted';
-    </script>
-    
-    <!-- Conditionally load GA only if consent exists -->
-    <script>
-      (function() {
-        var gaLoaded = false;
-        
-        function loadGA() {
-          // Check if user previously provided consent
-          if (localStorage.getItem('analyticsConsent') === 'granted') {
-            var script = document.createElement('script');
-            script.async = true;
-            script.src = 'https://www.googletagmanager.com/gtag/js?id=G-LBFHMF14F5';
-            
-            script.onload = function() {
-              gaLoaded = true;
-              console.log('Google Analytics loaded successfully');
-              gtag('config', 'G-LBFHMF14F5', {
-                'anonymize_ip': true,
-                'cookie_flags': 'SameSite=None;Secure',
-                'transport_type': 'beacon'
-              });
-            };
-            
-            script.onerror = function() {
-              console.log('Primary analytics script failed to load - using fallback');
-              // Use fallback if GA fails to load
-              localStorage.setItem('analyticsConsent', 'fallback');
-            };
-            
-            document.head.appendChild(script);
-          } else {
-            // No consent yet - we'll prompt later within the app
-            console.log('Awaiting analytics consent');
-          }
-        }
-        
-        // Delay loading GA to improve page load speed
-        setTimeout(loadGA, 2000);
-        
-        // Set up a consent handler that can be called from within the React app
-        window.handleAnalyticsConsent = function(granted) {
-          localStorage.setItem('analyticsConsent', granted ? 'granted' : 'denied');
-          if (granted && !gaLoaded) {
-            loadGA();
-          }
-        };
-      })();
     </script>
     
     <!-- Critical CSS for initial loading -->
@@ -200,9 +155,28 @@
     <meta name="theme-color" content="#0a192f">
     <link rel="dns-prefetch" href="https://images.unsplash.com">
     
-    <!-- Modern Image Format Support -->
-    <link rel="preload" as="image" href="/logo.webp" type="image/webp">
-    <link rel="preload" as="image" href="/logo.png" type="image/png">
+    <!-- Removed unused preload directives for logo files -->
+
+    <!-- Font fallback styles -->
+    <style>
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      }
+    </style>
+    
+    <!-- Add font loading detection -->
+    <script>
+      document.documentElement.classList.add('fonts-loading');
+      if ("fonts" in document) {
+        Promise.all([
+          document.fonts.load('1em Adobe Clean'),
+          document.fonts.load('700 1em Adobe Clean')
+        ]).then(() => {
+          document.documentElement.classList.remove('fonts-loading');
+        });
+      }
+    </script>
+    
   </head>
   <body>
     <a href="#main-content" class="skip-link">Skip to main content</a>

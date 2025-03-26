@@ -233,8 +233,11 @@ div[class*="overflow-"]::-webkit-scrollbar {
 }
 
 :root {
-  /* Removing redundant variables */
-  /* These are now defined in theme.css */
+  --font-fallback: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+* {
+  font-family: var(--font-fallback);
 }
 
 body {
@@ -1244,4 +1247,60 @@ button span, .btn span {
   overflow-y: auto;
 }
 
+/* Portfolio card height fixes */
+.pricing-card-container {
+  min-height: 400px !important;
+  height: 100%;
+}
+
+.pricing-card-face {
+  min-height: 400px !important;
+}
+
+.featured-project-image {
+  min-height: 400px;
+  position: relative;
+}
+
+/* Ensure images maintain aspect ratio and cover their containers */
+.featured-project-image img,
+.pricing-card-face img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
 /* If there were any specific styles for back-to-top, they can stay since they won't cause errors */
+
+/* Ensure content remains readable during font load */
+.fonts-loading * {
+  font-family: var(--font-fallback);
+}
+
+/* Remove or comment out the @font-face declarations until Adobe Clean fonts are available */
+/* Font loading optimizations 
+@font-face {
+  font-family: 'Adobe Clean';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Arial'),
+       url('../public/fonts/AdobeClean-Regular.woff2') format('woff2'),
+       local('Helvetica');
+}
+
+@font-face {
+  font-family: 'Adobe Clean';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: local('Arial Bold'),
+       url('../public/fonts/AdobeClean-Bold.woff2') format('woff2'),
+       local('Helvetica Bold');
+}
+*/
+
+/* Prevent FOUT */
+.fonts-loading * {
+  font-family: var(--font-fallback);
+}

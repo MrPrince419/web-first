@@ -74,17 +74,18 @@ const router = createBrowserRouter([
   }
 ], {
   future: {
-    v7_startTransition: true
+    v7_startTransition: true,
+    v7_relativeSplatPath: true
   }
 });
 
 function App() {
-  // Register service worker only in production
   useEffect(() => {
-    // Only register service worker in production
-    registerServiceWorker();
+    if (process.env.NODE_ENV === 'production' && 'serviceWorker' in navigator) {
+      registerServiceWorker();
+    }
   }, []);
-  
+
   return <RouterProvider router={router} />;
 }
 
