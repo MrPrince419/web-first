@@ -38,12 +38,20 @@ const FAQItem = ({ question, answer, isOpen, toggleOpen }) => {
   );
 };
 
-const FAQSection = ({ title = "Frequently Asked Questions", faqs }) => {
-  const [openIndex, setOpenIndex] = useState(0); // First question open by default
+const FAQSection = ({ 
+  title = "Frequently Asked Questions", 
+  faqs = [] // Add default empty array
+}) => {
+  const [openIndex, setOpenIndex] = useState(0);
   
   const toggleQuestion = (index) => {
     setOpenIndex(index === openIndex ? null : index);
   };
+
+  // Guard against undefined faqs
+  if (!faqs || faqs.length === 0) {
+    return null; // Or return some placeholder content
+  }
 
   return (
     <section className="py-20 bg-gray-50">

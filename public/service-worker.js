@@ -32,6 +32,21 @@ const NETWORK_FIRST_PATTERNS = [
   /\/contact\//
 ];
 
+const CACHE_CONFIG = {
+  images: {
+    maxAge: 30 * 24 * 60 * 60, // 30 days
+    maxEntries: 60
+  },
+  static: {
+    maxAge: 7 * 24 * 60 * 60, // 7 days
+    maxEntries: 100
+  },
+  dynamic: {
+    maxAge: 24 * 60 * 60, // 1 day
+    maxEntries: 50
+  }
+};
+
 // Install event - precache critical assets
 self.addEventListener('install', event => {
   event.waitUntil(
@@ -70,6 +85,22 @@ self.addEventListener('fetch', event => {
   // Parse URL to determine caching strategy
   const url = new URL(event.request.url);
   
+  // Cache images with network fallback
+  if (/\.(jpe?g|png|gif|webp|svg)$/i.test(url.pathname)) {
+    event.respondWith(
+      caches.match(event.request)
+        .then(response => response || fetch(event.request)
+          .then(fetchResponse => {
+            const cacheCopy = fetchResponse.clone();
+            caches.open(RUNTIME_CACHE)
+              .then(cache => cache.put(event.request, cacheCopy));
+            return fetchResponse;
+          })
+        )
+    );
+    return;
+  }
+
   // For navigation requests (HTML pages), use network-first approach
   if (event.request.mode === 'navigate') {
     event.respondWith(

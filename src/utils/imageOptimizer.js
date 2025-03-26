@@ -14,7 +14,7 @@ export const generateSrcSet = (imagePath, sizes = [320, 640, 960, 1280, 1920]) =
   // For Unsplash images, use their optimization parameters instead
   if (imagePath.includes('unsplash.com')) {
     return sizes
-      .map(size => `${imagePath.split('?')[0]}?w=${size}&auto=format&fit=crop ${size}w`)
+      .map(size => `${imagePath.split('?')[0]}?w=${size}&auto=format&fit=crop&fm=webp ${size}w`)
       .join(', ');
   }
   
@@ -23,7 +23,10 @@ export const generateSrcSet = (imagePath, sizes = [320, 640, 960, 1280, 1920]) =
   const basePath = imagePath.replace(`.${extension}`, '');
   
   return sizes
-    .map(size => `${basePath}-${size}.${extension} ${size}w`)
+    .map(size => `
+      ${basePath}-${size}.webp ${size}w,
+      ${basePath}-${size}.${extension} ${size}w
+    `)
     .join(', ');
 };
 
@@ -35,7 +38,7 @@ export const getOptimizedSrc = (src, width = 800) => {
   if (src.includes('unsplash.com')) {
     // Extract base URL without existing parameters
     const baseUrl = src.split('?')[0];
-    return `${baseUrl}?w=${width}&auto=format&fit=crop`;
+    return `${baseUrl}?w=${width}&auto=format&fit=crop&fm=webp&q=80`;
   }
   
   // For other external images, return as is
@@ -44,9 +47,13 @@ export const getOptimizedSrc = (src, width = 800) => {
   }
   
   // For local images, assume optimized versions exist
+  // Prefer WebP with fallback
   const extension = src.split('.').pop();
   const basePath = src.replace(`.${extension}`, '');
-  return `${basePath}-${width}.${extension}`;
+  return {
+    webp: `${basePath}-${width}.webp`,
+    fallback: `${basePath}-${width}.${extension}`
+  };
 };
 
 // Lazy loading helper
