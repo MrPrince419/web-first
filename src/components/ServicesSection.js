@@ -4,8 +4,8 @@ import { Link } from 'react-router-dom';
 import { 
   FaCheck, FaEnvelope, FaComments, FaSyncAlt, FaHeadset, 
   FaDatabase, FaChartBar, FaRocket, FaArrowRight, FaChevronLeft,
-  FaIndustry, FaStore, FaHospital, FaBriefcase
-} from 'react-icons/fa'; // Removed unused FaSearch
+  FaIndustry, FaStore, FaHospital
+} from 'react-icons/fa'; // Removed unused FaBriefcase
 import SectionWrapper from './SectionWrapper';
 
 const PricingCard = ({ plan, isPopular, features, price, faq, planId }) => {

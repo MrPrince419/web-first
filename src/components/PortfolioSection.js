@@ -3,208 +3,255 @@ import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { 
   FaArrowRight, FaStar, FaQuoteRight, FaShoppingCart, FaCalendar,
-  FaFileAlt, FaRobot, FaEnvelope, FaBullhorn, FaDatabase, 
-  FaSyncAlt, FaChevronLeft, FaRocket
+  FaChevronLeft, FaRocket, FaCogs, FaChartBar, FaUserPlus, 
+  FaHeadset, FaBoxes, FaEnvelope, FaSyncAlt, FaDatabase
 } from 'react-icons/fa';
 import ImageWithLazy from './ImageWithLazy';
 import SectionWrapper from './SectionWrapper';
+import ProjectStatsDashboard from './portfolio/ProjectStatsDashboard';
 
 const PortfolioSection = () => {
   const [activeCategory, setActiveCategory] = useState('all');
   
   const categories = [
     { id: 'all', name: 'All Projects' },
-    { id: 'email', name: 'Email Automation' },
-    { id: 'social', name: 'Social Media' },
+    { id: 'automation', name: 'Business Automation' },
+    { id: 'email', name: 'Email Systems' },
     { id: 'crm', name: 'CRM Integration' },
-    { id: 'data', name: 'Data Processing' }
+    { id: 'data', name: 'Data Processing' },
+    { id: 'workflow', name: 'Workflow Automation' }
   ];
 
-  // Placeholder images with improved visuals
-  const placeholderImages = {
-    ecommerce: "https://images.unsplash.com/photo-1468495244123-6c6c332aea4b?w=800&auto=format&fit=crop", // Workflow automation
-    chatbot: "https://images.unsplash.com/photo-1635493701752-fb5e65a4be1c?w=800&auto=format&fit=crop", // AI chat interface
-    document: "https://images.unsplash.com/photo-1589829085413-56de8ae18c73?w=800&auto=format&fit=crop", // Real estate documents
-    marketing: "https://images.unsplash.com/photo-1533750349088-cd871a92f312?w=800&auto=format&fit=crop", // Marketing analytics
-    financial: "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=800&auto=format&fit=crop", // Financial dashboard
-    healthcare: "https://images.unsplash.com/photo-1530497610245-94d3c16cda28?w=800&auto=format&fit=crop", // Healthcare system
-    social: "https://images.unsplash.com/photo-1611162618758-2a29a995354b?w=800&auto=format&fit=crop", // Social media dashboard
-    email: "https://images.unsplash.com/photo-1517697471339-4aa32003c11a?w=800&auto=format&fit=crop", // Email marketing
-    crm: "https://images.unsplash.com/photo-1552664730-d307ca884978?w=800&auto=format&fit=crop" // CRM system
-  };
-
-  // Enhanced projects with more detailed information
+  // Updated projects array with more relevant images
   const projects = [
     {
       id: 1,
-      title: "E-commerce Email Automation",
-      category: "email",
-      icon: FaShoppingCart,
-      description: "Created a comprehensive order management system that seamlessly connects marketplaces, inventory, and fulfillment for a multi-channel retailer. The system automatically syncs stock levels, generates restock alerts, and sends personalized customer communications.",
-      results: "Reduced manual data entry by 85% while ensuring real-time inventory accuracy, cutting order processing time from 45 minutes to just 5 minutes per order.",
+      title: "Automated Social Media Posting System",
+      category: "social",
+      date: "2024-12-15",
+      icon: FaCalendar,
+      technologies: ["Buffer", "Zapier", "Google Sheets", "Later"],
+      description: "Set up an automated system to schedule and post content across multiple social media platforms, saving hours of manual work weekly.",
+      results: "Achieved 40% faster turnaround time for campaigns while maintaining content quality.",
       metrics: {
-        value: "85%",
-        label: "Reduced Manual Work"
+        value: "40%",
+        label: "Faster Campaigns"
       },
       testimonial: {
-        quote: "Our staff now processes 4x more orders in the same amount of time!",
-        client: "Operations Director, Multi-Channel Retailer"
+        quote: "Our social media management is now seamless and efficient.",
+        client: "Marketing Manager"
       },
-      image: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=800&auto=format&fit=crop", // Changed to a more reliable workflow/dashboard image
-      featured: true
+      image: "https://images.unsplash.com/photo-1611926653458-09294b3142bf?w=800&auto=format&fit=crop"
     },
     {
       id: 2,
-      title: "Social Media Content Calendar",
-      category: "social",
-      icon: FaCalendar,
-      description: "Created an automated content calendar and posting system for a local restaurant chain.",
-      results: "Increased engagement by 45% and saved 20 hours per week on social media management.",
+      title: "Email Campaign Workflow Optimization",
+      category: "email",
+      date: "2024-11-20",
+      icon: FaEnvelope,
+      technologies: ["Mailchimp", "HubSpot", "Google Analytics", "Zapier"],
+      description: "Streamlined email campaign creation by integrating templates and automating follow-ups for small businesses.",
+      results: "Increased open rates by 35% through automated personalization and timing optimization.",
       metrics: {
-        value: "45%",
-        label: "Increased Engagement"
+        value: "35%",
+        label: "Higher Open Rates"
       },
       testimonial: {
-        quote: "Our social media presence has never been stronger or more consistent.",
-        client: "Marketing Manager, Restaurant Chain"
+        quote: "Our email campaigns are now more effective with much less manual work.",
+        client: "Small Business Owner"
       },
-      image: placeholderImages.social
+      image: "https://images.unsplash.com/photo-1517697471339-4aa32003c11a?w=800&auto=format&fit=crop"
     },
     {
       id: 3,
-      title: "Real Estate Document Automation System",
-      category: "document",
-      icon: FaFileAlt,
-      description: "Engineered an intelligent document automation solution that extracts and processes information from property listings and contracts. The system uses advanced AI to identify key terms, automatically populate forms, and maintain compliance.",
-      results: "Cut document processing time by 75% and virtually eliminated data entry errors.",
+      title: "CRM Data Sync Automation",
+      category: "crm",
+      date: "2024-10-25",
+      icon: FaSyncAlt,
+      technologies: ["Airtable", "Integromat", "HubSpot", "Zapier"],
+      description: "Created a seamless integration between customer data in spreadsheets and their CRM platform, reducing errors from manual entry.",
+      results: "Reduced data discrepancies by 50% while improving data accuracy and consistency.",
       metrics: {
-        value: "75%",
-        label: "Faster Document Processing"
+        value: "50%",
+        label: "Fewer Errors"
       },
       testimonial: {
-        quote: "The automation has saved us countless hours and improved accuracy.",
-        client: "Real Estate Manager"
+        quote: "Data sync is now seamless and error-free across all our platforms.",
+        client: "Sales Manager"
       },
-      image: "https://images.unsplash.com/photo-1554469384-e58fac16e23a?w=800&auto=format&fit=crop" // Real estate document organization
+      image: "https://images.unsplash.com/photo-1581091870622-1c6baca6a6d8?w=800&auto=format&fit=crop"
     },
     {
       id: 4,
-      title: "Marketing Campaign Automation Platform",
-      category: "marketing",
-      icon: FaBullhorn,
-      description: "Built a sophisticated marketing automation platform that orchestrates multi-channel campaigns based on customer behaviors and preferences. The system intelligently segments audiences, schedules content delivery, and analyzes engagement metrics to continuously refine messaging.",
-      results: "Increased campaign effectiveness by 40% while reducing the marketing team's workload by over 60%.",
+      title: "Expense Tracking & Reporting Tool",
+      category: "automation",
+      date: "2024-09-15",
+      icon: FaChartBar,
+      technologies: ["Wave", "Google Forms", "Trello", "Zapier"],
+      description: "Built a custom expense tracker that pulls receipts from emails and categorizes them automatically into reports.",
+      results: "Saved clients 60% of time spent on bookkeeping tasks through automated categorization.",
       metrics: {
-        value: "40%",
-        label: "Increased Campaign Effectiveness"
+        value: "60%",
+        label: "Time Saved"
       },
       testimonial: {
-        quote: "Our marketing efforts are now more targeted and efficient.",
-        client: "Marketing Director"
+        quote: "Bookkeeping that used to take days now happens automatically.",
+        client: "Finance Director"
       },
-      image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&auto=format&fit=crop" // Marketing analytics dashboard
+      image: "https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?w=800&auto=format&fit=crop",
+      featured: true
     },
     {
       id: 5,
-      title: "Financial Data Analysis & Reporting Suite",
-      category: "data",
-      icon: FaDatabase,
-      description: "Created an advanced financial data processing system that transforms raw transaction data into actionable business intelligence. The solution automatically reconciles accounts, flags anomalies, and generates customized reports and visualizations.",
-      results: "Cut monthly reporting time from 3 days to 2 hours.",
+      title: "Lead Nurturing Automation Funnel",
+      category: "crm",
+      date: "2024-08-20",
+      icon: FaRocket,
+      technologies: ["ActiveCampaign", "Typeform", "Google Tag Manager", "Zapier"],
+      description: "Designed a lead nurturing funnel using personalized email sequences triggered by user actions.",
+      results: "Boosted conversion rates by 25% through automated personalized follow-ups.",
       metrics: {
-        value: "98%",
-        label: "Faster Reporting"
+        value: "25%",
+        label: "Higher Conversions"
       },
       testimonial: {
-        quote: "We now have unprecedented visibility into our financial operations.",
-        client: "CFO"
+        quote: "Our leads are converting at higher rates with less manual intervention.",
+        client: "Marketing Director"
       },
-      image: placeholderImages.financial
+      image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&auto=format&fit=crop"
     },
     {
       id: 6,
-      title: "Healthcare Patient Engagement System",
-      category: "workflow",
-      icon: FaRobot,
-      description: "Implemented a comprehensive patient engagement solution that automates appointment scheduling, reminders, follow-ups, and satisfaction surveys. The system intelligently prioritizes communications based on appointment type and patient history.",
-      results: "Reduced no-shows by 35%, increased patient satisfaction scores by 28%, and freed up 25 staff hours per week.",
+      title: "Inventory Management Dashboard",
+      category: "data",
+      date: "2024-07-15",
+      icon: FaBoxes,
+      technologies: ["Google Data Studio", "Notion", "Shopify", "Zapier"],
+      description: "Developed a real-time inventory dashboard pulling stock levels from multiple sources to streamline restocking decisions.",
+      results: "Decreased out-of-stock incidents by 45% while optimizing inventory levels.",
       metrics: {
-        value: "35%",
-        label: "Reduced No-Shows"
+        value: "45%",
+        label: "Fewer Stockouts"
       },
       testimonial: {
-        quote: "Our patients are more engaged and our staff is more efficient.",
-        client: "Clinic Manager"
+        quote: "We've eliminated stockouts while keeping less inventory on hand.",
+        client: "Operations Manager"
       },
-      image: placeholderImages.healthcare
+      image: "https://images.unsplash.com/photo-1553413077-190dd305871c?w=800&auto=format&fit=crop"
     },
     {
       id: 7,
-      title: "Email Automation for SaaS Onboarding",
-      category: "email",
-      icon: FaEnvelope,
-      description: "Set up an intelligent email onboarding sequence that adapts based on user behavior and engagement patterns. The system segments users, delivers personalized content, and automatically adjusts timing to optimize conversion rates.",
-      results: "Increased user activation by 40% in the first month and reduced support tickets by 25%.",
+      title: "Task Assignment Workflow Builder",
+      category: "workflow",
+      date: "2024-06-10",
+      icon: FaCogs,
+      technologies: ["ClickUp", "Slack", "Google Calendar", "Zapier"],
+      description: "Automated repetitive task assignments within teams using conditional logic based on project stages.",
+      results: "Improved team productivity by 30% through automated task management.",
       metrics: {
-        value: "40%",
-        label: "Higher User Activation"
+        value: "30%",
+        label: "More Productive"
       },
       testimonial: {
-        quote: "The automated onboarding sequence has transformed our user activation process.",
-        client: "Product Manager, SaaS Platform"
+        quote: "Task management is now seamless and our team is more productive.",
+        client: "Project Manager"
       },
-      image: "https://images.unsplash.com/photo-1563986768609-322da13575f3?w=800&auto=format&fit=crop" // Email workflow automation
+      image: "https://images.unsplash.com/photo-1552566626-52f8b828add9?w=800&auto=format&fit=crop"
     },
     {
       id: 8,
-      title: "Social Media Ad Automation",
-      category: "social",
-      icon: FaBullhorn,
-      description: "Built an automated ad posting and performance tracking system integrating with Facebook, Instagram, and LinkedIn. The system uses AI to optimize ad spend, target audiences, and adjust content timing for maximum engagement across all platforms.",
-      results: "Boosted ad ROI by 30% while reducing campaign management time by 60%.",
+      title: "Customer Feedback Collection System",
+      category: "automation",
+      date: "2024-05-05",
+      icon: FaHeadset,
+      technologies: ["Google Forms", "Microsoft Power Automate", "Hootsuite"],
+      description: "Implemented a feedback collection process that aggregates reviews from various channels into one central database.",
+      results: "Increased response rate by 55% through automated collection and analysis.",
       metrics: {
-        value: "30%",
-        label: "Improved Ad ROI"
+        value: "55%",
+        label: "Higher Response Rate"
       },
       testimonial: {
-        quote: "Our advertising efficiency has improved dramatically.",
-        client: "Digital Marketing Director"
+        quote: "We're getting more feedback than ever and actually using it effectively.",
+        client: "Customer Success Manager"
       },
-      image: "https://images.unsplash.com/photo-1563013544-824ae1b704d3?w=800&auto=format&fit=crop" // More reliable Facebook interface image
+      image: "https://images.unsplash.com/photo-1535598745644-bc7913bb1a2a?w=800&auto=format&fit=crop"
     },
     {
       id: 9,
-      title: "Data Pipeline for E-commerce Analytics",
-      category: "data",
-      icon: FaDatabase,
-      description: "Created a comprehensive data pipeline that processes and analyzes sales data in real-time. The system provides predictive analytics for inventory management, customer behavior insights, and automated reporting for better business decisions.",
-      results: "Cut reporting time by 40% and enabled real-time decision making with automated dashboards.",
+      title: "E-commerce Order Fulfillment Pipeline",
+      category: "automation",
+      date: "2024-04-01",
+      icon: FaShoppingCart,
+      technologies: ["WooCommerce", "Asana", "ShipStation", "Zapier"],
+      description: "Automated order processing steps such as payment confirmation, shipping notifications, and tracking updates.",
+      results: "Reduced fulfillment delays by 40% while improving customer satisfaction.",
       metrics: {
         value: "40%",
-        label: "Faster Analytics"
+        label: "Faster Fulfillment"
       },
       testimonial: {
-        quote: "We now have instant access to crucial business insights.",
-        client: "E-commerce Analytics Manager"
+        quote: "Orders are now processed and shipped faster than we ever thought possible.",
+        client: "E-commerce Manager"
       },
-      image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&auto=format&fit=crop" // Data analytics dashboard
+      image: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=800&auto=format&fit=crop"
     },
     {
       id: 10,
-      title: "Enterprise CRM Integration Platform",
-      category: "crm",
-      icon: FaSyncAlt,
-      description: "Built a comprehensive CRM integration platform connecting sales, marketing, and customer service departments. The unified system provides real-time customer insights, automates follow-ups, and synchronizes data across all business units.",
-      results: "Improved lead conversion by 45% and reduced customer response time by 60%.",
+      title: "Employee Onboarding Workflow",
+      category: "workflow",
+      date: "2024-03-01",
+      icon: FaUserPlus,
+      technologies: ["DocuSign", "Monday.com", "Gmail", "Slack"],
+      description: "Simplified the onboarding process by creating automated workflows for document signing and training schedules.",
+      results: "Shortened onboarding duration by 35% while improving new hire satisfaction.",
       metrics: {
-        value: "45%",
-        label: "Higher Lead Conversion"
+        value: "35%",
+        label: "Faster Onboarding"
       },
       testimonial: {
-        quote: "The integrated CRM system has revolutionized how we handle customer relationships.",
-        client: "VP of Sales, Enterprise Tech Company"
+        quote: "New hires are productive faster and the HR team saves countless hours.",
+        client: "HR Director"
       },
-      image: "https://images.unsplash.com/photo-1552664730-d307ca884978?w=800&auto=format&fit=crop" // CRM dashboard
+      image: "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?w=800&auto=format&fit=crop"
+    },
+    {
+      id: 11,
+      title: "Sales Pipeline Status Tracker",
+      category: "crm",
+      date: "2024-02-01",
+      icon: FaChartBar,
+      technologies: ["Pipedrive", "Google Sheets", "Slack", "Zapier"],
+      description: "Built a dynamic sales pipeline tracker that updates deal statuses automatically based on CRM interactions.",
+      results: "Enhanced sales forecasting accuracy by 50% through automated tracking.",
+      metrics: {
+        value: "50%",
+        label: "More Accurate"
+      },
+      testimonial: {
+        quote: "Our sales forecasting is now consistently accurate and always up-to-date.",
+        client: "Sales Director"
+      },
+      image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&auto=format&fit=crop"
+    },
+    {
+      id: 12,
+      title: "Bulk Data Cleanup Script",
+      category: "data",
+      date: "2024-01-15",
+      icon: FaDatabase,
+      technologies: ["Python", "OpenRefine", "Google Drive", "Pandas"],
+      description: "Wrote scripts to clean and organize large datasets stored in spreadsheets, ensuring consistency and usability.",
+      results: "Reduced data cleanup effort by 70% while improving data quality.",
+      metrics: {
+        value: "70%",
+        label: "Less Effort"
+      },
+      testimonial: {
+        quote: "Data cleanup that took weeks now happens in hours with perfect accuracy.",
+        client: "Data Analyst"
+      },
+      image: "https://images.unsplash.com/photo-1543286386-2e659306cd6c?w=800&auto=format&fit=crop"
     }
   ];
 
@@ -246,6 +293,8 @@ const PortfolioSection = () => {
             </Link>
           </motion.div>
         </motion.div>
+
+        <ProjectStatsDashboard projects={projects} />
 
         {/* Featured Project Section */}
         {featuredProject && (
@@ -330,11 +379,7 @@ const PortfolioSection = () => {
           ))}
         </div>
 
-        {/* Projects Grid - Regular Projects */}
-        <motion.div 
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
-          layout
-        >
+        <motion.div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" layout>
           {filteredProjects
             .filter(project => !project.featured || activeCategory !== 'all')
             .map((project) => (
@@ -400,6 +445,16 @@ const FlippableProjectCard = ({ project, categories }) => {
               <p className="text-sm text-gray-600 flex-grow overflow-y-auto">
                 {project.results}
               </p>
+              <div className="mt-4">
+                <h4 className="text-sm font-semibold text-gray-500 uppercase mb-2">Technologies Used</h4>
+                <div className="flex flex-wrap gap-2">
+                  {project.technologies?.map(tech => (
+                    <span key={tech} className="px-3 py-1.5 bg-gray-100 rounded-full text-sm text-gray-600">
+                      {tech}
+                    </span>
+                  ))}
+                </div>
+              </div>
               <button 
                 onClick={() => setIsFlipped(false)}
                 className="mt-4 text-gray-500 hover:text-gold flex items-center justify-center gap-2 transition-colors"
