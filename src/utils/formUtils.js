@@ -1,5 +1,23 @@
-const SUBMISSION_LIMIT = 3;
-const SUBMISSION_WINDOW = 3600000; // 1 hour in milliseconds
+export const validateEmail = (email) => {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+};
+
+export const sanitizeFormData = (data) => {
+  return Object.entries(data).reduce((acc, [key, value]) => ({
+    ...acc,
+    [key]: typeof value === 'string' ? value.trim() : value
+  }), {});
+};
+
+export const calculateFormProgress = (formData, requiredFields) => {
+  const filledFields = Object.entries(formData)
+    .filter(([key, value]) => requiredFields.includes(key) && value.trim() !== '')
+    .length;
+  return (filledFields / requiredFields.length) * 100;
+};
+
+export const SUBMISSION_LIMIT = 3;
+export const SUBMISSION_WINDOW = 3600000; // 1 hour in milliseconds
 
 export const sanitizeInput = (input) => {
   if (typeof input !== 'string') return '';

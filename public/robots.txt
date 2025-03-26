@@ -1,14 +1,28 @@
 # Prince AI Automation - robots.txt
 # https://princeaiautomation.netlify.app
 
-# Allow all web crawlers to index the site
+# Global settings
 User-agent: *
 Allow: /
+Allow: /sitemap.xml
+Allow: /blog/
+Allow: /services/
+Allow: /portfolio/
+Allow: /about/
+Allow: /contact/
 
-# Disallow crawling of administrative and sensitive areas
-Disallow: /api/
+# Preview settings
+Max-Snippet: -1
+Max-Image-Preview: large
+Max-Video-Preview: -1
+
+# Disallow administrative and private areas
 Disallow: /admin/
 Disallow: /private/
+Disallow: /api/
 
 # Sitemap location
 Sitemap: https://princeaiautomation.netlify.app/sitemap.xml
+
+# Crawl delays to prevent server overload
+Crawl-delay: 1
