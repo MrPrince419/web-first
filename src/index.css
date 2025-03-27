@@ -212,13 +212,6 @@ div[class*="overflow-"]::-webkit-scrollbar {
   }
 }
 
-/* Animation for hero section particles */
-@keyframes float {
-  0% { transform: translate(0, 0); }
-  50% { transform: translate(20px, -20px); }
-  100% { transform: translate(0, 0); }
-}
-
 /* About section animations */
 @keyframes floatAbout {
   0% { transform: translate(0, 0); }
@@ -1286,21 +1279,5 @@ button span, .btn span {
   font-display: swap;
   src: local('Arial'),
        url('../public/fonts/AdobeClean-Regular.woff2') format('woff2'),
-       local('Helvetica');
-}
-
-@font-face {
-  font-family: 'Adobe Clean';
-  font-style: normal;
-  font-weight: 700;
-  font-display: swap;
-  src: local('Arial Bold'),
-       url('../public/fonts/AdobeClean-Bold.woff2') format('woff2'),
-       local('Helvetica Bold');
-}
-*/
-
-/* Prevent FOUT */
-.fonts-loading * {
-  font-family: var(--font-fallback);
-}
+       local('Helvetica');y: var(--font-fallback);
+}@font-face {  font-family: 'Adobe Clean';  font-style: normal;  font-weight: 700;  font-display: swap;  src: local('Arial Bold'),       url('../public/fonts/AdobeClean-Bold.woff2') format('woff2'),       local('Helvetica Bold');}*//* Prevent FOUT */.fonts-loading * {  font-family: var(--font-fallback);}

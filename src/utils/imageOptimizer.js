@@ -55,33 +55,3 @@ export const getOptimizedSrc = (src, width = 800) => {
     fallback: `${basePath}-${width}.${extension}`
   };
 };
-
-// Lazy loading helper
-export const lazyLoadImage = (element, options = {}) => {
-  if ('IntersectionObserver' in window) {
-    const observer = new IntersectionObserver((entries, observer) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          const img = entry.target;
-          img.src = img.dataset.src;
-          if (img.dataset.srcset) {
-            img.srcset = img.dataset.srcset;
-          }
-          img.classList.remove('lazy');
-          observer.unobserve(img);
-        }
-      });
-    }, options);
-    
-    observer.observe(element);
-    return () => observer.unobserve(element);
-  } else {
-    // Fallback for browsers without IntersectionObserver
-    element.src = element.dataset.src;
-    if (element.dataset.srcset) {
-      element.srcset = element.dataset.srcset;
-    }
-    element.classList.remove('lazy');
-    return () => {};
-  }
-};

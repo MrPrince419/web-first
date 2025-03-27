@@ -15,7 +15,7 @@ const PortfolioPage = lazy(() => import('./pages/PortfolioPage'));
 const AboutPage = lazy(() => import('./pages/AboutPage'));
 const BlogPage = lazy(() => import('./pages/Blog'));
 const BlogPostPage = lazy(() => import('./pages/BlogPost'));
-const ContactPage = lazy(() => import('./pages/Contact'));
+const Contact = lazy(() => import('./pages/Contact')); // Only keep this one
 const PrivacyPolicy = lazy(() => import('./pages/PrivacyPolicy'));
 const TermsOfService = lazy(() => import('./pages/TermsOfService'));
 
@@ -60,7 +60,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/contact",
-        element: <ContactPage />,
+        element: <Contact />,
       },
       {
         path: "/privacy",
