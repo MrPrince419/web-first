@@ -1,7 +1,5 @@
 # Prince AI Automation Business Website
 
-[![Netlify Status](https://api.netlify.com/api/v1/badges/your-badge-id/deploy-status)](https://app.netlify.com/sites/princeaiautomation/deploys)
-
 ## Overview
 
 Official business website for Prince AI Automation. We specialize in AI-powered business automation solutions, helping companies streamline operations and reduce costs.
@@ -61,8 +59,7 @@ This is a private business website. All content, including but not limited to te
 
 ## Contact
 
-Prince Uwagboe - [LinkedIn](https://www.linkedin.com/in/prince05/)
+Prince Uwagboe - [Mail](mailto:princeuwagboe44@outlook.com)
 
-Website: [https://princeaiautomation.netlify.app](https://princeaiautomation.netlify.app)
-[Contact Form](/contact)
+Website: [paautomation.netlify.app](https://paautomation.netlify.app/)
 
